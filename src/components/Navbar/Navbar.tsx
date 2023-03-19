@@ -21,7 +21,7 @@ function Navbar() {
                <FiMenu size={40} className="burger" onClick={() => setToggle(prevState => !prevState)}/>
 
 
-               <div className="menu" id={toggle ? "toggle": ""}>
+               <div className="menu" data-toggle={toggle ? "toggle" : ""}>
 
                    <RiCloseLine size={40} className="close" onClick={() => setToggle(prevState => !prevState)}/>
                    <ul>

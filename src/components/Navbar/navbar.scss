@@ -1,5 +1,6 @@
 @import "../../styles/variables";
 
+$mobile-screen: 768px;
 
 .navbar{
   display: flex;
@@ -14,8 +15,14 @@
     .logo{
       margin-right: 40px;
     }
+    .burger{
+      display: none;
+    }
 
     .menu{
+      .close{
+        display: none;
+      }
       width: 100%;
       display: flex;
       justify-content: space-between;
@@ -63,7 +70,7 @@
         }
       }
       
-      @media screen and (max-width: 768px){
+      @media screen and (max-width: $mobile-screen){
 
         background-color: $white-color;
         position: fixed;
@@ -77,9 +84,15 @@
         transition: 0.3s;
 
         .close{
+          display: block;
           position: absolute;
           top: 1rem;
           right: 1rem;
+        }
+
+
+        &[data-toggle="toggle"]{
+          top: 0;
         }
 
 
@@ -99,26 +112,24 @@
         .signIn{
             max-width: 200px;
             margin-top: 3rem;
-          a{
-            //font-size: 22px;
-          }
+
         }
 
       }
     }
 
-    #toggle{
-      top: 0;
-    }
-    @media screen and (max-width: 768px){
+    @media screen and (max-width: $mobile-screen){
       align-items: center;
       justify-content: space-between;
+      .burger{
+        display: block;
+      }
 
     }
 
   }
 
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: $mobile-screen){
     padding: 1rem;
   }
 }
