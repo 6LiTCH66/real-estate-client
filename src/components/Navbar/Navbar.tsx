@@ -2,14 +2,12 @@ import React from 'react';
 import './navbar.scss'
 import logo from "../../assets/logo.svg";
 import {FiMenu} from "react-icons/fi"
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import {RiCloseLine} from "react-icons/ri"
 
 function Navbar() {
     const [toggle, setToggle] = useState<boolean>(false);
-    useEffect(() => {
-        console.log(toggle)
-    }, [toggle])
+
     return (
         <div className="navbar">
            <div className="container">

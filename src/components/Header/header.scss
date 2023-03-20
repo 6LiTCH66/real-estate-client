@@ -1,0 +1,135 @@
+@import "../../styles/variables";
+
+.header{
+  display: flex;
+  justify-content: center;
+
+  .container{
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .header_image{
+      max-width:100%;
+      object-fit: scale-down;
+      
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+
+      //justify-content: center;
+
+      padding: 4rem 0;
+
+      p{
+        max-width: 545px;
+      }
+
+      .title{
+        font-family: $headings-font;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 64.85px;
+        line-height: 86px;
+      }
+
+      .description{
+        font-family: $body-font;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 21.25px;
+        line-height: 34px;
+        margin: 1rem 0;
+
+      }
+      .search_bar-container{
+        position: relative;
+
+
+        .search_bar{
+          background-color: $light-blue;
+          padding: 1.5rem;
+          border-radius: 4px;
+          position: absolute;
+          width: 737px;
+
+          .property_dropdown{
+            display: none;
+            position: absolute;
+            top: 85%;
+
+            list-style: none;
+            background-color: $white-color;
+            border-radius: 4px;
+
+            max-width: 205px;
+            width: 100%;
+
+            border: 1px solid #4764C3;
+
+            li{
+              padding: 1rem;
+              color: $blue;
+              display: flex;
+              align-content: center;
+              align-items: center;
+              gap: 10px;
+              input{
+                width: 20px;
+                height: 20px;
+              }
+              label{
+                font-family: $body-font;
+                cursor: pointer;
+                width: 100%;
+              }
+
+              &:hover{
+                color: #141B2D;
+              }
+
+            }
+          }
+
+          .property-type{
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            max-width: 205px;
+            width: 100%;
+            cursor: pointer;
+
+            border: 1px solid #4764C3;
+            border-radius: 4px;
+            background-color: $white-color;
+
+            span{
+              display: block;
+              font-family: $body-font;
+              font-style: normal;
+              font-weight: 400;
+              font-size: 17px;
+              line-height: 27px;
+              color: $blue;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 108px;
+            }
+
+            .arrow-down{
+              color: #1C3988;
+            }
+
+          }
+        }
+      }
+
+    }
+  }
+}
