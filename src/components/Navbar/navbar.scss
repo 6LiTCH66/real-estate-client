@@ -20,7 +20,7 @@ $mobile-screen: 768px;
     }
 
     .menu{
-
+      z-index: 999;
       .close{
         display: none;
       }

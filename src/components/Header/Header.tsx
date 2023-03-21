@@ -1,8 +1,10 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import "./header.scss"
 import header_picture from "../../assets/header_picture.svg"
 import {BsChevronDown} from "react-icons/bs"
-import {useState, useRef} from "react";
+import {useState} from "react";
+import {ImLocation} from "react-icons/im"
+import {AiOutlineSearch} from "react-icons/ai"
 
 function Header() {
     const [openDropDown, setOpenDropDown] = useState<boolean>(false)
@@ -56,14 +58,31 @@ function Header() {
                                 ))}
 
                             </ul>
+
+                            <div className="wrapper">
+                                <div className="icon-container">
+                                    <ImLocation size={22} className="location-icon"/>
+                                </div>
+                                <input type="text" placeholder="Search of location"/>
+                            </div>
+
+                            <button type="button" className="search">
+                                <AiOutlineSearch size={25} className="search-icon"/>
+                                <span>Search</span>
+                            </button>
                         </div>
+
+
 
 
                     </div>
 
 
                 </div>
-                <img src={header_picture} alt="Header logo" className="header_image" loading="lazy"/>
+
+                <div className="header_image">
+                    <img src={header_picture} alt="Header logo" loading="lazy"/>
+                </div>
             </div>
         </div>
     );
