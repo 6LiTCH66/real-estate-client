@@ -6,12 +6,25 @@ import {useState} from "react";
 import {ImLocation} from "react-icons/im"
 import {AiOutlineSearch} from "react-icons/ai"
 
+interface Property{
+    city: string,
+    state: string,
+}
 
 function Header() {
     const [openDropDown, setOpenDropDown] = useState<boolean>(false)
 
     const propertyTypes: string[] = ["Condo", "Multi Family Home", "Farm", "Single Family Home", "Townhouse", "Apartment", "Land", "Duplex"]
-    const cities: string[] = ["Chicago, Illinois", "Denver, Colorado", "Los angeles, California", "Dallas, Texas"]
+
+
+    const properties: Property[] = [
+        {city:"Chicago", state: "Illinois"},
+        {city:"Denver", state: "Colorado"},
+        {city:"Los angeles", state: "California"},
+        {city:"Dallas", state: "Texas"},
+        {city:"Austin", state: "Texas"},
+        {city:"Orlando", state: "Florida"},
+    ]
 
     const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
     const [search, setSearch] = useState<string>("");
@@ -28,8 +41,10 @@ function Header() {
         setSelectedProperties(updatedList);
     };
 
-    const filterCities: string[] = cities.filter((city) => {
-        return city.toLowerCase().includes(search.toLowerCase()) || !search
+    const filterCities: Property[] = properties.filter((property) => {
+        const test: string = "Orlando"
+        // console.log(test.split(search).join('<b>'+ search +'</b>'))
+        return property.city.toLowerCase().includes(search.toLowerCase()) || !search
     })
     const preventClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
@@ -39,6 +54,20 @@ function Header() {
         setSearch(event.target.value);
     }
 
+
+    const regexEscape = (str: string) => str.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&");
+
+    const boldify = (targetStr: string) => {
+        return targetStr
+            .split(new RegExp(`(${regexEscape(search)})`, "i"))
+            .map((part: string, idx: number) =>
+                idx % 2 ? (
+                    <strong key={idx}>{part}</strong>
+                ) : (
+                    <React.Fragment key={idx}>{part}</React.Fragment>
+                )
+            );
+    };
 
 
 
@@ -66,7 +95,7 @@ function Header() {
                                     <input type="checkbox"  id="any" checked={!selectedProperties.length} readOnly={true}/>
                                     <label htmlFor="any">Any</label>
                                 </li>
-                                {propertyTypes.map((type:string, index:number) => (
+                                {propertyTypes.map((type, index) => (
 
                                     <li key={index}>
                                         <input type="checkbox"  id={type} value={type} onChange={handleCheck}/>
@@ -86,14 +115,14 @@ function Header() {
                                     {
 
                                         filterCities.length > 0 ? (
-                                            filterCities.map((city, index) => (
+                                            filterCities.map((property, index) => (
                                                 <li key={index}>
-                                                    <a href="">{city}</a>
+                                                    <a href="#">{boldify(property.city)}, {property.state}</a>
                                                 </li>
                                             ))
                                         ): (
                                             <li>
-                                                <a href="" onClick={preventClick}>City not found</a>
+                                                <a href="#" onClick={preventClick}>City not found</a>
                                             </li>
                                         )
                                     }
