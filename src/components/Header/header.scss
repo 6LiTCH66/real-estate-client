@@ -93,6 +93,7 @@
               align-content: center;
               align-items: center;
               gap: 10px;
+
               input{
                 width: 20px;
                 height: 20px;
@@ -104,7 +105,7 @@
               }
 
               &:hover{
-                color: #141B2D;
+                color: $text-color;
               }
 
             }
@@ -186,7 +187,47 @@
               outline: none;
             }
 
+          }
 
+
+          input:not(:placeholder-shown) + ul{
+            display: block;
+          }
+
+          ul{
+            display: none;
+            position: absolute;
+            list-style: none;
+            background-color: $white-color;
+            width: 100%;
+            top: 112%;
+            border-radius: 4px;
+            border: 1px solid #4764C3;
+
+            li{
+              font-family: $body-font;
+              display: flex;
+
+              a {
+                color: $blue;
+                width: 100%;
+                padding: 1rem;
+
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+
+                &:hover{
+                  color: $text-color;
+                  background-color: $light-blue;
+                  border-radius: 4px;
+
+                }
+
+              }
+
+            }
           }
         }
 

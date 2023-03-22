@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "./header.scss"
 import header_picture from "../../assets/header_picture.svg"
 import {BsChevronDown} from "react-icons/bs"
@@ -6,11 +6,16 @@ import {useState} from "react";
 import {ImLocation} from "react-icons/im"
 import {AiOutlineSearch} from "react-icons/ai"
 
+
 function Header() {
     const [openDropDown, setOpenDropDown] = useState<boolean>(false)
 
     const propertyTypes: string[] = ["Condo", "Multi Family Home", "Farm", "Single Family Home", "Townhouse", "Apartment", "Land", "Duplex"]
+    const cities: string[] = ["Chicago, Illinois", "Denver, Colorado", "Los angeles, California", "Dallas, Texas"]
+
     const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
+    const [search, setSearch] = useState<string>("");
+
     const handleCheck = (event: React.ChangeEvent<HTMLInputElement>): void => {
         let updatedList = [...selectedProperties];
         if (event.target.checked) {
@@ -22,6 +27,18 @@ function Header() {
 
         setSelectedProperties(updatedList);
     };
+
+    const filterCities: string[] = cities.filter((city) => {
+        return city.toLowerCase().includes(search.toLowerCase()) || !search
+    })
+    const preventClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        event.preventDefault();
+    }
+
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        setSearch(event.target.value);
+    }
+
 
 
 
@@ -63,7 +80,27 @@ function Header() {
                                 <div className="icon-container">
                                     <ImLocation size={22} className="location-icon"/>
                                 </div>
-                                <input type="text" placeholder="Search of location"/>
+                                <input type="text" placeholder="Search of location" onChange={handleSearch}/>
+                                <ul>
+
+                                    {
+
+                                        filterCities.length > 0 ? (
+                                            filterCities.map((city, index) => (
+                                                <li key={index}>
+                                                    <a href="">{city}</a>
+                                                </li>
+                                            ))
+                                        ): (
+                                            <li>
+                                                <a href="" onClick={preventClick}>City not found</a>
+                                            </li>
+                                        )
+                                    }
+
+
+
+                                </ul>
                             </div>
 
                             <button type="button" className="search">
