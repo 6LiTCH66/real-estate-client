@@ -1,0 +1,115 @@
+@import "../../styles/variables";
+
+.top-offers{
+  //overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  height: 100vh;
+  background-color: $light-blue;
+
+  .container{
+    max-width: 1200px;
+    width: 100%;
+
+    .wrapper{
+      display: flex;
+      justify-content: space-between;
+
+      .info{
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        .title{
+          font-family: $headings-font;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 51.88px;
+          line-height: 69px;
+          color: $dark-blue;
+        }
+        .description{
+          font-family: $body-font;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 21.25px;
+          line-height: 28px;
+          color: $dark-blue;
+          max-width: 619px;
+          width: 100%;
+        }
+      }
+
+      .info-button{
+        display: flex;
+        align-items: end;
+
+        .show-offers{
+          cursor: pointer;
+          padding: 14px 13px;
+          border-radius: 4px;
+          background-color: transparent;
+          border: 2px solid $blue;
+
+          p{
+            color: $blue;
+            font-family: $body-font;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 20px;
+          }
+        }
+      }
+
+    }
+
+    .scroll-wrapper{
+      display: flex;
+      justify-content: end;
+      gap: 24px;
+      padding: 1rem 0;
+
+
+      button{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+
+        height: 4rem;
+        width: 4rem;
+        border-radius: 50%;
+        border: 0;
+        background-color: $blue;
+
+      }
+    }
+    .slider{
+
+      display: flex;
+      flex-direction: row;
+      gap: 1.5rem;
+      width: 100%;
+
+      overflow-x: auto;
+      overflow-y: hidden;
+
+      &::-webkit-scrollbar{
+        display: none;
+      }
+
+      //.card{
+      //  width: 350px;
+      //  height: 420px;
+      //  background-color: red;
+      //  flex-shrink: 0;
+      //}
+    }
+
+
+  }
+}
