@@ -84,7 +84,15 @@ function TopOffers() {
                     <PropertyCard/>
                     <PropertyCard/>
                     <PropertyCard/>
+
+
                 </div>
+
+                <div className="skeleton-box">
+
+                </div>
+
+
 
             </div>
         </div>

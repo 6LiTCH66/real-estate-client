@@ -11,7 +11,8 @@ function PropertyCard() {
     return (
         <div className="card">
             <div className="container">
-                <div className="image">
+                <div className="image skeleton-box">
+
                     <div className="status">
                         <p>
                             For Sale
@@ -21,13 +22,18 @@ function PropertyCard() {
                     <div className="favourite" onClick={() => setFavouriteClick(prevState => !prevState)}>
                         <AiFillHeart size={27} color={favouriteClick ? '#E83845' : '#141B2D'}/>
                     </div>
+
                 </div>
                 <div className="body">
 
-                    <p className="price">${price.toLocaleString()}</p>
-                    <address>2679 Syracuse Court, Denver, Colorado 80238</address>
+                    <p className="price skeleton-box">
+                        ${price.toLocaleString()}
+                    </p>
+                    <address className="skeleton-box">
+                        2679 Syracuse Court, Denver, Colorado 80238
+                    </address>
 
-                    <div className="data">
+                    <div className="data skeleton-box">
                         <p>
                             <strong>3</strong> bed
                         </p>

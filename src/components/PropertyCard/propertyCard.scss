@@ -18,8 +18,10 @@
 
     .image{
       position: relative;
-      height: 250px;
+      min-height: 250px;
       width: 350px;
+
+
 
       img{
         border-top-left-radius: 4px;
@@ -67,17 +69,20 @@
       gap: .5rem;
       height: 100%;
 
-      .address{
-        font-family: $headings-font;
-        font-style: normal;
-        font-weight: 550;
-        font-size: 20px;
-        line-height: 25px;
-        color: $text-color;
-      }
+      //.address{
+      //  font-family: $headings-font;
+      //  font-style: normal;
+      //  font-weight: 550;
+      //  font-size: 20px;
+      //  line-height: 25px;
+      //  color: $text-color;
+      //}
 
 
       .price{
+        max-height: 23px;
+        height: 100%;
+
         font-family: $body-font;
         font-style: normal;
         font-weight: 600;
@@ -88,6 +93,8 @@
 
       .data{
         width: 318px;
+        max-height: 37.8px;
+        height: 100%;
 
         display: flex;
         flex-direction: row;
@@ -119,12 +126,17 @@
       }
 
       address{
+        max-height: 46px;
+        height: 100%;
+
         font-family: $body-font;
         font-style: normal;
         font-weight: 400;
-        //font-size: 14px;
         line-height: 23px;
         color: $text-color;
+
+        overflow: hidden;
+
       }
     }
 
@@ -154,6 +166,40 @@
         font-family: $body-font;
         font-weight: 500;
         font-size: 17px;
+      }
+    }
+
+    .skeleton-box:empty {
+      width: 100%;
+      height: 100%;
+
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+      background-color: #DDDBDD;
+
+      &::after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        transform: translateX(-100%);
+        background-image: linear-gradient(
+                        90deg,
+                        rgba(#fff, 0) 0,
+                        rgba(#fff, 0.2) 20%,
+                        rgba(#fff, 0.5) 60%,
+                        rgba(#fff, 0)
+        );
+        animation: shimmer 2s infinite;
+        content: '';
+      }
+
+      @keyframes shimmer {
+        100% {
+          transform: translateX(100%);
+        }
       }
     }
 

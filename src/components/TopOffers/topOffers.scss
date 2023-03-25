@@ -9,6 +9,7 @@
   background-color: $light-blue;
 
   .container{
+
     max-width: 1200px;
     width: 100%;
 
@@ -103,6 +104,17 @@
 
     }
 
+    @media screen and (max-width: $mobile-screen) {
+
+      .wrapper{
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .scroll-wrapper{
+        display: none;
+      }
+    }
 
   }
 }
