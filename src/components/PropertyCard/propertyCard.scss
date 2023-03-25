@@ -8,7 +8,7 @@
   background-color: $white-color;
   flex-shrink: 0;
   border-radius: 4px;
-  cursor: pointer;
+  //cursor: pointer;
 
   .container{
     display: flex;
@@ -17,6 +17,7 @@
     height: 100%;
 
     .image{
+      position: relative;
       height: 250px;
       width: 350px;
 
@@ -26,6 +27,37 @@
         height: 250px;
         width: 350px;
         object-fit: cover;
+      }
+
+      .status{
+        cursor: default;
+        background: rgba(20, 27, 45, .75);
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        border-radius: 4px;
+
+        p{
+          font-family: $body-font;
+          padding: 6px;
+          opacity: 1;
+          color: $white-color;
+          font-size: 14px;
+        }
+      }
+
+      .favourite{
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        background-color: rgba(243, 243, 250, .80);
+        border-radius: 50%;
+        top: 1rem;
+        right: 1rem;
       }
     }
     .body{
@@ -38,9 +70,9 @@
       .address{
         font-family: $headings-font;
         font-style: normal;
-        font-weight: 700;
-        font-size: 21.248px;
-        line-height: 28px;
+        font-weight: 550;
+        font-size: 20px;
+        line-height: 25px;
         color: $text-color;
       }
 
@@ -48,32 +80,49 @@
       .price{
         font-family: $body-font;
         font-style: normal;
-        font-weight: 500;
-        font-size: 20px;
+        font-weight: 600;
+        font-size: 21px;
         line-height: 23px;
         color: $text-color;
       }
 
       .data{
+        width: 318px;
+
         display: flex;
+        flex-direction: row;
         gap: 10px;
 
         p{
+
           display: flex;
           flex-direction: row;
-          justify-content: center;
           align-items: center;
           gap: 5px;
-
           font-family: $body-font;
           line-height: 25px;
+
+
+          border-radius: 4px;
+          padding: .4rem;
+          background: rgba(243, 243, 250, 1);
+
+          &:last-child{
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+          }
+
         }
       }
+
       address{
         font-family: $body-font;
         font-style: normal;
         font-weight: 400;
-        font-size: 14px;
+        //font-size: 14px;
         line-height: 23px;
         color: $text-color;
       }
@@ -86,6 +135,7 @@
     }
 
     .footer{
+      cursor: pointer;
       display: flex;
       align-items: center;
       gap: 10px;
