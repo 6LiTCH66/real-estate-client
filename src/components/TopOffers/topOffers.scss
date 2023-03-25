@@ -1,8 +1,6 @@
 @import "../../styles/variables";
 
 .top-offers{
-  //overflow: hidden;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,6 +87,7 @@
       }
     }
     .slider{
+      scroll-behavior: smooth;
 
       display: flex;
       flex-direction: row;
