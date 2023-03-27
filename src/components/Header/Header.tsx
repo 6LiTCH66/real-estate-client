@@ -1,21 +1,22 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect, memo} from 'react';
 import "./header.scss"
 import header_picture from "../../assets/header_picture.svg"
 import {BsChevronDown} from "react-icons/bs"
 import {useState} from "react";
 import {ImLocation} from "react-icons/im"
 import {AiOutlineSearch} from "react-icons/ai"
+import Image from "../Image"
 
 interface Property{
     city: string,
     state: string,
 }
 
+
+
 function Header() {
     const [openDropDown, setOpenDropDown] = useState<boolean>(false)
-
     const propertyTypes: string[] = ["Condo", "Multi Family Home", "Farm", "Single Family Home", "Townhouse", "Apartment", "Land", "Duplex"]
-
 
     const properties: Property[] = [
         {city:"Chicago", state: "Illinois"},
@@ -27,6 +28,7 @@ function Header() {
     ]
 
     const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
+
     const [search, setSearch] = useState<string>("");
 
     const handleCheck = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -42,10 +44,9 @@ function Header() {
     };
 
     const filterCities: Property[] = properties.filter((property) => {
-        const test: string = "Orlando"
-        // console.log(test.split(search).join('<b>'+ search +'</b>'))
         return property.city.toLowerCase().includes(search.toLowerCase()) || !search
     })
+
     const preventClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
     }
@@ -147,7 +148,8 @@ function Header() {
                 </div>
 
                 <div className="header_image">
-                    <img src={header_picture} alt="Header logo" loading="lazy"/>
+                    <Image src={header_picture} alt={"Header logo"}/>
+                    {/*<img src={header_picture} alt="Header logo" loading="lazy"/>*/}
                 </div>
             </div>
         </div>
