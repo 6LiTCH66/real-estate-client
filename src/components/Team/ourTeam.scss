@@ -1,0 +1,60 @@
+@import "../../styles/variables";
+
+.team{
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem;
+
+  .container{
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+
+    .team-cards{
+      width: 100%;
+
+
+      display: grid;
+      grid-template-columns: repeat(auto-fit, 350px);
+
+      justify-content: space-between;
+      align-content: space-between;
+      grid-gap: 3rem;
+
+      .team-text_card{
+        width: 350px;
+        height: 378px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+
+        .team-title{
+          font-family: $headings-font;
+          color: $dark-blue;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 51.88px;
+          line-height: 69px;
+        }
+
+        .team-description{
+          font-family: $body-font;
+          color: $dark-blue;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 21.25px;
+          line-height: 28px;
+        }
+
+      }
+
+
+      @media screen and (max-width: 768px){
+        justify-content: center;
+
+      }
+
+    }
+  }
+}

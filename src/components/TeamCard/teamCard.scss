@@ -1,0 +1,57 @@
+@import "../../styles/variables";
+
+.team-card{
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 48px 75px;
+
+  width: 350px;
+  height: 378px;
+
+  background-color: #FFFFFF;
+  border: 1px solid #F3F3FA;
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(71, 100, 195, 0.1);
+
+
+  .image-wrapper{
+
+    img{
+      border-radius: 50%;
+      height: 200px;
+      width: 200px;
+      object-fit: cover;
+    }
+  }
+
+  .info{
+    width: 100%;
+    margin-top: auto;
+
+    .realtor_name{
+      text-align: center;
+      font-family: $headings-font;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 21.248px;
+      line-height: 28px;
+      color: $dark-blue;
+    }
+
+    .realtor_description{
+      text-align: center;
+      font-family: $body-font;
+      color: $dark-blue;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 23px;
+    }
+
+  }
+
+}
