@@ -1,0 +1,57 @@
+@import "../../../styles/variables";
+
+.reference-card{
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  flex: 1;
+  background-color: $light-blue;
+  border-radius: 4px;
+  gap: 1.5rem;
+
+  .body{
+    display: flex;
+
+    .quotes{
+      font-family: $headings-font;
+      color: $dark-blue;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 64.85px;
+      line-height: 86px;
+      opacity: 0.5;
+    }
+
+    .text{
+      padding-top: 1.5rem;
+      font-family: $body-font;
+      color: $dark-blue;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 26px;
+    }
+  }
+
+  .footer{
+    margin-top: auto;
+
+    .name{
+      font-family: $headings-font;
+      color: $dark-blue;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 21.248px;
+      line-height: 28px;
+    }
+    .place{
+      font-family: $body-font;
+      color: $dark-blue;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 26px;
+    }
+  }
+
+}

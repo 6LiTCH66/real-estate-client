@@ -1,0 +1,57 @@
+@import "../../styles/variables";
+
+.references{
+  display: flex;
+  justify-content: center;
+  padding: 7.5rem 1rem;
+
+  .container{
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .title{
+      font-family: $headings-font;
+      color: $dark-blue;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 51.88px;
+      line-height: 69px;
+    }
+    .description{
+      max-width: 611px;
+      width: 100%;
+      font-family: $body-font;
+      color: $dark-blue;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 21.25px;
+      line-height: 28px;
+    }
+
+    .reference-cards{
+
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin-top: 2rem;
+
+    }
+
+    .dots{
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      .dot{
+        cursor: pointer;
+        width: 16px;
+        height: 16px;
+        background: #DADAEE;
+        border-radius: 50%;
+      }
+    }
+  }
+}
