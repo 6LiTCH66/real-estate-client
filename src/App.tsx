@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import {Navbar} from "./components";
+import {Navbar, Footer} from "./components";
 import {HomePage} from "./pages";
 
 function App() {
@@ -8,6 +8,7 @@ function App() {
     <div className="App">
         <Navbar/>
         <HomePage/>
+        <Footer/>
     </div>
   );
 }

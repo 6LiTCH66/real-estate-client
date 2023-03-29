@@ -1,0 +1,142 @@
+@import "../../styles/variables";
+
+.footer{
+  display: flex;
+  justify-content: center;
+
+
+
+  .container{
+    width: 100%;
+
+    footer{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4rem 0;
+      background-color: $blue;
+      gap: 10px;
+
+      p{
+        font-family: $body-font;
+        color: $white-color;
+      }
+
+      .logo-wrapper{
+        img{
+          fill: $white-color;
+        }
+      }
+    }
+
+    .newsletter{
+
+      width: 100%;
+      padding: 90px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6rem;
+
+      background-color: $light-blue;
+
+      .wrapper{
+        padding: 0 20px;
+        max-width: 1000px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+
+        .img-wrapper{
+          img{
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
+
+        .info{
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          h4{
+            font-family: $headings-font;
+            color: $text-color;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 33.203px;
+            line-height: 44px;
+          }
+          p{
+            font-family: $body-font;
+            color: $text-color;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 21.25px;
+            line-height: 28px;
+          }
+
+          .form{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            max-width: 425px;
+            width: 100%;
+            gap: 10px;
+
+
+            .input-email{
+
+              max-width: 272px;
+              height: 52px;
+              width: 100%;
+              padding: .5rem 1rem;
+              font-family: $body-font;
+              color: $text-color;
+              opacity: 0.5;
+              font-style: normal;
+              font-weight: 400;
+              font-size: 16px;
+              line-height: 27px;
+              border-radius: 4px;
+              border: 1px solid #DDDDDD;
+              box-shadow: inset 0px 1px 5px rgba(0, 0, 0, 0.1);
+
+              &:focus{
+                outline: none;
+              }
+            }
+
+            .subscribe{
+              cursor: pointer;
+              padding: 13px 24px;
+              background-color: transparent;
+              border-radius: 4px;
+              border: 2px solid #1C3988;
+
+              span{
+                font-family: $body-font;
+                color: $blue;
+                font-style: normal;
+                font-weight: 700;
+                font-size: 16px;
+                line-height: 22px;
+              }
+
+            }
+          }
+        }
+
+        @media screen and (max-width: 480px){
+          .img-wrapper{
+            display: none;
+          }
+        }
+
+      }
+
+
+
+    }
+  }
+}
