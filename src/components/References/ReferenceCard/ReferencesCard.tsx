@@ -1,10 +1,38 @@
-import React from 'react';
+import React, {createRef, forwardRef, useEffect, useRef, useState} from 'react';
 import "./referenceCard.scss";
 
-function ReferencesCard() {
-    return (
-        <div className="reference-card">
 
+interface ChildProps{
+    handleData: (data: number) => void;
+}
+function ReferencesCard ({handleData}: ChildProps)  {
+    const divRef = useRef<HTMLDivElement>(null);
+    const [height, setHeight] = useState<number>(0);
+
+    useEffect(() => {
+
+        if (divRef.current) {
+            setHeight(divRef.current.offsetHeight)
+        }
+        const handleResize = () => {
+            if (divRef.current) {
+                setHeight(divRef.current.offsetHeight)
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, [divRef]);
+
+    useEffect(() => {
+        handleData(height);
+
+    }, [height]);
+
+
+
+    return (
+        <div className="reference-card" ref={divRef}>
             <div className="body">
                 <p className="quotes">
                     “
@@ -14,7 +42,7 @@ function ReferencesCard() {
                 </p>
             </div>
 
-            <div className="footer">
+            <div className="card-footer">
                 <h6 className="name">Jocelyn Stanton</h6>
                 <p className="place">2 bedroom apartmentt in Barcelona</p>
 

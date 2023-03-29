@@ -1,6 +1,7 @@
 @import "../../../styles/variables";
 
 .reference-card{
+
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
@@ -8,6 +9,8 @@
   background-color: $light-blue;
   border-radius: 4px;
   gap: 1.5rem;
+
+
 
   .body{
     display: flex;
@@ -33,7 +36,7 @@
     }
   }
 
-  .footer{
+  .card-footer{
     margin-top: auto;
 
     .name{
