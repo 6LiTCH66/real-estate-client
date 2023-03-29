@@ -1,38 +1,11 @@
-import React, {createRef, forwardRef, useEffect, useRef, useState} from 'react';
+import React from 'react';
 import "./referenceCard.scss";
 
 
-interface ChildProps{
-    handleData: (data: number) => void;
-}
-function ReferencesCard ({handleData}: ChildProps)  {
-    const divRef = useRef<HTMLDivElement>(null);
-    const [height, setHeight] = useState<number>(0);
 
-    useEffect(() => {
-
-        if (divRef.current) {
-            setHeight(divRef.current.offsetHeight)
-        }
-        const handleResize = () => {
-            if (divRef.current) {
-                setHeight(divRef.current.offsetHeight)
-            }
-        };
-
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, [divRef]);
-
-    useEffect(() => {
-        handleData(height);
-
-    }, [height]);
-
-
-
+function ReferencesCard ()  {
     return (
-        <div className="reference-card" ref={divRef}>
+        <div className="reference-card">
             <div className="body">
                 <p className="quotes">
                     “

@@ -1,14 +1,18 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import "./references.scss"
 import ReferencesCard from "./ReferenceCard/ReferencesCard";
 function References() {
     const [height, setHeight] = useState<number>(280);
+    const divRef = useRef<HTMLDivElement>(null);
+
 
     const handleData = (data: number) => {
-        if (data > 0){
-            setHeight(data)
+        // console.log(data) // 332
 
+        if (data > 0){
+            // setHeight(data)
         }
+
     }
 
 
@@ -23,6 +27,30 @@ function References() {
             setCurrentIndex(0)
         }
     };
+
+    const handleDot = (index: number) => {
+        setCurrentIndex(index)
+    }
+
+
+    useEffect(() => {
+
+        if (divRef.current) {
+
+            setHeight(divRef.current.offsetHeight)
+        }
+
+        const handleResize = () => {
+            if (divRef.current) {
+
+                setHeight(divRef.current.offsetHeight)
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+
+    }, [divRef]);
 
 
 
@@ -58,9 +86,9 @@ function References() {
                     {cardsArray.map((card, index) => {
 
                         return (
-                            <div key={index} className="cards-container" style={{transform: `translateY(-${currentIndex * 100}%)`}}>
-                                <ReferencesCard handleData={handleData}/>
-                                <ReferencesCard handleData={handleData}/>
+                            <div key={index} ref={divRef} className="cards-container" style={{transform: `translateY(-${currentIndex * 100}%)`}}>
+                                <ReferencesCard/>
+                                <ReferencesCard/>
                             </div>
                         )
                     })}
@@ -69,7 +97,9 @@ function References() {
 
                 <div className="dots">
                     {cardsArray.map((card, index) => (
-                        <div key={index} className="dot" style={{backgroundColor: index === currentIndex ? "#1C3988": ''}}></div>
+                        <div key={index} onClick={() => handleDot(index)} className="dot" style={{backgroundColor: index === currentIndex ? "#1C3988": ''}}>
+
+                        </div>
 
                     ))}
 
