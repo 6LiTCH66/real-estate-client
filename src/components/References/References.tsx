@@ -6,16 +6,6 @@ function References() {
     const divRef = useRef<HTMLDivElement>(null);
 
 
-    const handleData = (data: number) => {
-        // console.log(data) // 332
-
-        if (data > 0){
-            // setHeight(data)
-        }
-
-    }
-
-
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const cardsArray = [1, 2, 3, 4]
@@ -71,7 +61,7 @@ function References() {
 
 
     return (
-        <div className="references">
+        <div className="references" id="references">
             <div className="container">
                 <h2 className="title">
                     References

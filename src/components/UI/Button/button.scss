@@ -1,0 +1,43 @@
+@import "../../../styles/variables";
+
+.search{
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  gap: 1em;
+
+  align-items: center;
+  max-width: 150px;
+  width: 100%;
+  border: none;
+  background-color: $blue;
+  cursor: pointer;
+  border-radius: 4px;
+
+  .search-icon{
+    color: $white-color;
+  }
+
+  span{
+    font-family: $body-font;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    color: $white-color;
+
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+
+  .search {
+
+    flex: 1;
+
+    span {
+      display: none;
+    }
+  }
+}

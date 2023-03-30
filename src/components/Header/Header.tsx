@@ -1,17 +1,17 @@
-import React, {FC, useEffect, memo} from 'react';
+import React from 'react';
 import "./header.scss"
 import header_picture from "../../assets/header_picture.svg"
 import {BsChevronDown} from "react-icons/bs"
 import {useState} from "react";
 import {ImLocation} from "react-icons/im"
-import {AiOutlineSearch} from "react-icons/ai"
 import Image from "../Image"
+import {Button} from "../UI";
+import {ButtonProps} from "../../types/ButtonClickProps";
 
 interface Property{
     city: string,
     state: string,
 }
-
 
 
 function Header() {
@@ -84,6 +84,7 @@ function Header() {
 
                     <div className="search_bar-container">
                         <div className="search_bar">
+
                             <button className="property-type" type="button" onClick={() => setOpenDropDown(prevState => !prevState)}>
                                 <span>
                                     {!selectedProperties.length ? "Property type" : selectedProperties.toString()}
@@ -93,7 +94,7 @@ function Header() {
 
                             <ul className="property_dropdown" style={{display: openDropDown ? "block": "none"}}>
                                 <li>
-                                    <input type="checkbox"  id="any" checked={!selectedProperties.length} readOnly={true}/>
+                                    <input type="checkbox" id="any" checked={!selectedProperties.length} readOnly={true}/>
                                     <label htmlFor="any">Any</label>
                                 </li>
                                 {propertyTypes.map((type, index) => (
@@ -133,10 +134,7 @@ function Header() {
                                 </ul>
                             </div>
 
-                            <button type="button" className="search">
-                                <AiOutlineSearch size={25} className="search-icon"/>
-                                <span>Search</span>
-                            </button>
+                            <Button onClick={() => console.log("Hello from header")}/>
                         </div>
 
 
@@ -149,7 +147,6 @@ function Header() {
 
                 <div className="header_image">
                     <Image src={header_picture} alt={"Header logo"}/>
-                    {/*<img src={header_picture} alt="Header logo" loading="lazy"/>*/}
                 </div>
             </div>
         </div>

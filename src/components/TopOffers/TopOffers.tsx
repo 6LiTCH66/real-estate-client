@@ -76,14 +76,18 @@ function TopOffers() {
 
 
                 <div className="slider" ref={scrollRef} onScroll={handleScroll}>
-                    <PropertyCard/>
-                    <PropertyCard/>
-                    <PropertyCard/>
-                    <PropertyCard/>
-                    <PropertyCard/>
-                    <PropertyCard/>
-                    <PropertyCard/>
-                    <PropertyCard/>
+                    {Array(8).fill(0).map((_, index) =>(
+                        <PropertyCard key={index} myKey={index}/>
+
+                    ))}
+                    {/*<PropertyCard/>*/}
+                    {/*<PropertyCard/>*/}
+                    {/*<PropertyCard/>*/}
+                    {/*<PropertyCard/>*/}
+                    {/*<PropertyCard/>*/}
+                    {/*<PropertyCard/>*/}
+                    {/*<PropertyCard/>*/}
+                    {/*<PropertyCard/>*/}
 
 
                 </div>

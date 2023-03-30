@@ -4,15 +4,18 @@ import logo from "../../assets/logo.svg";
 import {FiMenu} from "react-icons/fi"
 import {useState} from "react";
 import {RiCloseLine} from "react-icons/ri"
+import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 function Navbar() {
     const [toggle, setToggle] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     return (
         <div className="navbar">
            <div className="container">
 
-               <div className="logo">
+               <div className="logo" onClick={() => navigate("/")}>
                    <img src={logo} alt="Logo"/>
                </div>
 
@@ -24,28 +27,29 @@ function Navbar() {
                    <RiCloseLine size={40} className="close" onClick={() => setToggle(prevState => !prevState)}/>
                    <ul>
                        <li>
-                           <a href="/">Buy</a>
+                           <Link to="/buy">Buy</Link>
                        </li>
 
                        <li>
-                           <a href="/">Rent</a>
+                           <Link to="/rent">Rent</Link>
                        </li>
 
                        <li>
-                           <a href="/">References</a>
+                           <a href="#references">References</a>
                        </li>
 
                        <li>
-                           <a href="/">About us</a>
+                           <a href="#about-us">About us</a>
                        </li>
                        <li>
-                           <a href="/">Our team</a>
+
+                           <a href="#our-team">Our team</a>
                        </li>
 
                    </ul>
 
                    <div className="signIn">
-                       <a href="/" >Sing in</a>
+                       <Link to="/sing-in">Sing in</Link>
                    </div>
                </div>
 

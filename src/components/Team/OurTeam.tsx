@@ -4,7 +4,7 @@ import TeamCard from "../TeamCard/TeamCard";
 
 function OurTeam() {
     return (
-        <div className="team">
+        <div className="team" id="our-team">
             <div className="container">
                 <div className="team-cards">
 

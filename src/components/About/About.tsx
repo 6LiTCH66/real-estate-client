@@ -4,7 +4,7 @@ import about_image from "../../assets/about.svg"
 
 function About() {
     return (
-        <div className="about">
+        <div className="about" id="about-us">
             <div className="container">
                 <div className="image-container">
                     <img src={about_image} alt="About us image" loading="lazy"/>

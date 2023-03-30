@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 import "./propertyCard.scss"
 import {AiOutlineHeart, AiFillHeart} from "react-icons/ai"
 
-function PropertyCard() {
+function PropertyCard(props: {key: number, myKey: number}) {
     const [price, setPrice] = useState<number>(3290000)
     const [sqft, setSqft] = useState<number>(1200)
     const [favouriteClick, setFavouriteClick] = useState<boolean>(false)
 
 
     return (
-        <div className="card">
+        <div className="card" key={props.myKey}>
             <div className="container">
                 <div className="image skeleton-box">
 
