@@ -80,14 +80,6 @@ function TopOffers() {
                         <PropertyCard key={index} myKey={index}/>
 
                     ))}
-                    {/*<PropertyCard/>*/}
-                    {/*<PropertyCard/>*/}
-                    {/*<PropertyCard/>*/}
-                    {/*<PropertyCard/>*/}
-                    {/*<PropertyCard/>*/}
-                    {/*<PropertyCard/>*/}
-                    {/*<PropertyCard/>*/}
-                    {/*<PropertyCard/>*/}
 
 
                 </div>

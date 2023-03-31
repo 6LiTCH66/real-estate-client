@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import "./homesSearch.scss"
 import {useParams, useNavigate} from "react-router-dom";
 import {PropertyStatus} from "../../types/Property";
-import {FilterBar} from "../../components";
+import {FilterBar, PropertyList} from "../../components";
 
 function HomesSearch() {
 
@@ -44,6 +44,8 @@ function HomesSearch() {
                 </div>
 
                 <FilterBar/>
+
+                <PropertyList/>
             </div>
         </div>
     );

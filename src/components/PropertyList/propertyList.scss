@@ -1,0 +1,27 @@
+@import "../../styles/variables";
+
+.property-list{
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem;
+
+  .list-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    gap: 3rem;
+    padding: 2rem 0;
+    max-width: 1200px;
+    width: 100%;
+
+    @media screen and (max-width: 768px){
+      gap: 2rem;
+    }
+
+    @media screen and (max-width: 480px){
+      justify-content: center;
+    }
+
+  }
+}
