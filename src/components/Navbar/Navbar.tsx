@@ -27,11 +27,11 @@ function Navbar() {
                    <RiCloseLine size={40} className="close" onClick={() => setToggle(prevState => !prevState)}/>
                    <ul>
                        <li>
-                           <Link to="/buy">Buy</Link>
+                           <Link to="/homes/buy">Buy</Link>
                        </li>
 
                        <li>
-                           <Link to="/rent">Rent</Link>
+                           <Link to="/homes/rent">Rent</Link>
                        </li>
 
                        <li>

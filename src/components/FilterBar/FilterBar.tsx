@@ -6,6 +6,8 @@ import MultiRangeSlider from "./MultiRangeSlider/MultiRangeSlider";
 
 function FilterBar() {
     const [openDropDown, setOpenDropDown] = useState<boolean>(false)
+    const [max, setMax] = useState<number>();
+    const [min, setMin] = useState<number>();
 
 
     return (
@@ -59,7 +61,11 @@ function FilterBar() {
                     <MultiRangeSlider
                         min={0}
                         max={980000}
-                        onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
+                        onChange={({ min, max }) => {
+                                setMax(max)
+                                setMin(min)
+                        }
+                        }
                     />
                 </div>
 

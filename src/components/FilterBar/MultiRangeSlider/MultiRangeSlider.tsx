@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef, FC } from "react";
 import PropTypes from "prop-types";
 import "./multiRangeSlider.scss";
+import * as trace_events from "trace_events";
 
 interface Props {
     min: number;
@@ -14,6 +15,9 @@ const MultiRangeSlider: FC<Props> = ({ min, max, onChange }) => {
     const minValRef = useRef<number>(min);
     const maxValRef = useRef<number>(max);
     const range = useRef<HTMLDivElement>(null);
+
+    const [maxInput, setMaxInput] = useState<number>()
+    const [minInput, setMinInput] = useState<number>()
 
     // Convert to percentage
     const getPercent = useCallback(
@@ -32,7 +36,6 @@ const MultiRangeSlider: FC<Props> = ({ min, max, onChange }) => {
         }
     }, [minVal, getPercent]);
 
-    // Set width of the range to decrease from the right side
     useEffect(() => {
         const minPercent = getPercent(minValRef.current);
         const maxPercent = getPercent(maxVal);
@@ -42,52 +45,87 @@ const MultiRangeSlider: FC<Props> = ({ min, max, onChange }) => {
         }
     }, [maxVal, getPercent]);
 
-    // Get min and max values when their state changes
     useEffect(() => {
         onChange({ min: minVal, max: maxVal });
     }, [minVal, maxVal, onChange]);
 
+
+
+    const changeMin = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Math.min(Number(event.target.value), maxVal - 1);
+        setMinVal(value);
+        minValRef.current = value;
+    }
+
+    const changeMax = (event: React.ChangeEvent<HTMLInputElement>) => {
+
+        const value = Math.max(Number(event.target.value), minVal + 1);
+
+        if (value + 1 >= max){
+            setMaxVal(max);
+            setMaxInput(0)
+
+        }else{
+            setMaxVal(value);
+            setMaxInput(value)
+            maxValRef.current = value;
+
+
+        }
+
+    }
+
+
+
     return (
         <div className="range-container">
+
+            <div className="left-value">{minVal.toLocaleString()} $</div>
+            <div className="right-value">{maxVal.toLocaleString()} $</div>
+
             <input
                 type="range"
                 min={min}
                 max={max}
+                step={50}
                 value={minVal}
-                onChange={(event) => {
-                    const value = Math.min(Number(event.target.value), maxVal - 1);
-                    setMinVal(value);
-                    minValRef.current = value;
-                }}
+                onChange={changeMin}
                 className="thumb thumb--left"
                 style={{ zIndex: minVal > max - 100 ? 5 : undefined }}
             />
+
             <input
                 type="range"
                 min={min}
                 max={max}
+                step={50}
                 value={maxVal}
-                onChange={(event) => {
-                    const value = Math.max(Number(event.target.value), minVal + 1);
-                    setMaxVal(value);
-                    maxValRef.current = value;
-                }}
+                onChange={changeMax}
                 className="thumb thumb--right"
             />
 
             <div className="slider">
+
+
                 <div className="slider__track" />
                 <div ref={range} className="slider__range" />
 
                 <div className="slider__left-value">
-                    {minVal} $
-                    {/*<input type="number" value={min} defaultValue={minVal}/>*/}
+                    <input type="number" placeholder="No Min" max={max} min={min} value={minVal ? minVal : ""}  onChange={(event) => {
+                        changeMin(event)
+                    }
+                    }/>
                 </div>
 
                 <div className="slider__right-value">
-                    {maxVal} $
-                    {/*<input type="number" defaultValue={maxVal}/>*/}
+                    <input type="number" placeholder="No Max" max={max} min={min} value={maxInput ? maxInput : ""} onChange={(event) => {
+                        changeMax(event)
+                    }}/>
                 </div>
+            </div>
+
+            <div>
+
             </div>
         </div>
     );
