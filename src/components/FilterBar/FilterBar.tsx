@@ -12,6 +12,11 @@ function FilterBar() {
     const [currentCheck, setCurrentCheck] = useState<string>("Property status");
     const [currentSort, setCurrentSort] = useState<string>("Sort");
 
+    const [beds, setBeds] = useState<number>(0);
+    const [baths, setBaths] = useState<number>(0);
+
+    const [bedsBaths, setBedsBaths] = useState<number>();
+
     const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
 
     const propertyTypes: string[] = ["Condo", "Multi Family Home", "Farm", "Single Family Home", "Townhouse", "Apartment", "Land", "Duplex"]
@@ -63,7 +68,11 @@ function FilterBar() {
                             {propertyStatus.map((property, index) => (
 
                                 <li key={index}>
-                                    <input type="radio" id={property} checked={property === currentCheck} onChange={(event) => setCurrentCheck(event.target.id)} readOnly={true}/>
+                                    <input type="radio"
+                                           id={property}
+                                           checked={property === currentCheck}
+                                           onChange={(event) => setCurrentCheck(event.target.id)} readOnly={true}/>
+
                                     <label htmlFor={property}>{property}</label>
                                 </li>
 
@@ -75,13 +84,18 @@ function FilterBar() {
                     </div>
 
                     <div className="input-wrapper">
-                        <SelectButton title={selectedProperties.length ? selectedProperties.toString() : "Home Type"} onClick={() => handleButtonClick('typeButton')}/>
+                        <SelectButton title={selectedProperties.length ? selectedProperties.toString() : "Home Type"}
+                                      onClick={() => handleButtonClick('typeButton')}/>
 
                         <SelectDropdown styles={{display: openDropDowns["typeButton"] ? "block" : "none"}} >
 
                             {propertyTypes.map((type, index) => (
                                 <li key={index}>
-                                    <input type="checkbox" id={type} value={type} onChange={(event) => handleCheck(event, setSelectedProperties, selectedProperties)}/>
+                                    <input type="checkbox"
+                                           id={type}
+                                           value={type}
+                                           onChange={(event) => handleCheck(event, setSelectedProperties, selectedProperties)}/>
+
                                     <label htmlFor={type}>{type}</label>
                                 </li>
                             ))}
@@ -90,7 +104,7 @@ function FilterBar() {
                     </div>
 
                     <div className="input-wrapper">
-                        <SelectButton title="Beds & Baths" onClick={() => handleButtonClick('bedsBathsButton')}/>
+                        <SelectButton title={`${ beds > 0 ? beds + "+" : ""} Beds & ${baths > 0 ? baths + "+" : ""} Baths`} onClick={() => handleButtonClick('bedsBathsButton')}/>
 
                         <SelectDropdown styles={{width: "115%", display: openDropDowns["bedsBathsButton"] ? "block" : "none"}} >
                             <li className="bedsBaths-container">
@@ -98,8 +112,24 @@ function FilterBar() {
                                 <ul className="bedsBaths">
                                     {Array(5).fill(0).map((_, index) => (
                                         <li key={index} >
-                                            <input type="radio" style={{opacity: "0", position: "absolute"}} id={(index+1).toString()} value={index+1}/>
-                                            <label htmlFor={(index+1).toString()}>{index + 1}+</label>
+                                            <input type="radio"
+                                                   style={{opacity: "0", position: "absolute"}}
+                                                   id={"beds"+(index+1).toString()}
+                                                   value={index+1}
+                                                   checked={index + 1 === beds}
+                                                   onChange={(event) => {
+
+                                                       setBeds(parseInt(event.target.value))
+                                                   }}
+                                                   onClick={(event) => {
+                                                       if (parseInt(event.currentTarget.value) === beds){
+                                                           setBeds(0)
+                                                       }
+                                                   }}
+                                            />
+                                            <label htmlFor={"beds"+(index+1).toString()}
+                                                   style={{backgroundColor: index + 1 === beds ? "#091638": "",
+                                                       color: index + 1 === beds ? "#F3F3FA": ""}}>{index + 1}+</label>
                                         </li>
 
                                     ))}
@@ -110,8 +140,21 @@ function FilterBar() {
                                 <ul className="bedsBaths">
                                     {Array(5).fill(0).map((_, index) => (
                                         <li key={index} >
-                                            <input type="radio" style={{opacity: "0", position: "absolute"}} id={(index+1).toString()} value={index+1}/>
-                                            <label htmlFor={(index+1).toString()}>{index + 1}+</label>
+                                            <input type="radio"
+                                                   style={{opacity: "0", position: "absolute"}}
+                                                   checked={index + 1 === baths}
+                                                   id={"baths"+(index+1).toString()}
+                                                   value={index+1}
+                                                   onChange={(event) => setBaths(parseInt(event.target.value))}
+                                                   onClick={(event) => {
+                                                       if (parseInt(event.currentTarget.value) === baths){
+                                                           setBaths(0)
+                                                       }
+                                                   }}
+                                            />
+                                            <label htmlFor={"baths"+(index+1).toString()}
+                                                   style={{backgroundColor: index + 1 === baths ? "#091638": "",
+                                                       color: index + 1 === baths ? "#F3F3FA": ""}}>{index + 1}+</label>
                                         </li>
 
                                     ))}
@@ -128,7 +171,12 @@ function FilterBar() {
                         <SelectDropdown styles={{display: openDropDowns["sortButton"] ? "block" : "none"}}>
                             {sortArray.map((sort, index) => (
                                 <li key={index}>
-                                    <input type="radio" style={{opacity: "0", position: "absolute"}} id={sort} value={sort} onChange={(event) => setCurrentSort(event.target.id)}/>
+                                    <input type="radio"
+                                           style={{opacity: "0", position: "absolute"}}
+                                           id={sort}
+                                           value={sort}
+                                           onChange={(event) => setCurrentSort(event.target.id)}/>
+
                                     <label htmlFor={sort}>{sort}</label>
                                 </li>
                             ))}
