@@ -1,0 +1,31 @@
+@import "../../../styles/variables";
+
+.select-dropdown{
+  list-style: none;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  cursor: text;
+  border-radius: 4px;
+  background-color: $white-color;
+
+  border: 1px solid #141B2D;
+  display: none;
+
+
+  li{
+    display: flex;
+    cursor: pointer;
+    padding: 1rem;
+    color: $blue;
+    gap: 10px;
+
+    label{
+      font-family: $body-font;
+      font-size: 16px;
+    }
+
+  }
+}

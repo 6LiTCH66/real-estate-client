@@ -71,41 +71,15 @@
       gap: 1.5rem;
       flex-wrap: wrap;
 
-      .filter-input{
-        flex: 1;
-
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 11px 1rem;
-
-        border-radius: 4px;
-        border: 1px solid #141B2D;
-        background-color: $white-color;
-        cursor: pointer;
-
-        span{
-          font-family: $body-font;
-          color: $text-color;
-          font-style: normal;
-          font-weight: 400;
-          font-size: 17px;
-          line-height: 27px;
-        }
+      .input-wrapper{
+        position: relative;
+        flex-grow: 1;
 
         @media screen and (max-width: 480px){
-          flex: 0 1 auto;
-          flex-grow: 1;
-        }
-
-        @media screen and (max-width: 768px){
-          flex: 0 1 auto;
-          flex-grow: 1;
-
+          width: 100%;
         }
 
       }
-
     }
 
 

@@ -100,7 +100,7 @@ function Header() {
                                 {propertyTypes.map((type, index) => (
 
                                     <li key={index}>
-                                        <input type="checkbox"  id={type} value={type} onChange={handleCheck}/>
+                                        <input type="checkbox" id={type} value={type} onChange={handleCheck}/>
                                         <label htmlFor={type}>{type}</label>
                                     </li>
                                 ))}

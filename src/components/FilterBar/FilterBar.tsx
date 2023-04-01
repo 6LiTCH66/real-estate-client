@@ -1,13 +1,28 @@
 import React, {useState} from 'react';
 import "./filterBar.scss";
-import {Button} from "../UI";
-import {BsChevronDown} from "react-icons/bs";
+import {Button, SelectButton, SelectDropdown} from "../UI";
 import MultiRangeSlider from "./MultiRangeSlider/MultiRangeSlider";
+import {ButtonClickedState} from "../../types/ButtonClickedProps";
+
 
 function FilterBar() {
-    const [openDropDown, setOpenDropDown] = useState<boolean>(false)
     const [max, setMax] = useState<number>();
     const [min, setMin] = useState<number>();
+
+    const [openDropDowns, setOpenDropDowns] = useState<ButtonClickedState>({
+        statusButton: false,
+        typeButton: false,
+        bedsBathsButton: false,
+        sortButton: false
+    });
+
+    const handleButtonClick = (buttonName: keyof ButtonClickedState) => {
+
+        setOpenDropDowns((prevState) => ({
+            ...prevState,
+            [buttonName]: !openDropDowns[buttonName],
+        }));
+    }
 
 
     return (
@@ -27,33 +42,76 @@ function FilterBar() {
 
                 <div className="input-container">
 
-                    <button className="filter-input" type="button" onClick={() => setOpenDropDown(prevState => !prevState)}>
-                                <span>
-                                    For Sale
-                                </span>
-                        <BsChevronDown size={16} className="arrow-down"/>
-                    </button>
+                    <div className="input-wrapper">
+                        <SelectButton title="For Sale" onClick={() => handleButtonClick('statusButton')}/>
 
-                    <button className="filter-input" type="button" onClick={() => setOpenDropDown(prevState => !prevState)}>
-                                <span>
-                                    Home Type
-                                </span>
-                        <BsChevronDown size={16} className="arrow-down"/>
-                    </button>
+                        <SelectDropdown styles={{display: openDropDowns["statusButton"] ? "block" : "none"}}>
 
-                    <button className="filter-input" type="button" onClick={() => setOpenDropDown(prevState => !prevState)}>
-                                <span>
-                                    Beds & Baths
-                                </span>
-                        <BsChevronDown size={16} className="arrow-down"/>
-                    </button>
+                            <li>
+                                <input type="radio" id="forAny" checked readOnly={true}/>
+                                <label htmlFor="forAny">Any</label>
+                            </li>
 
-                    <button className="filter-input" type="button" onClick={() => setOpenDropDown(prevState => !prevState)}>
-                                <span>
-                                    Most expensive
-                                </span>
-                        <BsChevronDown size={16} className="arrow-down"/>
-                    </button>
+                            <li>
+                                <input type="radio" id="forSale" readOnly={true}/>
+                                <label htmlFor="forSale">For Sale</label>
+                            </li>
+
+                            <li>
+                                <input type="radio" id="forRent" readOnly={true}/>
+                                <label htmlFor="forRent">For Rent</label>
+                            </li>
+
+
+                        </SelectDropdown>
+                    </div>
+
+                    <div className="input-wrapper">
+                        <SelectButton title="Home Type" onClick={() => handleButtonClick('typeButton')}/>
+
+                        <SelectDropdown styles={{display: openDropDowns["typeButton"] ? "block" : "none"}}>
+                            <li>test</li>
+                            <li>test</li>
+                            <li>test</li>
+                            <li>test</li>
+                            <li>test</li>
+                        </SelectDropdown>
+                    </div>
+
+                    <div className="input-wrapper">
+                        <SelectButton title="Beds & Baths" onClick={() => handleButtonClick('bedsBathsButton')}/>
+
+                        <SelectDropdown styles={{display: openDropDowns["bedsBathsButton"] ? "block" : "none"}}>
+                            <li>test</li>
+                            <li>test</li>
+                            <li>test</li>
+                            <li>test</li>
+                            <li>test</li>
+                        </SelectDropdown>
+                    </div>
+
+                    <div className="input-wrapper">
+                        <SelectButton title="Most expensive" onClick={() => handleButtonClick('sortButton')}/>
+
+
+                        <SelectDropdown styles={{display: openDropDowns["sortButton"] ? "block" : "none"}}>
+                            <li>test</li>
+                            <li>test</li>
+                            <li>test</li>
+                            <li>test</li>
+                            <li>test</li>
+                        </SelectDropdown>
+                    </div>
+
+
+
+
+
+
+
+
+
+
 
                 </div>
 
