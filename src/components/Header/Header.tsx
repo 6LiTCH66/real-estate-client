@@ -6,7 +6,7 @@ import {useState} from "react";
 import {ImLocation} from "react-icons/im"
 import Image from "../Image"
 import {Button} from "../UI";
-import {ButtonProps} from "../../types/ButtonClickProps";
+import {handleCheck} from "../../utils/getSelectedProperties";
 
 interface Property{
     city: string,
@@ -31,17 +31,6 @@ function Header() {
 
     const [search, setSearch] = useState<string>("");
 
-    const handleCheck = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        let updatedList = [...selectedProperties];
-        if (event.target.checked) {
-            updatedList = [...selectedProperties, event.target.value];
-
-        } else {
-            updatedList.splice(selectedProperties.indexOf(event.target.value), 1);
-        }
-
-        setSelectedProperties(updatedList);
-    };
 
     const filterCities: Property[] = properties.filter((property) => {
         return property.city.toLowerCase().includes(search.toLowerCase()) || !search
@@ -100,7 +89,7 @@ function Header() {
                                 {propertyTypes.map((type, index) => (
 
                                     <li key={index}>
-                                        <input type="checkbox" id={type} value={type} onChange={handleCheck}/>
+                                        <input type="checkbox" id={type} value={type} onChange={(event) => handleCheck(event, setSelectedProperties, selectedProperties)}/>
                                         <label htmlFor={type}>{type}</label>
                                     </li>
                                 ))}

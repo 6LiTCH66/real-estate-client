@@ -17,15 +17,26 @@
 
   li{
     display: flex;
-    cursor: pointer;
-    padding: 1rem;
+    //cursor: pointer;
+    padding: 0 1rem;
     color: $blue;
     gap: 10px;
 
     label{
       font-family: $body-font;
       font-size: 16px;
+      width: 100%;
+      padding: 1rem 0;
+      cursor: pointer;
     }
 
+    input[type=radio]:checked ~ input[type=radio]{
+      background-color: red;
+    }
+
+  }
+
+  @media screen and (max-width: 480px) {
+    width: 100% !important;
   }
 }
