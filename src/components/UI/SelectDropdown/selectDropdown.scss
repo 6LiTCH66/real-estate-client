@@ -1,5 +1,10 @@
 @import "../../../styles/variables";
 
+
+.display-none{
+  display: none !important;
+}
+
 .select-dropdown{
   list-style: none;
   position: absolute;
