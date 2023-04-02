@@ -1,26 +1,26 @@
-import React, {FC, useEffect, createRef} from 'react';
+import React, {FC, useEffect, LegacyRef} from 'react';
 import "./selectDropdown.scss"
 import {useDispatch} from "react-redux";
-import {reset} from "../../../store/dropdownSlice";
 import {SelectDropdownProps} from "../../../types/SelectDropdownProps";
+import {reset} from "../../../store/dropdownSlice";
 
 
-const SelectDropdown:FC<SelectDropdownProps> = React.memo(({styles, children}) => {
-    const wrapperRef = createRef<HTMLUListElement>();
+
+const SelectDropdown = React.forwardRef((props: SelectDropdownProps, ref: LegacyRef<HTMLUListElement>) => {
 
     const dispatch = useDispatch();
 
-    const handleResetClick = () => {
-        dispatch(reset());
-    };
-
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-                if (wrapperRef.current.style.display === "block"){
-                    console.log(wrapperRef.current.style.display)
-                    handleResetClick()
+
+
+            if ((ref as React.RefObject<HTMLUListElement>).current && !(ref as React.RefObject<HTMLUListElement>).current?.contains(event.target as Node)) {
+                if ((ref as React.RefObject<HTMLUListElement>).current?.style.display === "block"){
+                    (ref as React.MutableRefObject<HTMLUListElement>).current!.style!.display = "none"
+                    dispatch(reset())
                 }
+
+
             }
         };
 
@@ -29,16 +29,11 @@ const SelectDropdown:FC<SelectDropdownProps> = React.memo(({styles, children}) =
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [wrapperRef]);
-
-
-
-
-
+    }, [ref]);
 
     return (
-        <ul className={`select-dropdown`} style={styles} ref={wrapperRef}>
-            {children}
+        <ul className={`select-dropdown`} id={props.currentButton} style={props.styles} ref={ref}>
+            {props.children}
         </ul>
     );
 })

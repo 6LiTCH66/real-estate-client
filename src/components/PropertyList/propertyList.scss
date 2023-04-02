@@ -20,6 +20,56 @@
     width: 100%;
     height: 100%;
 
+    .pagination{
+
+      ul{
+        display: flex;
+        list-style: none;
+        gap: 1rem;
+
+        li{
+          a{
+            font-family: $body-font;
+            background-color: $white-color;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+
+            color: $text-color;
+            border-radius: 50%;
+            height: 50px;
+            width: 50px;
+            border-style: solid;
+            border-color: $text-color;
+            transition: all .2s ease-in-out;
+
+            &:hover{
+              color: $white-color;
+              background-color: $dark-blue;
+            }
+
+          }
+
+          &:first-child{
+            a{
+              color: $white-color;
+              background-color: $dark-blue;
+            }
+          }
+
+          &:last-child{
+            a{
+              color: $white-color;
+              background-color: $dark-blue;
+            }
+          }
+
+        }
+
+      }
+    }
+
     @media screen and (max-width: 768px){
       gap: 2rem;
     }
