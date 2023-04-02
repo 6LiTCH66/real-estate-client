@@ -36,9 +36,12 @@ function FilterBar() {
     const handleButtonClick = (buttonName: keyof ButtonClickedState) => {
 
         setOpenDropDowns((prevState) => ({
-            ...prevState,
-            [buttonName]: !openDropDowns[buttonName],
+            statusButton: buttonName === "statusButton" ? !prevState.statusButton : false,
+            typeButton: buttonName === "typeButton" ? !prevState.typeButton : false,
+            bedsBathsButton: buttonName === "bedsBathsButton" ? !prevState.bedsBathsButton : false,
+            sortButton: buttonName === "sortButton" ? !prevState.sortButton : false,
         }));
+
     }
 
 
