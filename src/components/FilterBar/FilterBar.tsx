@@ -176,8 +176,6 @@ function FilterBar() {
                                 </li>
                             ))}
 
-
-
                         </SelectDropdown>
                     </div>
 

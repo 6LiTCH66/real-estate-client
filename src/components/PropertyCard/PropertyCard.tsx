@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import "./propertyCard.scss"
-import {AiOutlineHeart, AiFillHeart} from "react-icons/ai"
+import {AiFillHeart} from "react-icons/ai"
 
 function PropertyCard(props: {key: number, myKey: number}) {
     const [price, setPrice] = useState<number>(3290000)
