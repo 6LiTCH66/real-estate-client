@@ -27,8 +27,30 @@
         list-style: none;
         gap: 1rem;
 
+        .pagination-dots{
+          display: flex;
+          justify-content: center;
+          align-content: center;
+          align-items: end;
+
+          .dots{
+            width: 100%;
+            display: flex;
+            gap: 3px;
+            padding-bottom: 10px;
+
+            .dot{
+              width: 3px;
+              height: 3px;
+              background-color: $text-color;
+              border-radius: 50%;
+            }
+          }
+        }
+
         li{
-          a{
+          button{
+            cursor: pointer;
             font-family: $body-font;
             background-color: $white-color;
             display: flex;
@@ -51,19 +73,7 @@
 
           }
 
-          &:first-child{
-            a{
-              color: $white-color;
-              background-color: $dark-blue;
-            }
-          }
 
-          &:last-child{
-            a{
-              color: $white-color;
-              background-color: $dark-blue;
-            }
-          }
 
         }
 

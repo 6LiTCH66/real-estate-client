@@ -9,6 +9,7 @@ export default () => (
         <Route path="*" element={<HomePage/>}/>
 
         <Route path="homes" element={<HomesSearch/>}>
+
             <Route path=":status" element={<PropertyList/>}/>
         </Route>
     </Routes>

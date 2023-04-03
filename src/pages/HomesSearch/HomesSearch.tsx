@@ -15,6 +15,7 @@ function HomesSearch() {
 
     useEffect(() => {
 
+
         if (status){
 
             if (Object.values(PropertyStatus).includes(status as PropertyStatus)){

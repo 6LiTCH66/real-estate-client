@@ -10,13 +10,6 @@ const initialState: ButtonClickedState = {
 
 };
 
-interface UpdateDropdownAction {
-    type: "UPDATE_DROPDOWN";
-    buttonName: keyof ButtonClickedState;
-}
-
-
-
 const dropDownSlice = createSlice({
     name: 'dropDown',
     initialState,
