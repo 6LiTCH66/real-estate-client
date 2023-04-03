@@ -10,6 +10,7 @@ import {handleCheck} from "../../utils/getSelectedProperties";
 import property_json from "../../data/property.json"
 import {boldify} from "../../utils/boldify";
 import {filterProperty} from "../../utils/filterProperty";
+import {FilteredDropdownSearch} from "../index";
 
 export interface Property{
     city: string,
@@ -80,22 +81,22 @@ function Header() {
                                 <input type="text" placeholder="Search of location" onChange={handleSearch}/>
                                 <ul>
 
-                                    {
+                                    {/*{*/}
 
-                                        filterProperty(properties, search).length > 0 ? (
-                                            filterProperty(properties, search).map((property, index) => (
-                                                <li key={index}>
-                                                    <a href="#">{boldify(property.city, search)}, {property.state}</a>
-                                                </li>
-                                            ))
-                                        ): (
-                                            <li>
-                                                <a href="#" onClick={preventClick}>City not found</a>
-                                            </li>
-                                        )
-                                    }
+                                    {/*    filterProperty(properties, search).length > 0 ? (*/}
+                                    {/*        filterProperty(properties, search).map((property, index) => (*/}
+                                    {/*            <li key={index}>*/}
+                                    {/*                <a href="#">{boldify(property.city, search)}, {property.state}</a>*/}
+                                    {/*            </li>*/}
+                                    {/*        ))*/}
+                                    {/*    ): (*/}
+                                    {/*        <li>*/}
+                                    {/*            <a href="#" onClick={preventClick}>City not found</a>*/}
+                                    {/*        </li>*/}
+                                    {/*    )*/}
+                                    {/*}*/}
 
-
+                                    <FilteredDropdownSearch properties={properties} search={search}/>
 
                                 </ul>
                             </div>

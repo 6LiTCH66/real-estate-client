@@ -1,9 +1,11 @@
 @import "../../styles/variables";
 
 .select-dropdown{
+
   li{
     font-family: $body-font;
     display: flex;
+    padding: 0;
 
     a {
       color: $blue;
