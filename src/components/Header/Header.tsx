@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import "./header.scss"
 import header_picture from "../../assets/header_picture.svg"
 import {BsChevronDown} from "react-icons/bs"
@@ -7,8 +7,11 @@ import {ImLocation} from "react-icons/im"
 import Image from "../Image"
 import {Button} from "../UI";
 import {handleCheck} from "../../utils/getSelectedProperties";
+import property_json from "../../data/property.json"
+import {boldify} from "../../utils/boldify";
+import {filterProperty} from "../../utils/filterProperty";
 
-interface Property{
+export interface Property{
     city: string,
     state: string,
 }
@@ -16,25 +19,15 @@ interface Property{
 
 function Header() {
     const [openDropDown, setOpenDropDown] = useState<boolean>(false)
+
     const propertyTypes: string[] = ["Condo", "Multi Family Home", "Farm", "Single Family Home", "Townhouse", "Apartment", "Land", "Duplex"]
 
-    const properties: Property[] = [
-        {city:"Chicago", state: "Illinois"},
-        {city:"Denver", state: "Colorado"},
-        {city:"Los angeles", state: "California"},
-        {city:"Dallas", state: "Texas"},
-        {city:"Austin", state: "Texas"},
-        {city:"Orlando", state: "Florida"},
-    ]
+    const properties: Property[] = property_json.states
 
     const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
 
+
     const [search, setSearch] = useState<string>("");
-
-
-    const filterCities: Property[] = properties.filter((property) => {
-        return property.city.toLowerCase().includes(search.toLowerCase()) || !search
-    })
 
     const preventClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
@@ -43,23 +36,6 @@ function Header() {
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>): void => {
         setSearch(event.target.value);
     }
-
-
-    const regexEscape = (str: string) => str.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&");
-
-    const boldify = (targetStr: string) => {
-        return targetStr
-            .split(new RegExp(`(${regexEscape(search)})`, "i"))
-            .map((part: string, idx: number) =>
-                idx % 2 ? (
-                    <strong key={idx}>{part}</strong>
-                ) : (
-                    <React.Fragment key={idx}>{part}</React.Fragment>
-                )
-            );
-    };
-
-
 
     return (
         <div className="header">
@@ -86,6 +62,7 @@ function Header() {
                                     <input type="checkbox" id="any" checked={!selectedProperties.length} readOnly={true}/>
                                     <label htmlFor="any">Any</label>
                                 </li>
+
                                 {propertyTypes.map((type, index) => (
 
                                     <li key={index}>
@@ -105,10 +82,10 @@ function Header() {
 
                                     {
 
-                                        filterCities.length > 0 ? (
-                                            filterCities.map((property, index) => (
+                                        filterProperty(properties, search).length > 0 ? (
+                                            filterProperty(properties, search).map((property, index) => (
                                                 <li key={index}>
-                                                    <a href="#">{boldify(property.city)}, {property.state}</a>
+                                                    <a href="#">{boldify(property.city, search)}, {property.state}</a>
                                                 </li>
                                             ))
                                         ): (

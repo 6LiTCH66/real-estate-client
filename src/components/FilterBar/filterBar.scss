@@ -17,12 +17,20 @@
     padding: 2.5rem 1rem;
 
     .search-form{
+      position: relative;
+
       display: flex;
       justify-content: center;
       gap: 1rem;
 
-      input{
+      .search-input_wrapper{
+        position: relative;
         max-width: 378px;
+        width: 100%;
+      }
+
+      input{
+        height: 100%;
         width: 100%;
         padding: .5rem 1rem;
         border-radius: 4px;

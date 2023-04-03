@@ -1,0 +1,28 @@
+@import "../../styles/variables";
+
+.select-dropdown{
+  li{
+    font-family: $body-font;
+    display: flex;
+
+    a {
+      color: $blue;
+      width: 100%;
+      padding: 1rem;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+
+      &:hover{
+        color: $text-color;
+        background-color: $light-blue;
+        border-radius: 4px;
+
+      }
+
+    }
+
+  }
+}

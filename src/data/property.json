@@ -1,0 +1,209 @@
+{
+  "states": [
+    {
+      "city": "Montgomery",
+      "state": "Alabama"
+    },
+    {
+      "city": "Juneau",
+      "state": "Alaska"
+    },
+    {
+      "city": "Phoenix",
+      "state": "Arizona"
+    },
+    {
+      "city": "Little Rock",
+      "state": "Arkansas"
+    },
+    {
+      "city": "Sacramento",
+      "state": "California"
+    },
+    {
+      "city": "Denver",
+      "state": "Colorado"
+    },
+    {
+      "city": "Hartford",
+      "state": "Connecticut"
+    },
+    {
+      "city": "Dover",
+      "state": "Delaware"
+    },
+    {
+      "city": "Tallahassee",
+      "state": "Florida"
+    },
+    {
+      "city": "Atlanta",
+      "state": "Georgia"
+    },
+    {
+      "city": "Honolulu",
+      "state": "Hawaii"
+    },
+    {
+      "city": "Boise",
+      "state": "Idaho"
+    },
+    {
+      "city": "Springfield",
+      "state": "Illinois"
+    },
+    {
+      "city": "Indianapolis",
+      "state": "Indiana"
+    },
+    {
+      "city": "Des Moines",
+      "state": "Iowa"
+    },
+    {
+      "city": "Topeka",
+      "state": "Kansas"
+    },
+    {
+      "city": "Frankfort",
+      "state": "Kentucky"
+    },
+    {
+      "city": "Baton Rouge",
+      "state": "Louisiana"
+    },
+    {
+      "city": "Augusta",
+      "state": "Maine"
+    },
+    {
+      "city": "Annapolis",
+      "state": "Maryland"
+    },
+    {
+      "city": "Boston",
+      "state": "Massachusetts"
+    },
+    {
+      "city": "Lansing",
+      "state": "Michigan"
+    },
+    {
+      "city": "Saint Paul",
+      "state": "Minnesota"
+    },
+    {
+      "city": "Jackson",
+      "state": "Mississippi"
+    },
+    {
+      "city": "Jefferson City",
+      "state": "Missouri"
+    },
+    {
+      "city": "Helena",
+      "state": "Montana"
+    },
+    {
+      "city": "Lincoln",
+      "state": "Nebraska"
+    },
+    {
+      "city": "Carson City",
+      "state": "Nevada"
+    },
+    {
+      "city": "Concord",
+      "state": "New Hampshire"
+    },
+    {
+      "city": "Trenton",
+      "state": "New Jersey"
+    },
+    {
+      "city": "Santa Fe",
+      "state": "New Mexico"
+    },
+    {
+      "city": "Albany",
+      "state": "New York"
+    },
+    {
+      "city": "Raleigh",
+      "state": "North Carolina"
+    },
+    {
+      "city": "Bismarck",
+      "state": "North Dakota"
+    },
+    {
+      "city": "Columbus",
+      "state": "Ohio"
+    },
+    {
+      "city": "Oklahoma City",
+      "state": "Oklahoma"
+    },
+    {
+      "city": "Salem",
+      "state": "Oregon"
+    },
+    {
+      "city": "Harrisburg",
+      "state": "Pennsylvania"
+    },
+    {
+      "city": "Providence",
+      "state": "Rhode Island"
+    },
+    {
+      "city": "Columbia",
+      "state": "South Carolina"
+    },
+    {
+      "city": "Pierre",
+      "state": "South Dakota"
+    },
+    {
+      "city": "Nashville",
+      "state": "Tennessee"
+    },
+    {
+      "city": "Austin",
+      "state": "Texas"
+    },
+    {
+      "city": "Dallas",
+      "state": "Texas"
+    },
+    {
+      "city": "Salt Lake City",
+      "state": "Utah"
+    },
+    {
+      "city": "Montpelier",
+      "state": "Vermont"
+    },
+    {
+      "city": "Richmond",
+      "state": "Virginia"
+    },
+    {
+      "city": "Olympia",
+      "state": "Washington"
+    },
+    {
+      "city": "Charleston",
+      "state": "West Virginia"
+    },
+    {
+      "city": "Madison",
+      "state": "Wisconsin"
+    },
+    {
+      "city": "Cheyenne",
+      "state": "Wyoming"
+    }
+  ]
+}
+

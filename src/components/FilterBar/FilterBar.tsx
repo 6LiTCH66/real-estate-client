@@ -1,14 +1,20 @@
-import React, {useEffect, useState, useRef, useMemo, createRef} from 'react';
+import React, {useState} from 'react';
 import "./filterBar.scss";
 import {Button, SelectButton, SelectDropdown} from "../UI";
 import MultiRangeSlider from "./MultiRangeSlider/MultiRangeSlider";
 import {handleCheck} from "../../utils/getSelectedProperties";
+import {FilteredDropdownSearch} from "../index";
 
 
 import { useDispatch, useSelector } from 'react-redux';
 import {RootState} from "../../store/store"
 
 import {reset, toggleButton} from "../../store/dropdownSlice";
+
+import {debounce} from "lodash";
+
+import property_json from "../../data/property.json";
+import {Property} from "../Header/Header";
 
 function FilterBar() {
 
@@ -17,27 +23,11 @@ function FilterBar() {
         (state: RootState) => state.dropDown
     );
 
+    const properties: Property[] = property_json.states
+
     const handleButtonClick = (buttonName: string) => {
         dispatch(toggleButton(buttonName));
     };
-
-    const selectDropdownRefs = useMemo(() => [...Array(4).fill(0).map(() => createRef<HTMLUListElement>())], [statusButton, typeButton, bedsBathsButton, sortButton]);
-
-
-    useEffect(() => {
-
-        const test = selectDropdownRefs.filter((ref) => ref.current?.style.display === "block")
-
-
-        if (test[0]?.current?.id){
-
-        }
-
-
-    }, [selectDropdownRefs]);
-
-
-
 
 
     const [max, setMax] = useState<number>();
@@ -57,14 +47,37 @@ function FilterBar() {
 
     const [search, setSearch] = useState<string>("");
 
+    // const someFunction = (text: string) => {
+    //     console.log("search is send")
+    //     return text
+    // }
+    //
+    // const debouncedSearch = debounce( (text: string) => {
+    //     setSearch(someFunction(text));
+    // }, 300);
+    //
+    // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     debouncedSearch(event.target.value)
+    //
+    //
+    // }
 
 
     return (
         <div className="filterBar">
             <div className="container">
+
                 <div className="search-form">
-                    <input type="text" placeholder="Enter a keyword" onChange={(event) => setSearch(event.target.value)}/>
+
+                    <div className="search-input_wrapper">
+                        <input type="text" placeholder="Enter a keyword" onChange={(event) => setSearch(event.target.value)}/>
+                        <SelectDropdown styles={{display: search ? "block": "none"}}>
+
+                            <FilteredDropdownSearch properties={properties} search={search}/>
+                        </SelectDropdown>
+                    </div>
                     <Button onClick={() => console.log("Hello from filter bar")}/>
+
                 </div>
 
                 <div className="text">
@@ -79,7 +92,7 @@ function FilterBar() {
                     <div className="input-wrapper">
                         <SelectButton title={currentCheck} onClick={() => handleButtonClick('statusButton')} disable={statusButton}/>
 
-                        <SelectDropdown ref={selectDropdownRefs[0]} currentButton="statusButton" styles={{display: statusButton ? "block" : "none"}}>
+                        <SelectDropdown currentButton="statusButton" styles={{display: statusButton ? "block" : "none"}}>
 
 
                             {propertyStatus.map((property, index) => (
@@ -102,7 +115,7 @@ function FilterBar() {
                         <SelectButton title={selectedProperties.length ? selectedProperties.toString() : "Home Type"}
                                       onClick={() => handleButtonClick('typeButton')} disable={typeButton}/>
 
-                        <SelectDropdown ref={selectDropdownRefs[1]} currentButton="typeButton" styles={{display: typeButton ? "block" : "none"}} >
+                        <SelectDropdown currentButton="typeButton" styles={{display: typeButton ? "block" : "none"}} >
 
                             {propertyTypes.map((type, index) => (
                                 <li key={index}>
@@ -123,7 +136,7 @@ function FilterBar() {
                          Beds & ${baths > 0 ? baths + "+" : ""} Baths`}
                                       onClick={() => handleButtonClick('bedsBathsButton')} disable={bedsBathsButton}/>
 
-                        <SelectDropdown ref={selectDropdownRefs[2]} currentButton="bedsBathsButton" styles={{width: "115%", display: bedsBathsButton ? "block" : "none"}} >
+                        <SelectDropdown currentButton="bedsBathsButton" styles={{width: "115%", display: bedsBathsButton ? "block" : "none"}} >
                             <li className="bedsBaths-container">
                                 Beds
                                 <ul className="bedsBaths">
@@ -185,13 +198,14 @@ function FilterBar() {
                         <SelectButton title={currentSort} onClick={() => handleButtonClick('sortButton')} disable={sortButton}/>
 
 
-                        <SelectDropdown ref={selectDropdownRefs[3]} currentButton="sortButton" styles={{display: sortButton ? "block" : "none"}}>
+                        <SelectDropdown currentButton="sortButton" styles={{display: sortButton ? "block" : "none"}}>
                             {sortArray.map((sort, index) => (
                                 <li key={index}>
                                     <input type="radio"
                                            style={{opacity: "0", position: "absolute"}}
                                            id={sort}
                                            value={sort}
+                                           checked={currentSort === sort}
                                            onChange={(event) => setCurrentSort(event.target.id)}/>
 
                                     <label htmlFor={sort}>{sort}</label>
@@ -200,14 +214,6 @@ function FilterBar() {
 
                         </SelectDropdown>
                     </div>
-
-
-
-
-
-
-
-
 
 
 

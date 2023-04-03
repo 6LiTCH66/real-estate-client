@@ -1,41 +1,69 @@
-import React, {FC, useEffect, LegacyRef} from 'react';
+import React, {FC, useEffect, useRef} from 'react';
 import "./selectDropdown.scss"
 import {useDispatch} from "react-redux";
 import {SelectDropdownProps} from "../../../types/SelectDropdownProps";
 import {reset} from "../../../store/dropdownSlice";
 
+// add field shouldHandleOutsideClick to the interface
 
-
-const SelectDropdown = React.forwardRef((props: SelectDropdownProps, ref: LegacyRef<HTMLUListElement>) => {
-
+const SelectDropdown:FC<SelectDropdownProps> = ({currentButton, styles, children}) => {
     const dispatch = useDispatch();
+    const ref = useRef<HTMLUListElement>(null);
+
+    // const handleClickOutside = useCallback((event: MouseEvent) => {
+    //     if (ref.current && !ref.current.contains(event.target as Node)) {
+    //         if (ref.current.style.display === "block") {
+    //             ref.current.style.display = "none";
+    //             dispatch(reset());
+    //         }
+    //     }
+    // }, [dispatch]);
+    //
+    // useOnClickOutside(ref, handleClickOutside);
+
+
+
 
     useEffect(() => {
+
         const handleClickOutside = (event: MouseEvent) => {
 
+            if (currentButton){
+                if (ref.current && !ref.current?.contains(event.target as Node)) {
 
-            if ((ref as React.RefObject<HTMLUListElement>).current && !(ref as React.RefObject<HTMLUListElement>).current?.contains(event.target as Node)) {
-                if ((ref as React.RefObject<HTMLUListElement>).current?.style.display === "block"){
-                    (ref as React.MutableRefObject<HTMLUListElement>).current!.style!.display = "none"
-                    dispatch(reset())
+                    if (ref.current?.style.display === "block"){
+                        ref.current!.style!.display = "none"
+                        dispatch(reset())
+                    }
+
+
                 }
-
-
             }
+
+
         };
 
-        document.addEventListener("mousedown", handleClickOutside);
+        if (currentButton){
+            document.addEventListener("mousedown", handleClickOutside);
+
+        }
+
 
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            if (currentButton){
+                document.removeEventListener("mousedown", handleClickOutside);
+
+            }
+
         };
     }, [ref]);
 
+
     return (
-        <ul className={`select-dropdown`} id={props.currentButton} style={props.styles} ref={ref}>
-            {props.children}
+        <ul className={`select-dropdown`} id={currentButton} style={styles} ref={ref}>
+            {children}
         </ul>
     );
-})
+}
 
 export default SelectDropdown;
