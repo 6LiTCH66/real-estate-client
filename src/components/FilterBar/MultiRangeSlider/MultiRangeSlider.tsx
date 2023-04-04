@@ -60,7 +60,7 @@ const MultiRangeSlider: FC<Props> = ({ min, max, onChange }) => {
 
         if (value + 1 >= max){
             setMaxVal(max);
-            setMaxInput(0)
+            setMaxInput(max)
 
         }else{
             setMaxVal(value);

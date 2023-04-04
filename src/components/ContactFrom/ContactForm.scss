@@ -1,0 +1,72 @@
+@import "../../styles/variables";
+
+.contact-form{
+  min-width: 352px;
+  width: 100%;
+  padding: 1.5rem;
+  background-color: $light-blue;
+  border-radius: 4px;
+
+  .container{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    h5{
+      font-family: $headings-font;
+      color: $dark-blue;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 26.563px;
+      line-height: 35px;
+
+    }
+
+    .contact-form_inputs{
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .input-container{
+        display: flex;
+        flex-direction: column;
+
+        input, textarea{
+          padding: .9rem 1rem;
+          border-radius: 4px;
+          border: 1px solid #DDDDDD;
+          background-color: $white-color;
+
+          font-family: $body-font;
+          color: $text-color;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 17px;
+          line-height: 27px;
+
+          &:focus{
+            outline: none;
+          }
+        }
+
+        #yourMessage {
+          resize: none;
+          height: 308px;
+        }
+
+
+        label{
+          font-family: $body-font;
+          color: $dark-blue;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 17px;
+          line-height: 27px;
+        }
+
+      }
+
+
+    }
+  }
+}

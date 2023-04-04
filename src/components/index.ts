@@ -8,4 +8,5 @@ export {default as References} from "./References/References"
 export {default as Footer} from "./Footer/Footer"
 export {default as PropertyList} from "./PropertyList/PropertyList"
 export {default as FilterBar} from "./FilterBar/FilterBar"
-export {default as FilteredDropdownSearch} from "./FilteredDropdownSearch/FilteredDropdownSearch"
+export {default as FilteredDropdownSearch} from "./FilteredDropdownSearch/FilteredDropdownSearch";
+export {default as ContactFrom} from "./ContactFrom/ContactForm"

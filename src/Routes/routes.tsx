@@ -1,5 +1,5 @@
 import {Route, Routes} from "react-router-dom";
-import {HomePage, HomesSearch} from "../pages";
+import {HomePage, HomesSearch, PropertyDetails} from "../pages";
 import {PropertyList} from "../components";
 
 
@@ -12,5 +12,6 @@ export default () => (
 
             <Route path=":status" element={<PropertyList/>}/>
         </Route>
+        <Route path="property-detail/:propertyId" element={<PropertyDetails/>}/>
     </Routes>
 )

@@ -1,0 +1,12 @@
+@import "../../styles/variables";
+
+.property-details{
+  display: flex;
+  justify-content: center;
+
+  .container{
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+  }
+}
