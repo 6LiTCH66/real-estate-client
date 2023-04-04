@@ -9,4 +9,5 @@ export {default as Footer} from "./Footer/Footer"
 export {default as PropertyList} from "./PropertyList/PropertyList"
 export {default as FilterBar} from "./FilterBar/FilterBar"
 export {default as FilteredDropdownSearch} from "./FilteredDropdownSearch/FilteredDropdownSearch";
-export {default as ContactFrom} from "./ContactFrom/ContactForm"
+export {default as ContactFrom} from "./ContactFrom/ContactForm";
+export {default as Favourite} from "./UI/FavouriteIcon/FavouriteIcon"

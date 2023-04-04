@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import "./propertyCard.scss"
 import {AiFillHeart} from "react-icons/ai"
+import {Favourite} from "../index";
 
 function PropertyCard(props: {key: number, myKey: number}) {
     const [price, setPrice] = useState<number>(3290000)
@@ -18,10 +19,14 @@ function PropertyCard(props: {key: number, myKey: number}) {
                             For Sale
                         </p>
                     </div>
+
                     <img src="https://photos.zillowstatic.com/fp/f6a50baf44ca9e011448f5bf228c7794-cc_ft_960.jpg" alt=""/>
-                    <div className="favourite" onClick={() => setFavouriteClick(prevState => !prevState)}>
-                        <AiFillHeart size={27} color={favouriteClick ? '#E83845' : '#141B2D'}/>
-                    </div>
+
+                    {/*<div className="favourite" onClick={() => setFavouriteClick(prevState => !prevState)}>*/}
+                    {/*    <AiFillHeart size={27} color={favouriteClick ? '#E83845' : '#141B2D'}/>*/}
+                    {/*</div>*/}
+
+                    <Favourite isFavourite={favouriteClick} size={27} onClick={() => setFavouriteClick(prevState => !prevState)}/>
 
                 </div>
                 <div className="body">

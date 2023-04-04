@@ -1,0 +1,15 @@
+@import "../../../styles/variables";
+
+.favourite{
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  background-color: rgba(243, 243, 250, .9);
+  border-radius: 50%;
+  top: 1rem;
+  right: 1rem;
+}
