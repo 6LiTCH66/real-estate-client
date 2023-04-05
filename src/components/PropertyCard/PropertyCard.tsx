@@ -22,10 +22,6 @@ function PropertyCard(props: {key: number, myKey: number}) {
 
                     <img src="https://photos.zillowstatic.com/fp/f6a50baf44ca9e011448f5bf228c7794-cc_ft_960.jpg" alt=""/>
 
-                    {/*<div className="favourite" onClick={() => setFavouriteClick(prevState => !prevState)}>*/}
-                    {/*    <AiFillHeart size={27} color={favouriteClick ? '#E83845' : '#141B2D'}/>*/}
-                    {/*</div>*/}
-
                     <Favourite isFavourite={favouriteClick} size={27} onClick={() => setFavouriteClick(prevState => !prevState)}/>
 
                 </div>
@@ -51,9 +47,8 @@ function PropertyCard(props: {key: number, myKey: number}) {
                         <p>
                             Apartment
                         </p>
-
-
                     </div>
+
                 </div>
 
             </div>
