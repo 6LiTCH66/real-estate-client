@@ -6,11 +6,10 @@ interface FavouriteProps{
     isFavourite: boolean;
     onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
     size: number
-
 }
 const FavouriteIcon:FC<FavouriteProps> = ({onClick, isFavourite, size}) => {
     return (
-        <div className="favourite" onClick={onClick}>
+        <div className="favourite" onClick={onClick} >
             <AiFillHeart size={size} color={isFavourite ? '#E83845' : '#141B2D'}/>
         </div>
     );
