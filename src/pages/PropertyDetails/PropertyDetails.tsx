@@ -11,6 +11,8 @@ import {IoHammerOutline} from "react-icons/io5"
 import {TfiRulerAlt2} from "react-icons/tfi"
 import {MdOutlineGarage} from "react-icons/md"
 
+import {BiBed, BiBath, BiRuler} from "react-icons/bi"
+
 function PropertyDetails() {
     const [currentPhoto, setCurrentPhoto] = useState<number>(0)
     const sliderRef = useRef<HTMLDivElement>(null);
@@ -103,6 +105,13 @@ function PropertyDetails() {
 
                             <Favourite size={27} isFavourite={false} onClick={() => console.log("test")}/>
 
+                            <div className="status">
+                                <p>
+                                    For Sale
+                                </p>
+
+                            </div>
+
 
 
                             <button className="left-arrow" onClick={prevSlide}>
@@ -138,37 +147,55 @@ function PropertyDetails() {
                     <div className="property-info">
                         <div className="property-wrapper">
 
-                            <div className="status">
-                                <p>
-                                    For Sale
-                                </p>
-
-                            </div>
 
                             <h2>${price.toLocaleString()}</h2>
 
-                            <div className="data">
-                                <p>
-                                    <strong>3</strong> bed
-                                </p>
-                                <p>
-                                    <strong>2</strong> bath
-                                </p>
-                                <p>
-                                    <strong>{sqft.toLocaleString()}</strong> sqft
-                                </p>
+                            <div className="property-short-info">
+                                <div className="address">
+                                    <p>
+                                        8737 E Dry Creek Rd Unit 1721
+                                    </p>
+                                    <p>
+                                        Denver, Colorado 80238
+                                    </p>
+                                </div>
+
+
+                                <div className="data">
+                                    <p>
+                                        <BiBed size={21} color="#141b2db3"/>
+                                        <span>
+                                            <strong>3 </strong>
+                                            bed
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <BiBath size={21} color="#141b2db3"/>
+                                        <span>
+                                            <strong>2 </strong>
+                                            bath
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <BiRuler size={21} color="#141b2db3"/>
+
+                                        <span>
+                                            <strong>{sqft.toLocaleString()}</strong> sqft
+                                        </span>
+                                    </p>
+
+                                </div>
+
+
+
 
                             </div>
 
 
-                            <address>
-                                2679 Syracuse Court, Denver, Colorado 80238
-                            </address>
-
                             <div className="property-facts">
+                                {/*<h6 className="property-facts-title">Property Details</h6>*/}
                                 <ul>
                                     <li>
-                                        {/*Property type*/}
                                         <AiOutlineHome size={25}/>
 
                                         <div className="facts-info">
@@ -178,7 +205,6 @@ function PropertyDetails() {
                                     </li>
 
                                     <li>
-                                        {/*Time on real-estate.com*/}
                                         <AiOutlineCalendar size={25}/>
 
                                         <div className="facts-info">
@@ -189,7 +215,6 @@ function PropertyDetails() {
 
                                     <li>
 
-                                        {/*Price per sqft*/}
                                         <TfiRulerAlt2 size={25}/>
 
                                         <div className="facts-info">
@@ -199,7 +224,6 @@ function PropertyDetails() {
                                     </li>
 
                                     <li>
-                                        {/*Garage*/}
                                         <MdOutlineGarage size={25}/>
 
                                         <div className="facts-info">
@@ -209,7 +233,6 @@ function PropertyDetails() {
                                     </li>
 
                                     <li>
-                                        {/*Year built*/}
                                         <IoHammerOutline size={25}/>
 
                                         <div className="facts-info">
@@ -222,11 +245,6 @@ function PropertyDetails() {
                             </div>
 
                         </div>
-
-                        {/*<div className="agent-profile">*/}
-
-                        {/*</div>*/}
-
 
 
                     </div>
