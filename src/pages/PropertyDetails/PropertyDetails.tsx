@@ -300,6 +300,7 @@ function PropertyDetails() {
                                 <Marker position={{lat: lat, lng: lng}}/>
                             </GoogleMap>
                         </LoadScript>
+
                     ): <>Loading</>}
 
 
