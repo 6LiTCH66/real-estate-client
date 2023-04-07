@@ -1,13 +1,13 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import "./filteredDropdownSearch.scss"
-import {Property} from "../Header/Header";
-import {filterProperty} from "../../utils/filterProperty";
-import {boldify} from "../../utils/boldify";
-import {Link} from "react-router-dom"
-import {FilterSearch} from "../../types/FilterSearch";
+import { Property } from "../Header/Header";
+import { filterProperty } from "../../utils/filterProperty";
+import { boldify } from "../../utils/boldify";
+import { Link } from "react-router-dom"
+import { FilterSearch } from "../../types/FilterSearch";
 
 
-const FilteredDropdownSearch:FC<FilterSearch> = ({properties, search}) =>  {
+const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search }) => {
     const preventClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
     }
@@ -21,7 +21,7 @@ const FilteredDropdownSearch:FC<FilterSearch> = ({properties, search}) =>  {
                             <Link to="#">{boldify(property.city, search)}, {property.state}</Link>
                         </li>
                     ))
-                ): (
+                ) : (
                     <li>
                         <Link to="" onClick={preventClick}>City not found</Link>
                     </li>

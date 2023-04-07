@@ -11,3 +11,4 @@ export {default as FilterBar} from "./FilterBar/FilterBar"
 export {default as FilteredDropdownSearch} from "./FilteredDropdownSearch/FilteredDropdownSearch";
 export {default as ContactFrom} from "./ContactFrom/ContactForm";
 export {default as Favourite} from "./UI/FavouriteIcon/FavouriteIcon"
+export {default as PropertySlider} from "./PropertySlider/PropertySlider"

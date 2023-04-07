@@ -5,7 +5,6 @@ import {MdNavigateNext, MdNavigateBefore} from "react-icons/md"
 import {BsCamera} from "react-icons/bs"
 import {Favourite} from "../../components";
 
-
 import {AiOutlineHome, AiOutlineCalendar} from "react-icons/ai"
 import {IoHammerOutline} from "react-icons/io5"
 import {TfiRulerAlt2} from "react-icons/tfi"
@@ -15,6 +14,7 @@ import {SlSizeFullscreen} from "react-icons/sl"
 import Geocode from "react-geocode"
 
 import { GoogleMap, Marker, LoadScript, StreetViewPanorama } from "@react-google-maps/api"
+import {PropertySlider} from "../../components";
 
 
 function PropertyDetails() {
@@ -25,6 +25,8 @@ function PropertyDetails() {
     const [lng, setLng] = useState<bigint>();
     const [draggable, setDraggable] = useState<boolean>(false)
     const google_key = process.env.REACT_APP_GOOGLE_KEY;
+
+    const scrollRef = useRef<HTMLDivElement>(null)
 
 
     const imagesArray: string[] = [
@@ -110,14 +112,27 @@ function PropertyDetails() {
                 const { lat, lng } = response.results[0].geometry.location;
                 setLat(lat)
                 setLng(lng)
-                console.log('Latitude:', lat);
-                console.log('Longitude:', lng);
+                // console.log('Latitude:', lat);
+                // console.log('Longitude:', lng);
             },
             (error) => {
                 console.error(error);
             }
         );
     }, []);
+    const prev = () => {
+
+    }
+    const next = () => {
+        const sliderContainer = scrollRef.current;
+        if (sliderContainer){
+
+            const elementWidth = sliderContainer.children[0].clientWidth;
+            sliderContainer.scrollLeft += elementWidth + 24
+
+
+        }
+    }
 
 
     const price = 3290000
@@ -125,7 +140,7 @@ function PropertyDetails() {
 
     return (
         <div className="property-details">
-            <div className="container">
+            <div className="details-container">
                 <div className="main-container">
 
                     <div className="frame">
@@ -270,48 +285,62 @@ function PropertyDetails() {
                             Welcome to your dream home in the heart of South Denver! This newly remodeled home located at 2059 South Logan Street, Denver, CO is sure to exceed all your expectations.    From the moment you step inside, you'll notice the attention to detail that has been put into every aspect of this home. The open and spacious floor plan is perfect for entertaining and offers plenty of natural light throughout. The living room features large windows, providing the perfect space to unwind after a long day.    The kitchen features stainless steel appliances, gorgeous countertops, and ample cabinet space. The adjacent dining area is the perfect spot for family meals or hosting dinner parties with friends. This home boasts two spacious bedrooms and an updated bathroom, providing plenty of space for everyone to relax and recharge. The large yard is a true oasis, providing plenty of space for outdoor entertaining or simply relaxing in the sun. Located in the highly desirable South Denver neighborhood, this home is just minutes away from restaurants, shopping, and all the best Denver offers. Don't miss out on this incredible opportunity to own a beautifully remodeled home in one of the city's most sought-after areas. Schedule your showing today before its sold!
                         </p>
                     </div>
-                    {(lat && lng) ? (
-                        <LoadScript googleMapsApiKey={google_key || ""}>
-                            <GoogleMap
-                                center={{lat: lat, lng: lng}}
-                                zoom={draggable ? 18 : 17}
-                                mapContainerStyle={{ height: '400px', width: '100%' }}
-                                onClick={() => setDraggable(true)}
-                                options={{
-                                    panControl: false,
-                                    mapTypeControl: false,
-                                    zoomControl: false,
-                                    fullscreenControl: false,
 
-                                    draggable: draggable,
+                    <div className="google-map-container">
+                        <h6 className="google-map-title">Location</h6>
+                        {(lat && lng) ? (
+                            <LoadScript googleMapsApiKey={google_key || ""}>
+                                <GoogleMap
+                                    center={{lat: lat, lng: lng}}
+                                    zoom={draggable ? 18 : 17}
+                                    onClick={() => setDraggable(true)}
+                                    mapContainerClassName="google-map"
+                                    options={{
+                                        panControl: false,
+                                        mapTypeControl: false,
+                                        zoomControl: false,
+                                        fullscreenControl: false,
 
-                                }}
+                                        draggable: draggable,
 
-                            >
-                                <StreetViewPanorama options={{
-                                    position: {
-                                        lat: lat,
-                                        lng: lng,
-                                    },
-                                    panControl: true,
-                                }}/>
+                                    }}
+
+                                >
+                                    <StreetViewPanorama options={{
+                                        position: {
+                                            lat: lat,
+                                            lng: lng,
+                                        },
+                                        panControl: true,
+                                    }}/>
 
 
-                                <Marker position={{lat: lat, lng: lng}}/>
-                            </GoogleMap>
-                        </LoadScript>
+                                    <Marker position={{lat: lat, lng: lng}} />
+                                </GoogleMap>
+                            </LoadScript>
 
-                    ): <>Loading...</>}
+                        ): <>Loading...</>}
+                    </div>
 
 
                 </div>
 
-
-
-                <aside>
+                <aside style={{width: "100%", flex: "1"}}>
                     <ContactFrom/>
                 </aside>
+
+
             </div>
+
+            <div className="nearBy-properties">
+
+                <h6 className="nearby-title">Nearby homes</h6>
+                <PropertySlider scrollRef={scrollRef}/>
+                <button>prev</button>
+                <button onClick={next}>next</button>
+            </div>
+
+
         </div>
     );
 }

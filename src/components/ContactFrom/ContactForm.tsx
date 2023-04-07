@@ -4,7 +4,7 @@ import './ContactForm.scss'
 function ContactForm() {
     return (
         <div className="contact-form">
-            <div className="container">
+            <div className="contact-form-container">
                 <h5>Contact us</h5>
 
                 <div className="contact-form_inputs">

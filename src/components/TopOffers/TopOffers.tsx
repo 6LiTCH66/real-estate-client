@@ -2,6 +2,7 @@ import React, {useRef, useState} from 'react';
 import "./topOffers.scss"
 import {BsArrowRightShort, BsArrowLeftShort} from "react-icons/bs"
 import {PropertyCard} from "../index";
+import {PropertySlider} from "../index";
 
 function TopOffers() {
     const scrollRef = useRef<HTMLDivElement>(null)
@@ -74,20 +75,7 @@ function TopOffers() {
                     </button>
                 </div>
 
-
-                <div className="slider" ref={scrollRef} onScroll={handleScroll}>
-                    {Array(8).fill(0).map((_, index) =>(
-                        <PropertyCard key={index} myKey={index}/>
-
-                    ))}
-
-
-                </div>
-
-                <div className="skeleton-box">
-
-                </div>
-
+                <PropertySlider scrollRef={scrollRef} onScroll={handleScroll}/>
 
 
             </div>

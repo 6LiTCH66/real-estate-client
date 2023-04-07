@@ -86,23 +86,7 @@
 
       }
     }
-    .slider{
-      padding: 2rem 0;
-      scroll-behavior: smooth;
 
-      display: flex;
-      flex-direction: row;
-      gap: 1.5rem;
-      width: 100%;
-
-      overflow-x: auto;
-      overflow-y: hidden;
-
-      &::-webkit-scrollbar{
-        display: none;
-      }
-
-    }
 
     @media screen and (max-width: $mobile-screen) {
 

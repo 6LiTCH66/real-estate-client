@@ -1,0 +1,23 @@
+@import "../../styles/variables";
+
+.property-slider{
+  padding: 2rem 0;
+  scroll-behavior: smooth;
+
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  width: 100%;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+
+
+  grid-column-end: span 2;
+
+  &::-webkit-scrollbar{
+    display: none;
+  }
+
+}

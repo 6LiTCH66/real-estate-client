@@ -12,7 +12,7 @@ function Footer() {
                     <div className="wrapper">
 
                         <div className="img-wrapper">
-                            <img src={newsletter} alt="Newsletter"/>
+                            <img src={newsletter} alt="Newsletter" />
                         </div>
 
                         <div className="info">
@@ -20,7 +20,7 @@ function Footer() {
                             <p>Get the latest news and interesting offers and real estate</p>
 
                             <div className="form">
-                                <input type="email" className="input-email" placeholder="Your e-mail address"/>
+                                <input type="email" className="input-email" placeholder="Your e-mail address" />
                                 <button type="button" className="subscribe">
                                     <span>Subscribe</span>
                                 </button>
@@ -34,7 +34,7 @@ function Footer() {
                 </div>
 
                 <footer>
-                    <img src={footer_logo} alt="Logo"/>
+                    <img src={footer_logo} alt="Logo" />
                     <p>Real Estate</p>
                 </footer>
             </div>
