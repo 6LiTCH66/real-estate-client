@@ -10,13 +10,22 @@ import {AiOutlineHome, AiOutlineCalendar} from "react-icons/ai"
 import {IoHammerOutline} from "react-icons/io5"
 import {TfiRulerAlt2} from "react-icons/tfi"
 import {MdOutlineGarage} from "react-icons/md"
-import {BiBed, BiBath, BiRuler} from "react-icons/bi"
+import {BiBed, BiBath} from "react-icons/bi"
 import {SlSizeFullscreen} from "react-icons/sl"
+import Geocode from "react-geocode"
+
+import { GoogleMap, Marker, LoadScript, StreetViewPanorama } from "@react-google-maps/api"
+
 
 function PropertyDetails() {
     const [currentPhoto, setCurrentPhoto] = useState<number>(0)
     const sliderRef = useRef<HTMLDivElement>(null);
     const [sqft, setSqft] = useState<number>(1200)
+    const [lat, setLat] = useState<bigint>();
+    const [lng, setLng] = useState<bigint>();
+    const [draggable, setDraggable] = useState<boolean>(false)
+    const google_key = process.env.REACT_APP_GOOGLE_KEY;
+
 
     const imagesArray: string[] = [
         "https://photos.zillowstatic.com/fp/f6a50baf44ca9e011448f5bf228c7794-cc_ft_960.jpg",
@@ -35,6 +44,8 @@ function PropertyDetails() {
         "https://ap.rdcpix.com/a64164969bfc1bdd6b6d3665509e53e9l-b1924014928od-w480_h360_x2.jpg",
 
     ]
+
+
 
     const nextSlide = () => {
         setCurrentPhoto(currentPhoto === imagesArray.length - 1 ? 0 : currentPhoto + 1);
@@ -90,8 +101,26 @@ function PropertyDetails() {
 
     }, [currentPhoto]);
 
-    const price = 3290000
 
+    Geocode.setApiKey(google_key || "");
+
+    useEffect(() => {
+        Geocode.fromAddress('2679 Syracuse Court, Denver, Colorado 80238').then(
+            (response) => {
+                const { lat, lng } = response.results[0].geometry.location;
+                setLat(lat)
+                setLng(lng)
+                console.log('Latitude:', lat);
+                console.log('Longitude:', lng);
+            },
+            (error) => {
+                console.error(error);
+            }
+        );
+    }, []);
+
+
+    const price = 3290000
 
 
     return (
@@ -233,8 +262,6 @@ function PropertyDetails() {
                         </div>
 
 
-
-
                     </div>
 
                     <div className="overview-info">
@@ -243,9 +270,42 @@ function PropertyDetails() {
                             Welcome to your dream home in the heart of South Denver! This newly remodeled home located at 2059 South Logan Street, Denver, CO is sure to exceed all your expectations.    From the moment you step inside, you'll notice the attention to detail that has been put into every aspect of this home. The open and spacious floor plan is perfect for entertaining and offers plenty of natural light throughout. The living room features large windows, providing the perfect space to unwind after a long day.    The kitchen features stainless steel appliances, gorgeous countertops, and ample cabinet space. The adjacent dining area is the perfect spot for family meals or hosting dinner parties with friends. This home boasts two spacious bedrooms and an updated bathroom, providing plenty of space for everyone to relax and recharge. The large yard is a true oasis, providing plenty of space for outdoor entertaining or simply relaxing in the sun. Located in the highly desirable South Denver neighborhood, this home is just minutes away from restaurants, shopping, and all the best Denver offers. Don't miss out on this incredible opportunity to own a beautifully remodeled home in one of the city's most sought-after areas. Schedule your showing today before its sold!
                         </p>
                     </div>
+                    {(lat && lng) ? (
+                        <LoadScript googleMapsApiKey={google_key || ""}>
+                            <GoogleMap
+                                center={{lat: lat, lng: lng}}
+                                zoom={draggable ? 18 : 17}
+                                mapContainerStyle={{ height: '400px', width: '100%' }}
+                                onClick={() => setDraggable(true)}
+                                options={{
+                                    panControl: false,
+                                    mapTypeControl: false,
+                                    zoomControl: false,
+                                    fullscreenControl: false,
+
+                                    draggable: draggable,
+
+                                }}
+
+                            >
+                                <StreetViewPanorama options={{
+                                    position: {
+                                        lat: lat,
+                                        lng: lng,
+                                    },
+                                    panControl: true,
+                                }}/>
+
+
+                                <Marker position={{lat: lat, lng: lng}}/>
+                            </GoogleMap>
+                        </LoadScript>
+                    ): <>Loading</>}
 
 
                 </div>
+
+
 
                 <aside>
                     <ContactFrom/>
