@@ -301,7 +301,7 @@ function PropertyDetails() {
                             </GoogleMap>
                         </LoadScript>
 
-                    ): <>Loading</>}
+                    ): <>Loading...</>}
 
 
                 </div>
