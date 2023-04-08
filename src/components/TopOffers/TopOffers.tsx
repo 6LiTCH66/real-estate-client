@@ -1,13 +1,14 @@
 import React, {useRef, useState} from 'react';
 import "./topOffers.scss"
 import {BsArrowRightShort, BsArrowLeftShort} from "react-icons/bs"
-import {PropertyCard} from "../index";
 import {PropertySlider} from "../index";
+import useScroll from "../../hooks/useScroll";
+import {RightSliderButton, LeftSliderButton} from "../UI/SliderButtons/SliderButtons";
 
 function TopOffers() {
     const scrollRef = useRef<HTMLDivElement>(null)
-    const [scrolledToEnd, setScrollToEnd] = useState<boolean>(false);
-    const [scrolledToStart, setScrollToStart] = useState<boolean>(true);
+
+    const [scrolledToEnd, scrolledToStart] = useScroll(scrollRef)
 
     const scroll = (direction: "left" | "right") => {
         const container = scrollRef.current;
@@ -24,24 +25,6 @@ function TopOffers() {
                     break;
             }
 
-        }
-    }
-
-    const handleScroll = () => {
-        const container = scrollRef.current;
-        if (container){
-            const { scrollLeft, scrollWidth, clientWidth } = container;
-            if (scrollLeft >= scrollWidth - clientWidth){
-                setScrollToEnd(prevState => !prevState)
-            }else{
-                setScrollToEnd(false)
-            }
-
-            if (scrollLeft === 0){
-                setScrollToStart(prevState => !prevState)
-            }else{
-                setScrollToStart(false)
-            }
         }
     }
 
@@ -66,16 +49,12 @@ function TopOffers() {
 
                 <div className="scroll-wrapper">
 
-                    <button type="button" onClick={() => scroll("left")} style={{backgroundColor: scrolledToStart ? "#DADAEE": "", cursor: !scrolledToStart ? "pointer": "default"}}>
-                        <BsArrowLeftShort color="white" size={42} className="btn-arrow"/>
-                    </button>
+                    <LeftSliderButton scrolledToStart={scrolledToStart} onClick={() => scroll("left")}/>
 
-                    <button type="button" onClick={() => scroll("right")} style={{backgroundColor: scrolledToEnd ? "#DADAEE": "", cursor: !scrolledToEnd ? "pointer": "default"}}>
-                        <BsArrowRightShort color="white" size={42} className="btn-arrow"/>
-                    </button>
+                    <RightSliderButton scrolledToEnd={scrolledToEnd} onClick={() => scroll("right")}/>
                 </div>
 
-                <PropertySlider scrollRef={scrollRef} onScroll={handleScroll}/>
+                <PropertySlider scrollRef={scrollRef}/>
 
 
             </div>

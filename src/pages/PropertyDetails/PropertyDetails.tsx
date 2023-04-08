@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {createRef, MutableRefObject, useEffect, useRef, useState} from 'react';
 import "./propertyDetails.scss"
 import {ContactFrom} from "../../components";
 import {MdNavigateNext, MdNavigateBefore} from "react-icons/md"
@@ -16,6 +16,9 @@ import Geocode from "react-geocode"
 import { GoogleMap, Marker, LoadScript, StreetViewPanorama } from "@react-google-maps/api"
 import {PropertySlider} from "../../components";
 
+import useScroll from "../../hooks/useScroll";
+import {RightSliderButton, LeftSliderButton} from "../../components/UI/SliderButtons/SliderButtons";
+
 
 function PropertyDetails() {
     const [currentPhoto, setCurrentPhoto] = useState<number>(0)
@@ -26,7 +29,11 @@ function PropertyDetails() {
     const [draggable, setDraggable] = useState<boolean>(false)
     const google_key = process.env.REACT_APP_GOOGLE_KEY;
 
-    const scrollRef = useRef<HTMLDivElement>(null)
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [currentSlide, setCurrentSlide] = useState<number>(0);
+
+
+    const [scrolledToEnd, scrolledToStart] = useScroll(scrollRef)
 
 
     const imagesArray: string[] = [
@@ -46,7 +53,6 @@ function PropertyDetails() {
         "https://ap.rdcpix.com/a64164969bfc1bdd6b6d3665509e53e9l-b1924014928od-w480_h360_x2.jpg",
 
     ]
-
 
 
     const nextSlide = () => {
@@ -121,19 +127,31 @@ function PropertyDetails() {
         );
     }, []);
     const prev = () => {
-
-    }
-    const next = () => {
         const sliderContainer = scrollRef.current;
-        if (sliderContainer){
 
-            const elementWidth = sliderContainer.children[0].clientWidth;
-            sliderContainer.scrollLeft += elementWidth + 24
+        if (sliderContainer){
+            const elementWidth = sliderContainer.children[currentSlide - 1];
+            elementWidth.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+            setCurrentSlide(prev => prev - 1);
+
 
 
         }
     }
+    const next = () => {
 
+        const sliderContainer = scrollRef.current;
+
+        if (sliderContainer){
+            const elementWidth = sliderContainer.children[currentSlide + 1];
+
+            elementWidth.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+            setCurrentSlide(prev => prev + 1);
+
+
+
+        }
+    }
 
     const price = 3290000
 
@@ -335,9 +353,29 @@ function PropertyDetails() {
             <div className="nearBy-properties">
 
                 <h6 className="nearby-title">Nearby homes</h6>
-                <PropertySlider scrollRef={scrollRef}/>
-                <button>prev</button>
-                <button onClick={next}>next</button>
+                <PropertySlider styles={{overflow: "hidden"}} scrollRef={scrollRef}/>
+
+                <LeftSliderButton
+                    styles={{
+                        position: "absolute",
+                        left: ".5%",
+                        bottom: "39.5%",
+                        height: "3rem",
+                        width: "3rem",
+                    }}
+                    scrolledToStart={scrolledToStart} onClick={prev}/>
+
+                <RightSliderButton
+
+                    styles={{
+                        position: "absolute",
+                        bottom: "39.5%",
+                        right: ".5%",
+                        height: "3rem",
+                        width: "3rem",
+
+                    }}
+                    scrolledToEnd={scrolledToEnd} onClick={next}/>
             </div>
 
 

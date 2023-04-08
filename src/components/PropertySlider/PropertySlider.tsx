@@ -5,11 +5,12 @@ import {PropertyCard} from "../index";
 
 interface PropertySliderProps{
     scrollRef?: React.Ref<HTMLDivElement>
-    onScroll?: (event: React.UIEvent<HTMLDivElement>) => void
+    styles?: React.CSSProperties
 }
-const PropertySlider:FC<PropertySliderProps> = ({scrollRef, onScroll}) => {
+
+const PropertySlider:FC<PropertySliderProps> = ({scrollRef, styles}) => {
     return (
-        <div className="property-slider" ref={scrollRef} onScroll={onScroll}>
+        <div className="property-slider" style={styles} ref={scrollRef}>
             {Array(8).fill(0).map((_, index) =>(
                 <PropertyCard key={index} myKey={index}/>
 
