@@ -29,6 +29,16 @@ function ContactForm() {
 
                         </textarea>
                     </div>
+
+                    <div className="input-check">
+                        <input type="checkbox" id="agree"/>
+                        <label htmlFor="agree">I agree to the processing of personal data.</label>
+                    </div>
+
+
+                    <button className="form-send_button" type="button">
+                        Send Message
+                    </button>
                 </div>
             </div>
         </div>

@@ -66,6 +66,41 @@
 
       }
 
+      .form-send_button{
+        cursor: pointer;
+        font-family: $body-font;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 20px;
+        color: $blue;
+        background-color: transparent;
+        border-style: solid;
+        border-color: $blue;
+        padding: .7rem;
+        border-radius: 4px;
+      }
+
+      .input-check{
+        display: flex;
+        flex-direction: row;
+        font-family: $body-font;
+        gap: 10px;
+        color: $dark-blue;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 17px;
+        line-height: 27px;
+
+        input{
+          width: 24px;
+          height: 24px;
+          accent-color: $blue;
+        }
+
+      }
+
+
 
     }
   }
