@@ -79,6 +79,10 @@
       gap: 1.5rem;
       flex-wrap: wrap;
 
+      li{
+        padding: 0 1rem;
+      }
+
       .input-wrapper{
         position: relative;
         flex-grow: 1;
@@ -104,6 +108,7 @@
 
             li{
               padding: 0;
+              //background-color: red;
 
             }
 
