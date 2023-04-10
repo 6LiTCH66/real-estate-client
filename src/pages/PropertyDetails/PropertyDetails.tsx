@@ -24,8 +24,8 @@ function PropertyDetails() {
     const [currentPhoto, setCurrentPhoto] = useState<number>(0)
     const sliderRef = useRef<HTMLDivElement>(null);
     const [sqft, setSqft] = useState<number>(1200)
-    const [lat, setLat] = useState<bigint>();
-    const [lng, setLng] = useState<bigint>();
+    const [lat, setLat] = useState<number>();
+    const [lng, setLng] = useState<number>();
     const [draggable, setDraggable] = useState<boolean>(false)
     const google_key = process.env.REACT_APP_GOOGLE_KEY;
 
