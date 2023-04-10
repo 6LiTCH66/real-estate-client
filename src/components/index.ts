@@ -12,3 +12,4 @@ export {default as FilteredDropdownSearch} from "./FilteredDropdownSearch/Filter
 export {default as ContactFrom} from "./ContactFrom/ContactForm";
 export {default as Favourite} from "./UI/FavouriteIcon/FavouriteIcon"
 export {default as PropertySlider} from "./PropertySlider/PropertySlider"
+export {default as Authentication} from "./Authentication/Authentication"
