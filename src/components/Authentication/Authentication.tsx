@@ -1,17 +1,39 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, MouseEvent} from 'react';
 import "./authentication.scss"
+import Login from "./Login/Login";
+import Signup from "./Signup/Signup";
+import {IoMdClose} from "react-icons/io"
+import {toggleModal} from "../../store/modalSlice";
+import { useDispatch, useSelector } from 'react-redux';
+import {RootState} from "../../store/store"
+
 interface isActive{
     loginBtn: boolean,
     signupBtn: boolean,
 }
 function Authentication() {
+    const isModalShow = useSelector((state: RootState) => state.modalWindow.showModal)
+    const dispatch = useDispatch()
 
     const [isActive, setIsActive] = useState<isActive>({loginBtn: true, signupBtn: false})
 
+    const modalRef = useRef<HTMLDivElement>(null);
 
+    const handleCloseModal = () => {
+        dispatch(toggleModal())
+    }
+
+    const handleClickOutsideModal = (event: MouseEvent) => {
+        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+            handleCloseModal()
+        }
+    }
     return (
-        <div className="authentication">
-            <div className="modal-container">
+        <div className="authentication" style={{display: !isModalShow ? "none": ""}} onClick={handleClickOutsideModal}>
+            <div className="modal-container" ref={modalRef}>
+
+                <IoMdClose size={30} className="close-modal" onClick={handleCloseModal}/>
+
                 <h2 className="auth-title">Welcome to Real Estate</h2>
 
                 <div className="tab-list">
@@ -26,16 +48,7 @@ function Authentication() {
                             onClick={() => setIsActive({loginBtn: false, signupBtn: true})}>
                         New Account</button>
                 </div>
-
-                <div className="login-tab-container">
-
-                    <label htmlFor="login-email">Email</label>
-                    <input type="text" id='login-email' placeholder="Enter email"/>
-
-                    <label htmlFor="login-password">Password</label>
-                    <input type="password" id="login-password" placeholder="Enter password"/>
-                    <button type="button" className="submit-form">Submit</button>
-                </div>
+                {isActive.loginBtn ? (<Login/>) : (<Signup/>)}
             </div>
         </div>
     );

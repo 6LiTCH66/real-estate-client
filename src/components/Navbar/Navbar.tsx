@@ -7,9 +7,17 @@ import {RiCloseLine} from "react-icons/ri"
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 
+import {toggleModal} from "../../store/modalSlice";
+import { useDispatch } from 'react-redux';
+
 function Navbar() {
     const [toggle, setToggle] = useState<boolean>(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const handleModalWindow = () => {
+        dispatch(toggleModal())
+    }
 
     return (
         <div className="navbar">
@@ -48,7 +56,7 @@ function Navbar() {
 
                    </ul>
 
-                   <div className="signIn">
+                   <div className="signIn" onClick={handleModalWindow}>
                        <Link to="/sing-in">Sing in</Link>
                    </div>
                </div>
