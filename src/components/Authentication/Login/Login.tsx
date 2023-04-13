@@ -5,7 +5,6 @@ import {login} from "../../../http/userAPI";
 
 function Login() {
     const [userCredentials, setUserCredentials] = useState<UserAuthentication>({email: "", password: ""})
-    // const user = useSelector((state: RootState) => state.userSlice.currentUser)
     const handleUserForm = async (event: FormEvent) => {
         event.preventDefault()
 

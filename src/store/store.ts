@@ -2,14 +2,16 @@ import { configureStore } from '@reduxjs/toolkit';
 import dropDownReducer from "./dropdownSlice";
 import paginationReducer from "./paginationSlice";
 import modalReducer from "./modalSlice";
-import userReducer from "./userSlice"
+import userReducer from "./userSlice";
+import searchReducer from "./searchSlice";
 
 const store = configureStore({
     reducer: {
         dropDown: dropDownReducer,
         pagination: paginationReducer,
         modalWindow: modalReducer,
-        userSlice: userReducer
+        userSlice: userReducer,
+        search: searchReducer
 
     },
 });

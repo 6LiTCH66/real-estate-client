@@ -70,7 +70,7 @@ function FilterBar() {
                 <div className="search-form">
 
                     <div className="search-input_wrapper">
-                        <input type="text" placeholder="Enter a keyword" onChange={(event) => setSearch(event.target.value)}/>
+                        <input type="text" value={search} placeholder="Enter a keyword" onChange={(event) => setSearch(event.target.value)}/>
                         <SelectDropdown styles={{display: search ? "block": "none"}}>
 
                             <FilteredDropdownSearch properties={properties} search={search}/>

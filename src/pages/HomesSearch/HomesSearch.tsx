@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import "./homesSearch.scss"
-import {useParams, useNavigate} from "react-router-dom";
+import {useParams, useNavigate, useLocation} from "react-router-dom";
 import {PropertyStatus} from "../../types/Property";
 import {FilterBar} from "../../components";
 
@@ -8,6 +8,12 @@ import { Outlet } from "react-router-dom"
 function HomesSearch() {
 
     const {status} = useParams();
+
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const paramsObj = Object.fromEntries(searchParams.entries());
+
+    console.log(paramsObj)
 
     const navigate = useNavigate();
 

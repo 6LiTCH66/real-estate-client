@@ -11,6 +11,9 @@ import property_json from "../../data/property.json"
 import {boldify} from "../../utils/boldify";
 import {filterProperty} from "../../utils/filterProperty";
 import {FilteredDropdownSearch} from "../index";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {setHeaderSearch} from "../../store/searchSlice";
 
 export interface Property{
     city: string,
@@ -19,6 +22,9 @@ export interface Property{
 
 
 function Header() {
+    const history = useNavigate();
+    const location = useLocation();
+    const dispatch = useDispatch();
     const [openDropDown, setOpenDropDown] = useState<boolean>(false)
 
     const propertyTypes: string[] = ["Condo", "Multi Family Home", "Farm", "Single Family Home", "Townhouse", "Apartment", "Land", "Duplex"]
@@ -33,6 +39,24 @@ function Header() {
     const preventClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
     }
+
+    const searchByFilter = () => {
+        const newSearch = new URLSearchParams(location.search);
+        if (search){
+            newSearch.set('city', search);
+
+        }
+
+        if (selectedProperties.length){
+            newSearch.set("type", selectedProperties.toString());
+
+        }
+        history(`homes/buy?${newSearch}`)
+    }
+
+    useEffect(() => {
+        dispatch(setHeaderSearch(selectedProperties.toString()))
+    }, [selectedProperties]);
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>): void => {
         setSearch(event.target.value);
@@ -78,30 +102,15 @@ function Header() {
                                 <div className="icon-container">
                                     <ImLocation size={22} className="location-icon"/>
                                 </div>
-                                <input type="text" placeholder="Search of location" onChange={handleSearch}/>
+                                <input type="text" placeholder="Search location" onChange={handleSearch}/>
                                 <ul>
-
-                                    {/*{*/}
-
-                                    {/*    filterProperty(properties, search).length > 0 ? (*/}
-                                    {/*        filterProperty(properties, search).map((property, index) => (*/}
-                                    {/*            <li key={index}>*/}
-                                    {/*                <a href="#">{boldify(property.city, search)}, {property.state}</a>*/}
-                                    {/*            </li>*/}
-                                    {/*        ))*/}
-                                    {/*    ): (*/}
-                                    {/*        <li>*/}
-                                    {/*            <a href="#" onClick={preventClick}>City not found</a>*/}
-                                    {/*        </li>*/}
-                                    {/*    )*/}
-                                    {/*}*/}
 
                                     <FilteredDropdownSearch properties={properties} search={search}/>
 
                                 </ul>
                             </div>
 
-                            <Button onClick={() => console.log("Hello from header")}/>
+                            <Button onClick={searchByFilter}/>
                         </div>
 
 
