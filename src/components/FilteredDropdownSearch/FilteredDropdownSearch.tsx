@@ -32,7 +32,7 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search }) => {
             newSearch.set("type", propertyType);
 
         }
-        history(`homes/buy?${newSearch}`)
+        history(`/homes/buy?${newSearch}`)
 
 
     }
@@ -43,7 +43,7 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search }) => {
                 filterProperty(properties, search).length > 0 ? (
                     filterProperty(properties, search).map((property, index) => (
                         <li key={index}>
-                            <Link to="" onClick={(event: React.MouseEvent<HTMLAnchorElement>) => onSearchItemClick(event, property.city)}>{boldify(property.city, search)}, {property.state}</Link>
+                            <Link to="" onClick={(event: React.MouseEvent<HTMLAnchorElement>) => onSearchItemClick(event, `${property.city}, ${property.state}`)}>{boldify(property.city, search)}, {property.state}</Link>
                         </li>
                     ))
                 ) : (

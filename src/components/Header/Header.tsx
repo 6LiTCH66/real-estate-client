@@ -14,6 +14,8 @@ import {FilteredDropdownSearch} from "../index";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {setHeaderSearch} from "../../store/searchSlice";
+import {PropertyType} from "../../types/PropertyType";
+import {PropertyStatus} from "../../types/PropertyStatus";
 
 export interface Property{
     city: string,
@@ -27,7 +29,7 @@ function Header() {
     const dispatch = useDispatch();
     const [openDropDown, setOpenDropDown] = useState<boolean>(false)
 
-    const propertyTypes: string[] = ["Condo", "Multi Family Home", "Farm", "Single Family Home", "Townhouse", "Apartment", "Land", "Duplex"]
+    const propertyTypes: string[] = Object.values(PropertyType);
 
     const properties: Property[] = property_json.states
 

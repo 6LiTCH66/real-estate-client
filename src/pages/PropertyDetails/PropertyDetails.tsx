@@ -1,29 +1,38 @@
-import React, {createRef, MutableRefObject, useEffect, useRef, useState} from 'react';
+import React, { createRef, MutableRefObject, useEffect, useRef, useState } from 'react';
 import "./propertyDetails.scss"
-import {ContactFrom} from "../../components";
-import {MdNavigateNext, MdNavigateBefore} from "react-icons/md"
-import {BsCamera} from "react-icons/bs"
-import {Favourite} from "../../components";
+import { ContactFrom } from "../../components";
+import { MdNavigateNext, MdNavigateBefore } from "react-icons/md"
+import { BsCamera } from "react-icons/bs"
+import { Favourite } from "../../components";
 
-import {AiOutlineHome, AiOutlineCalendar} from "react-icons/ai"
-import {IoHammerOutline} from "react-icons/io5"
-import {TfiRulerAlt2} from "react-icons/tfi"
-import {MdOutlineGarage} from "react-icons/md"
-import {BiBed, BiBath} from "react-icons/bi"
-import {SlSizeFullscreen} from "react-icons/sl"
+import { AiOutlineHome, AiOutlineCalendar } from "react-icons/ai"
+import { IoHammerOutline } from "react-icons/io5"
+import { TfiRulerAlt2 } from "react-icons/tfi"
+import { MdOutlineGarage } from "react-icons/md"
+import { BiBed, BiBath } from "react-icons/bi"
+import { SlSizeFullscreen } from "react-icons/sl"
 import Geocode from "react-geocode"
 
 import { GoogleMap, Marker, LoadScript, StreetViewPanorama } from "@react-google-maps/api"
-import {PropertySlider} from "../../components";
+import { PropertySlider } from "../../components";
 
 import useScroll from "../../hooks/useScroll";
-import {RightSliderButton, LeftSliderButton} from "../../components/UI/SliderButtons/SliderButtons";
-
+import { RightSliderButton, LeftSliderButton } from "../../components/UI/SliderButtons/SliderButtons";
+import {Property} from "../../types/Property";
+import {oneProperty} from "../../http/propertyAPI";
+import {PropertyStatus} from "../../types/PropertyStatus";
+import {capitalize} from "lodash";
+import {useParams} from "react-router-dom";
 
 function PropertyDetails() {
+    const {propertyId} = useParams()
+
+    const [property, setProperty] = useState<Property>()
+
     const [currentPhoto, setCurrentPhoto] = useState<number>(0)
     const sliderRef = useRef<HTMLDivElement>(null);
-    const [sqft, setSqft] = useState<number>(1200)
+
+
     const [lat, setLat] = useState<number>();
     const [lng, setLng] = useState<number>();
     const [draggable, setDraggable] = useState<boolean>(false)
@@ -36,31 +45,22 @@ function PropertyDetails() {
     const [scrolledToEnd, scrolledToStart] = useScroll(scrollRef)
 
 
-    const imagesArray: string[] = [
-        "https://photos.zillowstatic.com/fp/f6a50baf44ca9e011448f5bf228c7794-cc_ft_960.jpg",
-        "https://ap.rdcpix.com/16a295e887cf70f9a3a26b8d2f4e4bd6l-m2433874686od-w1024_h768_x2.jpg",
-        "https://ap.rdcpix.com/3f98f48678fde975ba32fcdc8c9a5d7dl-m1779328340od-w480_h360_x2.jpg",
-        "https://ap.rdcpix.com/568f49bc993250f5252e0855d92ecbd5l-m157463490od-w480_h360_x2.jpg",
-        "https://ap.rdcpix.com/a64164969bfc1bdd6b6d3665509e53e9l-b1924014928od-w480_h360_x2.jpg",
-        "https://ap.rdcpix.com/a64164969bfc1bdd6b6d3665509e53e9l-b1924014928od-w480_h360_x2.jpg",
-        "https://ap.rdcpix.com/a64164969bfc1bdd6b6d3665509e53e9l-b1924014928od-w480_h360_x2.jpg",
-        "https://ap.rdcpix.com/a64164969bfc1bdd6b6d3665509e53e9l-b1924014928od-w480_h360_x2.jpg",
-        "https://ap.rdcpix.com/a64164969bfc1bdd6b6d3665509e53e9l-b1924014928od-w480_h360_x2.jpg",
-        "https://ap.rdcpix.com/a64164969bfc1bdd6b6d3665509e53e9l-b1924014928od-w480_h360_x2.jpg",
-        "https://ap.rdcpix.com/a64164969bfc1bdd6b6d3665509e53e9l-b1924014928od-w480_h360_x2.jpg",
-        "https://ap.rdcpix.com/a64164969bfc1bdd6b6d3665509e53e9l-b1924014928od-w480_h360_x2.jpg",
-        "https://ap.rdcpix.com/a64164969bfc1bdd6b6d3665509e53e9l-b1924014928od-w480_h360_x2.jpg",
-        "https://ap.rdcpix.com/a64164969bfc1bdd6b6d3665509e53e9l-b1924014928od-w480_h360_x2.jpg",
+    useEffect(() => {
+        oneProperty(propertyId || "").then((property) => {
+            setProperty(property)
+        }).catch((error) => {
+            console.log(error)
+        })
+    }, []);
 
-    ]
 
 
     const nextSlide = () => {
-        setCurrentPhoto(currentPhoto === imagesArray.length - 1 ? 0 : currentPhoto + 1);
+        setCurrentPhoto(currentPhoto === (property?.images || []).length - 1 ? 0 : currentPhoto + 1);
     };
 
     const prevSlide = () => {
-        setCurrentPhoto(currentPhoto === 0 ? imagesArray.length - 1 : currentPhoto - 1);
+        setCurrentPhoto(currentPhoto === 0 ? (property?.images || []).length - 1 : currentPhoto - 1);
     };
 
     const desired = (index: number) => {
@@ -73,11 +73,11 @@ function PropertyDetails() {
         const sliderRect = slider?.getBoundingClientRect();
         const sliderWidth = slider?.offsetWidth;
 
-        if (currentPhoto === 0){
+        if (currentPhoto === 0) {
             slider!.scrollLeft = 0;
         }
 
-        if(currentPhoto === imagesArray.length - 1){
+        if (currentPhoto === (property?.images || []).length - 1) {
             slider!.scrollLeft = slider!.scrollWidth - sliderWidth!;
         }
 
@@ -129,7 +129,7 @@ function PropertyDetails() {
     const prev = () => {
         const sliderContainer = scrollRef.current;
 
-        if (sliderContainer){
+        if (sliderContainer) {
             const elementWidth = sliderContainer.children[currentSlide - 1];
             elementWidth.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
             setCurrentSlide(prev => prev - 1);
@@ -142,7 +142,7 @@ function PropertyDetails() {
 
         const sliderContainer = scrollRef.current;
 
-        if (sliderContainer){
+        if (sliderContainer) {
             const elementWidth = sliderContainer.children[currentSlide + 1];
 
             elementWidth.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
@@ -153,8 +153,6 @@ function PropertyDetails() {
         }
     }
 
-    const price = 3290000
-
 
     return (
         <div className="property-details">
@@ -164,7 +162,7 @@ function PropertyDetails() {
                     <div className="frame">
 
                         <div className="image-container">
-                            <Favourite  size={27} isFavourite={false} onClick={() => console.log("test")}/>
+                            <Favourite size={27} isFavourite={false} onClick={() => console.log("test")} />
 
 
                             <button className="left-arrow" onClick={prevSlide}>
@@ -172,7 +170,7 @@ function PropertyDetails() {
                             </button>
 
                             <div className="image">
-                                <img src={imagesArray[currentPhoto]} alt="Property index" loading="lazy"/>
+                                <img src={property?.images[currentPhoto]} alt="Property index" loading="lazy" />
 
                             </div>
 
@@ -181,15 +179,15 @@ function PropertyDetails() {
                             </button>
 
                             <div className="photo-total">
-                                <BsCamera color="white" size={15}/>
-                                <span>{currentPhoto + 1} / {imagesArray.length}</span>
+                                <BsCamera color="white" size={15} />
+                                <span>{currentPhoto + 1} / {property?.images.length}</span>
                             </div>
                         </div>
 
                         <div className="images-slider" ref={sliderRef}>
-                            {imagesArray.map((image, index) => (
+                            {property?.images.map((image, index) => (
                                 <div className="slide" key={index} onClick={() => desired(index)}>
-                                    <img src={image} alt="image" style={{outline: currentPhoto === index ? "4px solid #1C3988": ""}}/>
+                                    <img src={image} alt="image" style={{ outline: currentPhoto === index ? "4px solid #1C3988" : "" }} />
                                 </div>
                             ))}
                         </div>
@@ -205,11 +203,11 @@ function PropertyDetails() {
 
                                 <div className="status">
                                     <p>
-                                        For Sale
+                                        For {capitalize(property?.property_status)}
                                     </p>
                                 </div>
 
-                                <h2>${price.toLocaleString()}</h2>
+                                <h2>{property?.property_status === PropertyStatus.Rent ? `$${property.price.toLocaleString()}/month` : `$${property?.price.toLocaleString()}`}</h2>
 
                             </div>
 
@@ -217,43 +215,49 @@ function PropertyDetails() {
 
                             <div className="data">
                                 <p>
-                                    <BiBed size={20}/>
-                                    <strong>3</strong> bed
+                                    <BiBed size={20} />
+                                    <strong>{property?.bedrooms}</strong> bed
                                 </p>
                                 <p>
-                                    <BiBath size={20}/>
-                                    <strong>2</strong> bath
+                                    <BiBath size={20} />
+                                    <strong>{property?.bathrooms}</strong> bath
                                 </p>
                                 <p>
-                                    <SlSizeFullscreen/>
-                                    <strong>{sqft.toLocaleString()}</strong> sqft
+                                    <SlSizeFullscreen />
+                                    <strong>{property?.square_footage.toLocaleString()}</strong> sqft
                                 </p>
 
                             </div>
 
 
                             <address>
-                                2679 Syracuse Court, Denver, Colorado 80238
+                                {`${property?.address}, ${property?.city}, ${property?.state_province} ${property?.zipcode}`}
                             </address>
 
                             <div className="property-facts">
                                 <ul>
                                     <li>
                                         {/*Property type*/}
-                                        <AiOutlineHome size={25}/>
+                                        <AiOutlineHome size={25} />
 
                                         <div className="facts-info">
-                                            <strong>Single family</strong>
+                                            <strong>
+                                                {/*Single family*/}
+                                                {property?.property_type}
+                                            </strong>
                                             <span>Property type</span>
                                         </div>
                                     </li>
 
                                     <li>
                                         {/*Time on real-estate.com*/}
-                                        <AiOutlineCalendar size={25}/>
+                                        <AiOutlineCalendar size={25} />
 
                                         <div className="facts-info">
-                                            <strong>366 days</strong>
+                                            <strong>
+                                                366 days
+                                                {/*{new Date()}*/}
+                                            </strong>
                                             <span>Time on RealEstate.com</span>
                                         </div>
                                     </li>
@@ -261,30 +265,38 @@ function PropertyDetails() {
                                     <li>
 
                                         {/*Price per sqft*/}
-                                        <TfiRulerAlt2 size={25}/>
+                                        <TfiRulerAlt2 size={25} />
 
                                         <div className="facts-info">
-                                            <strong>$128</strong>
+                                            <strong>
+                                                {/*$128*/}
+                                                ${property?.pricePerSqft}
+                                            </strong>
                                             <span>Price per sqft</span>
                                         </div>
                                     </li>
 
                                     <li>
                                         {/*Garage*/}
-                                        <MdOutlineGarage size={25}/>
+                                        <MdOutlineGarage size={25} />
 
                                         <div className="facts-info">
-                                            <strong>2 cars</strong>
+                                            <strong>
+                                                {(property?.garage || 0) > 0 ? `${property?.garage} ${(property?.garage || 0) > 1 ? "cars" : "car"}`: `No garage` }
+                                            </strong>
                                             <span>Garage</span>
                                         </div>
                                     </li>
 
                                     <li>
                                         {/*Year built*/}
-                                        <IoHammerOutline size={25}/>
+                                        <IoHammerOutline size={25} />
 
                                         <div className="facts-info">
-                                            <strong>1951</strong>
+                                            <strong>
+                                                {/*1951*/}
+                                                {property?.build_year}
+                                            </strong>
                                             <span>Year built</span>
                                         </div>
                                     </li>
@@ -300,7 +312,8 @@ function PropertyDetails() {
                     <div className="overview-info">
                         <h6 className="overview-title">Overview</h6>
                         <p className="overview-description">
-                            Welcome to your dream home in the heart of South Denver! This newly remodeled home located at 2059 South Logan Street, Denver, CO is sure to exceed all your expectations.    From the moment you step inside, you'll notice the attention to detail that has been put into every aspect of this home. The open and spacious floor plan is perfect for entertaining and offers plenty of natural light throughout. The living room features large windows, providing the perfect space to unwind after a long day.    The kitchen features stainless steel appliances, gorgeous countertops, and ample cabinet space. The adjacent dining area is the perfect spot for family meals or hosting dinner parties with friends. This home boasts two spacious bedrooms and an updated bathroom, providing plenty of space for everyone to relax and recharge. The large yard is a true oasis, providing plenty of space for outdoor entertaining or simply relaxing in the sun. Located in the highly desirable South Denver neighborhood, this home is just minutes away from restaurants, shopping, and all the best Denver offers. Don't miss out on this incredible opportunity to own a beautifully remodeled home in one of the city's most sought-after areas. Schedule your showing today before its sold!
+                            {/*Welcome to your dream home in the heart of South Denver! This newly remodeled home located at 2059 South Logan Street, Denver, CO is sure to exceed all your expectations.    From the moment you step inside, you'll notice the attention to detail that has been put into every aspect of this home. The open and spacious floor plan is perfect for entertaining and offers plenty of natural light throughout. The living room features large windows, providing the perfect space to unwind after a long day.    The kitchen features stainless steel appliances, gorgeous countertops, and ample cabinet space. The adjacent dining area is the perfect spot for family meals or hosting dinner parties with friends. This home boasts two spacious bedrooms and an updated bathroom, providing plenty of space for everyone to relax and recharge. The large yard is a true oasis, providing plenty of space for outdoor entertaining or simply relaxing in the sun. Located in the highly desirable South Denver neighborhood, this home is just minutes away from restaurants, shopping, and all the best Denver offers. Don't miss out on this incredible opportunity to own a beautifully remodeled home in one of the city's most sought-after areas. Schedule your showing today before its sold!*/}
+                            {property?.description}
                         </p>
                     </div>
 
@@ -309,7 +322,7 @@ function PropertyDetails() {
                         {(lat && lng) ? (
                             <LoadScript googleMapsApiKey={google_key || ""}>
                                 <GoogleMap
-                                    center={{lat: lat, lng: lng}}
+                                    center={{ lat: lat, lng: lng }}
                                     zoom={draggable ? 18 : 17}
                                     onClick={() => setDraggable(true)}
                                     mapContainerClassName="google-map"
@@ -330,21 +343,21 @@ function PropertyDetails() {
                                             lng: lng,
                                         },
                                         panControl: true,
-                                    }}/>
+                                    }} />
 
 
-                                    <Marker position={{lat: lat, lng: lng}} />
+                                    <Marker position={{ lat: lat, lng: lng }} />
                                 </GoogleMap>
                             </LoadScript>
 
-                        ): <>Loading...</>}
+                        ) : <>Loading...</>}
                     </div>
 
 
                 </div>
 
-                <aside style={{width: "100%", flex: "1"}}>
-                    <ContactFrom/>
+                <aside style={{ width: "100%", flex: "1" }}>
+                    <ContactFrom />
                 </aside>
 
 
@@ -353,7 +366,7 @@ function PropertyDetails() {
             <div className="nearBy-properties">
 
                 <h6 className="nearby-title">Nearby homes</h6>
-                <PropertySlider styles={{overflow: "hidden"}} scrollRef={scrollRef}/>
+                <PropertySlider styles={{ overflow: "hidden" }} scrollRef={scrollRef} />
 
                 <LeftSliderButton
                     styles={{
@@ -363,7 +376,7 @@ function PropertyDetails() {
                         height: "3rem",
                         width: "3rem",
                     }}
-                    scrolledToStart={scrolledToStart} onClick={prev}/>
+                    scrolledToStart={scrolledToStart} onClick={prev} />
 
                 <RightSliderButton
 
@@ -375,7 +388,7 @@ function PropertyDetails() {
                         width: "3rem",
 
                     }}
-                    scrolledToEnd={scrolledToEnd} onClick={next}/>
+                    scrolledToEnd={scrolledToEnd} onClick={next} />
             </div>
 
 

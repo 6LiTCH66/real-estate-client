@@ -2,9 +2,15 @@ import React, {useEffect, useRef, useState} from 'react';
 import "./propertyList.scss"
 import {PropertyCard} from "../index";
 import {MdNavigateNext, MdNavigateBefore} from "react-icons/md"
+import axios from "axios";
+import {getProperty} from "../../http/propertyAPI";
+import {Property} from "../../types/Property";
 
 function PropertyList() {
-    const totalProperties = 18; // Property[].length
+
+    const [properties, setProperties] = useState<Property[]>();
+
+    const totalProperties = properties?.length || 0; // Property[].length
     const itemsPerPage = 12 // property to display per page
 
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -12,6 +18,16 @@ function PropertyList() {
     const totalPages = Math.ceil(totalProperties / itemsPerPage);
 
 
+
+    useEffect( () => {
+
+        getProperty().then((properties) => {
+            setProperties(properties)
+        }).catch((error) => {
+            console.log(error)
+        })
+
+    }, []);
 
 
     const handleClickPrev = () => {
@@ -26,11 +42,10 @@ function PropertyList() {
         setCurrentPage(index)
     }
 
-    const propertiesArray: number[] = Array(totalProperties).fill(0);
 
     const start = (currentPage - 1) * itemsPerPage;
     const end = start + itemsPerPage;
-    const paginatedItems = propertiesArray.slice(start, end);
+    const paginatedItems = properties?.slice(start, end);
 
 
     useEffect(() => {
@@ -51,8 +66,8 @@ function PropertyList() {
         <div className="property-list">
             <div className="list-container">
 
-                {paginatedItems.map((_, index) => (
-                    <PropertyCard key={index} myKey={index}/>
+                {paginatedItems?.map((property, index) => (
+                    <PropertyCard key={index} property={property}/>
                 ))}
 
 

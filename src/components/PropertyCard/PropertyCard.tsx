@@ -1,26 +1,44 @@
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
 import "./propertyCard.scss"
-import {AiFillHeart} from "react-icons/ai"
 import {Favourite} from "../index";
+import {Property} from "../../types/Property";
+import {PropertyStatus} from "../../types/PropertyStatus";
+// import {capitalize} from "../../utils/capitalizeText";
+import {capitalize} from "lodash";
+import {useLocation, useNavigate} from "react-router-dom";
 
-function PropertyCard(props: {key: number, myKey: number}) {
-    const [price, setPrice] = useState<number>(3290000)
-    const [sqft, setSqft] = useState<number>(1200)
+interface PropertyCardProps{
+    property: Property;
+}
+
+const PropertyCard:FC<PropertyCardProps> = ({property}) => {
     const [favouriteClick, setFavouriteClick] = useState<boolean>(false)
 
 
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const navigateToDetails = () => {
+        console.log(property._id)
+        const newSearch = new URLSearchParams(location.search);
+        newSearch.set("propertyId", property._id)
+        navigate(`/property-detail/${property._id}`)
+    }
+
+
     return (
-        <div className="card" key={props.myKey}>
+        <div className="card" onClick={navigateToDetails}>
             <div className="container">
                 <div className="image skeleton-box">
 
                     <div className="status">
                         <p>
-                            For Sale
+                            {`For ${capitalize(property.property_status)}`}
                         </p>
                     </div>
 
-                    <img src="https://photos.zillowstatic.com/fp/f6a50baf44ca9e011448f5bf228c7794-cc_ft_960.jpg" alt=""/>
+                    <img src={property.images[0]} alt="Property" loading="lazy"/>
 
                     <Favourite isFavourite={favouriteClick} size={27} onClick={() => setFavouriteClick(prevState => !prevState)}/>
 
@@ -28,24 +46,24 @@ function PropertyCard(props: {key: number, myKey: number}) {
                 <div className="body">
 
                     <p className="price skeleton-box">
-                        ${price.toLocaleString()}
+                        {property.property_status === PropertyStatus.Rent ? `$${property.price.toLocaleString()}/month` : `$${property.price.toLocaleString()}`}
                     </p>
                     <address className="skeleton-box">
-                        2679 Syracuse Court, Denver, Colorado 80238
+                        {`${property.address}, ${property.city}, ${property.state_province} ${property.zipcode}`}
                     </address>
 
                     <div className="data skeleton-box">
                         <p>
-                            <strong>3</strong> bed
+                            <strong>{property.bedrooms}</strong> bed
                         </p>
                         <p>
-                            <strong>2</strong> bath
+                            <strong>{property.bathrooms}</strong> bath
                         </p>
                         <p>
-                            <strong>{sqft.toLocaleString()}</strong> sqft
+                            <strong>{property.square_footage.toLocaleString()}</strong> sqft
                         </p>
                         <p>
-                            Apartment
+                            {property.property_type}
                         </p>
                     </div>
 

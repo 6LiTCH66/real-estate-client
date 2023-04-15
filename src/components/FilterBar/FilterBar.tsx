@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import "./filterBar.scss";
 import {Button, SelectButton, SelectDropdown} from "../UI";
 import MultiRangeSlider from "./MultiRangeSlider/MultiRangeSlider";
@@ -15,8 +15,10 @@ import {debounce} from "lodash";
 
 import property_json from "../../data/property.json";
 import {Property} from "../Header/Header";
+import {useLocation} from "react-router-dom";
 
 function FilterBar() {
+    const location = useLocation()
 
     const dispatch = useDispatch();
     const { statusButton, typeButton, bedsBathsButton, sortButton } = useSelector(
@@ -46,6 +48,20 @@ function FilterBar() {
     const propertyStatus = ["Any", "For Sale", "For Rent"]
 
     const [search, setSearch] = useState<string>("");
+
+    useEffect(() => {
+        const newSearch = new URLSearchParams(location.search);
+        const paramsObj = Object.fromEntries(newSearch.entries());
+
+        if (paramsObj.city){
+            console.log(paramsObj)
+            // setSearch(paramsObj.city)
+
+        }
+
+    }, []);
+
+
 
     // const someFunction = (text: string) => {
     //     console.log("search is send")

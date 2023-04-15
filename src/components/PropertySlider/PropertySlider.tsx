@@ -1,6 +1,8 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import "./propertySlider.scss"
 import {PropertyCard} from "../index";
+import {getProperty} from "../../http/propertyAPI";
+import {Property} from "../../types/Property";
 
 
 interface PropertySliderProps{
@@ -9,10 +11,20 @@ interface PropertySliderProps{
 }
 
 const PropertySlider:FC<PropertySliderProps> = ({scrollRef, styles}) => {
+    const [properties, setProperties] = useState<Property[]>([]);
+
+    useEffect(() => {
+        getProperty().then((properties) => {
+            setProperties(properties)
+        }).catch((error) => {
+            console.log(error)
+        })
+    }, []);
+    
     return (
         <div className="property-slider" style={styles} ref={scrollRef}>
-            {Array(8).fill(0).map((_, index) =>(
-                <PropertyCard key={index} myKey={index}/>
+            {properties?.slice(0, 8).map((property, index) =>(
+                <PropertyCard key={index} property={property}/>
 
             ))}
 
