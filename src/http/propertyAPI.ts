@@ -1,14 +1,25 @@
 import {Property} from "../types/Property";
-import axios from "axios"
+import axios, {AxiosRequestConfig} from "axios"
+import {PropertySearch} from "../types/PropertySearch";
 
 
 export interface PropertyList{
     properties: Property[]
 }
 
-export const getProperty = async (): Promise<Property[]> => {
+
+export const getProperty = async (property_params?: PropertySearch): Promise<Property[]> => {
+
+    //?property_status=sell
+
+
+
+    const config: AxiosRequestConfig = {
+        params: {...property_params}
+    };
+
     try{
-        const propertiesAPI = await axios.get<PropertyList>(`${process.env.REACT_APP_BASE_URL}/property/properties`)
+        const propertiesAPI = await axios.get<PropertyList>(`${process.env.REACT_APP_BASE_URL}/property/properties`, config)
         // console.log(propertiesAPI.data.properties)
 
         return propertiesAPI.data.properties

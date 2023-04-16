@@ -10,19 +10,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import {RootState} from "../../store/store"
 
 import {reset, toggleButton} from "../../store/dropdownSlice";
+import {setFilterSearch} from "../../store/searchSlice";
 
 import {debounce} from "lodash";
 
 import property_json from "../../data/property.json";
 import {Property} from "../Header/Header";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+import qs from "qs";
+import {PropertySearch} from "../../types/PropertySearch";
 
 function FilterBar() {
+
+    const [searchProperties, setSearchProperties] = useState<PropertySearch>({property_status: "", property_type: "", beds: null, baths: null})
     const location = useLocation()
+    const navigate = useNavigate();
+    const {status,property_types} = useParams()
 
     const dispatch = useDispatch();
     const { statusButton, typeButton, bedsBathsButton, sortButton } = useSelector(
         (state: RootState) => state.dropDown
+    );
+
+    const { property_search } = useSelector(
+        (state: RootState) => state.search
     );
 
     const properties: Property[] = property_json.states
@@ -78,6 +89,53 @@ function FilterBar() {
     //
     // }
 
+    const handlePropertyType = (event: React.ChangeEvent) =>{
+        setCurrentCheck(event.target.id)
+        const property_type = event.target.id
+        const search_property_type = property_type === "For Sale" ? "buy" : property_type === "For Rent" ? "rent": "any"
+        navigate(`/homes/${search_property_type}`)
+
+    }
+
+    useEffect(() => {
+        const property_type = status === "buy" ? "For Sale" : status === "rent" ? "For Rent": "Any"
+        setCurrentCheck(property_type)
+    }, [status]);
+
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const property_types = searchParams.get('property_types');
+
+        if (property_types){
+            // console.log(property_types.split(","))
+            setSelectedProperties(property_types.split(","))
+
+        }
+    }, []);
+
+
+
+    useEffect(() => {
+
+        if (selectedProperties.length > 0){
+
+            const params = new URLSearchParams({
+                property_types: selectedProperties.toString(),
+            });
+            navigate(`/homes/${status}/?${params}`)
+
+        }else{
+            navigate(`/homes/${status}`)
+        }
+
+
+
+
+    }, [selectedProperties]);
+
+
+
 
     return (
         <div className="filterBar">
@@ -117,7 +175,7 @@ function FilterBar() {
                                     <input type="radio"
                                            id={property}
                                            checked={property === currentCheck}
-                                           onChange={(event) => setCurrentCheck(event.target.id)} readOnly={true}/>
+                                           onChange={handlePropertyType} readOnly={true}/>
 
                                     <label htmlFor={property}>{property}</label>
                                 </li>
@@ -138,6 +196,7 @@ function FilterBar() {
                                     <input type="checkbox"
                                            id={type}
                                            value={type}
+                                           checked={selectedProperties.includes(type)}
                                            onChange={(event) => handleCheck(event, setSelectedProperties, selectedProperties)}/>
 
                                     <label htmlFor={type}>{type}</label>

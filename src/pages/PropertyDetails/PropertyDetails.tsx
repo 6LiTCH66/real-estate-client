@@ -46,12 +46,16 @@ function PropertyDetails() {
 
 
     useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
         oneProperty(propertyId || "").then((property) => {
             setProperty(property)
         }).catch((error) => {
             console.log(error)
         })
-    }, []);
+    }, [propertyId]);
 
 
 
@@ -118,8 +122,6 @@ function PropertyDetails() {
                 const { lat, lng } = response.results[0].geometry.location;
                 setLat(lat)
                 setLng(lng)
-                // console.log('Latitude:', lat);
-                // console.log('Longitude:', lng);
             },
             (error) => {
                 console.error(error);

@@ -1,22 +1,21 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {PropertySearch} from "../types/PropertySearch";
 
 
-interface SearchState{
-    city: string;
-    state?: string;
-    propertyType: string;
-    propertyStatus?: string;
-    beds?: number | null;
-    baths?: number | null;
+
+const defaultSearch: PropertySearch = {
+    property_type: undefined,
+    property_status: undefined,
+    baths: undefined,
+    beds: undefined
 }
 
-const defaultState: SearchState = {
-    city: "",
-    state: "",
-    propertyType: "",
-    propertyStatus: "",
-    baths: null,
-    beds: null
+export interface PropertySearchState{
+    property_search: PropertySearch;
+}
+
+const defaultState: PropertySearchState = {
+    property_search: defaultSearch
 }
 
 const searchSlice = createSlice({
@@ -25,10 +24,17 @@ const searchSlice = createSlice({
 
     reducers: {
         setHeaderSearch: (state, action:PayloadAction<string>) => {
-            state.propertyType = action.payload
+            state.property_search.property_type = action.payload
+        },
+
+        setFilterSearch: (state, action: PayloadAction<PropertySearch>) => {
+            state.property_search = {...action.payload}
+
         }
+
+
     }
 })
 
-export const {setHeaderSearch} = searchSlice.actions;
+export const {setHeaderSearch,setFilterSearch, } = searchSlice.actions;
 export default searchSlice.reducer;

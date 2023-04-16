@@ -1,5 +1,6 @@
 export enum PropertyStatus{
     Rent = 'rent',
-    Buy = 'buy'
+    Buy = 'buy',
+    Any = "any"
 }
 

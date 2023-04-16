@@ -13,7 +13,7 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search }) => {
     const history = useNavigate();
     const location = useLocation()
 
-    const { propertyType } = useSelector(
+    const { property_search } = useSelector(
         (state: RootState) => state.search
     );
 
@@ -28,8 +28,8 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search }) => {
 
         }
 
-        if (propertyType){
-            newSearch.set("type", propertyType);
+        if (property_search.property_type){
+            newSearch.set("type", property_search.property_type);
 
         }
         history(`/homes/buy?${newSearch}`)

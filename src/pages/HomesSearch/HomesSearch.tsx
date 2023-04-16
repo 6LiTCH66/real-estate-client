@@ -3,6 +3,7 @@ import "./homesSearch.scss"
 import {useParams, useNavigate, useLocation} from "react-router-dom";
 import {PropertyStatus} from "../../types/PropertyStatus";
 import {FilterBar} from "../../components";
+import {getProperty} from "../../http/propertyAPI";
 
 import { Outlet } from "react-router-dom"
 function HomesSearch() {
@@ -25,13 +26,14 @@ function HomesSearch() {
 
             if (Object.values(PropertyStatus).includes(status as PropertyStatus)){
                 // TODO
+
             }
 
             else{
                 navigate("/")
             }
         }
-    }, []);
+    }, [status]);
 
 
 

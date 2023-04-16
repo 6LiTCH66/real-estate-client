@@ -33,12 +33,13 @@
     gap: 1rem;
 
     .main-container{
+      max-width: 832px;
       width: 100%;
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
 
-      flex: 1;
+      flex: 2;
 
       .frame{
         display: flex;
@@ -119,7 +120,8 @@
           overflow-x: auto;
           overflow-y: hidden;
 
-          max-width: 832px;
+          //max-width: 832px;
+          width: 100%;
           padding: 1rem .5rem;
 
           .slide{

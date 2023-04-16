@@ -5,8 +5,24 @@ import {MdNavigateNext, MdNavigateBefore} from "react-icons/md"
 import axios from "axios";
 import {getProperty} from "../../http/propertyAPI";
 import {Property} from "../../types/Property";
+import {useLocation, useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store/store";
+import {PropertySearch} from "../../types/PropertySearch";
+import {setFilterSearch} from "../../store/searchSlice";
+import qs from "qs"
 
 function PropertyList() {
+
+    const location = useLocation();
+
+    const dispatch = useDispatch()
+    const [propertyParams, setPropertyParams] = useState<PropertySearch>({property_status: undefined, property_type: undefined, baths: undefined, beds: undefined})
+
+    const { property_search } = useSelector(
+        (state: RootState) => state.search
+    );
+    const {status} = useParams()
 
     const [properties, setProperties] = useState<Property[]>();
 
@@ -17,17 +33,42 @@ function PropertyList() {
 
     const totalPages = Math.ceil(totalProperties / itemsPerPage);
 
+    const searchParams = new URLSearchParams(location.search);
+    const property_types = searchParams.get('property_types');
+
 
 
     useEffect( () => {
 
-        getProperty().then((properties) => {
+        const propertyStatus = status === "buy" ? "sell" : status === "any" ? "" : status
+
+        const updatedParams = {...propertyParams, property_status: propertyStatus};
+
+        setPropertyParams(updatedParams)
+
+        getProperty(updatedParams).then((properties) => {
             setProperties(properties)
         }).catch((error) => {
             console.log(error)
         })
 
-    }, []);
+    }, [status]);
+
+    useEffect(() => {
+        dispatch(setFilterSearch(propertyParams))
+
+    }, [propertyParams]);
+
+    useEffect(() => {
+
+        if (property_types){
+            console.log(qs.stringify({property_type : property_types}))
+
+        }
+
+    }, [property_types]);
+
+
 
 
     const handleClickPrev = () => {

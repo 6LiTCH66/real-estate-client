@@ -20,7 +20,6 @@ const PropertyCard:FC<PropertyCardProps> = ({property}) => {
     const location = useLocation();
 
     const navigateToDetails = () => {
-        console.log(property._id)
         const newSearch = new URLSearchParams(location.search);
         newSearch.set("propertyId", property._id)
         navigate(`/property-detail/${property._id}`)
