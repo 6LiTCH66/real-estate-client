@@ -28,10 +28,10 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search }) => {
 
         }
 
-        if (property_search.property_type){
-            newSearch.set("type", property_search.property_type);
-
-        }
+        // if (property_search.property_type){
+        //     newSearch.set("type", property_search.property_type);
+        //
+        // }
         history(`/homes/buy?${newSearch}`)
 
 

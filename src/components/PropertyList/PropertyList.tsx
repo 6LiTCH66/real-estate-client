@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import "./propertyList.scss"
 import {PropertyCard} from "../index";
 import {MdNavigateNext, MdNavigateBefore} from "react-icons/md"
-import axios from "axios";
 import {getProperty} from "../../http/propertyAPI";
 import {Property} from "../../types/Property";
 import {useLocation, useParams} from "react-router-dom";
@@ -10,7 +9,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {PropertySearch} from "../../types/PropertySearch";
 import {setFilterSearch} from "../../store/searchSlice";
-import qs from "qs"
 
 function PropertyList() {
 
@@ -37,7 +35,7 @@ function PropertyList() {
     const property_types = searchParams.get('property_types');
 
 
-
+    // check page: sell, rent or any
     useEffect( () => {
 
         const propertyStatus = status === "buy" ? "sell" : status === "any" ? "" : status
@@ -54,15 +52,26 @@ function PropertyList() {
 
     }, [status]);
 
+    // change
     useEffect(() => {
         dispatch(setFilterSearch(propertyParams))
 
     }, [propertyParams]);
 
+
+
     useEffect(() => {
 
         if (property_types){
-            console.log(qs.stringify({property_type : property_types}))
+            const property_params = property_types.split(",")
+
+            const updatedParams = {...propertyParams, property_type: property_params};
+
+            getProperty(updatedParams).then((properties) => {
+                setProperties(properties)
+            }).catch((error) => {
+                console.log(error)
+            })
 
         }
 

@@ -1,6 +1,7 @@
 import {Property} from "../types/Property";
 import axios, {AxiosRequestConfig} from "axios"
 import {PropertySearch} from "../types/PropertySearch";
+import qs from "qs";
 
 
 export interface PropertyList{
@@ -12,16 +13,15 @@ export const getProperty = async (property_params?: PropertySearch): Promise<Pro
 
     //?property_status=sell
 
-
+    // interface MyAxiosRequestConfig extends Omit<AxiosRequestConfig, 'encoding'> {}
 
     const config: AxiosRequestConfig = {
         params: {...property_params}
     };
 
+
     try{
         const propertiesAPI = await axios.get<PropertyList>(`${process.env.REACT_APP_BASE_URL}/property/properties`, config)
-        // console.log(propertiesAPI.data.properties)
-
         return propertiesAPI.data.properties
 
     }catch (err){
