@@ -15,8 +15,8 @@ function PropertyList() {
     const location = useLocation();
 
     const dispatch = useDispatch()
-    const [propertyParams, setPropertyParams] = useState<PropertySearch>({property_status: undefined, property_type: undefined, baths: undefined, beds: undefined})
-
+    const [propertyParams, setPropertyParams] = useState<PropertySearch>({property_status: undefined, property_type: undefined, baths: undefined, beds: undefined, sort: undefined})
+    const propertyRef = useRef(propertyParams)
     const { property_search } = useSelector(
         (state: RootState) => state.search
     );
@@ -32,7 +32,11 @@ function PropertyList() {
     const totalPages = Math.ceil(totalProperties / itemsPerPage);
 
     const searchParams = new URLSearchParams(location.search);
-    const property_types = searchParams.get('property_types');
+    const property_types = searchParams.get('property_types') || undefined;
+
+    const beds = searchParams.get('beds');
+    const baths = searchParams.get('baths');
+    const sortBy = searchParams.get('sort') || undefined;
 
 
     // check page: sell, rent or any or property_types
@@ -40,21 +44,27 @@ function PropertyList() {
 
         const propertyStatus = status === "buy" ? "sell" : status === "any" ? "" : status
 
-        let updatedParams = {...propertyParams, property_status: propertyStatus}
+        propertyRef.current.property_status = propertyStatus
 
         if (property_types){
             const property_params = property_types.split(",")
-            updatedParams = {...propertyParams, property_status: propertyStatus, property_type: property_params};
+            propertyRef.current.property_type = property_params
+
 
         }else{
-            // console.log(property_search)
+            propertyRef.current.property_type = property_types
         }
 
+        propertyRef.current.beds = typeof beds === "string" ? parseInt(beds): null
+        propertyRef.current.baths = typeof baths === "string" ? parseInt(baths): null
+
+        propertyRef.current.sort = sortBy
+
+        setPropertyParams(propertyRef.current)
 
 
-        setPropertyParams(updatedParams)
 
-        getProperty(updatedParams).then((properties) => {
+        getProperty(propertyRef.current).then((properties) => {
             setProperties(properties)
 
         }).catch((error) => {
@@ -62,7 +72,7 @@ function PropertyList() {
         })
 
 
-    }, [status, property_types]);
+    }, [status, property_types, beds, baths, sortBy]);
 
 
     useEffect(() => {

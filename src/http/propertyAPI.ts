@@ -15,7 +15,6 @@ export const getProperty = async (property_params?: PropertySearch): Promise<Pro
         params: {...property_params}
     };
 
-
     try{
         const propertiesAPI = await axios.get<PropertyList>(`${process.env.REACT_APP_BASE_URL}/property/properties`, config)
         return propertiesAPI.data.properties

@@ -47,6 +47,7 @@ function FilterBar() {
     const [min, setMin] = useState<number>();
     const [currentCheck, setCurrentCheck] = useState<string>("Property status");
     const [currentSort, setCurrentSort] = useState<string>("Sort");
+    const [sortBy, setSortBy] = useState<string | null>(null)
 
     const [beds, setBeds] = useState<number>(0);
     const [baths, setBaths] = useState<number>(0);
@@ -107,7 +108,7 @@ function FilterBar() {
 
     }
 
-    // if the user changed page set drop down value depending on the page status (buy or sale)
+    // if the user changed page set drop down value depending on the page status (buy or sale) and so on
     useEffect(() => {
         const property_type = status === "buy" ? "For Sale" : status === "rent" ? "For Rent": "Any"
         setCurrentCheck(property_type)
@@ -118,35 +119,64 @@ function FilterBar() {
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
         const property_types = searchParams.get('property_types');
+        const beds_params = searchParams.get('beds');
+        const baths_params = searchParams.get('baths');
+
 
         if (property_types){
             setSelectedProperties(property_types.split(","))
-
         }
+
+        if (beds_params){
+            setBeds(parseInt(beds_params))
+        }
+
+        if (baths_params){
+            setBaths(parseInt(baths_params))
+        }
+
     }, []);
 
 
 
     useEffect(() => {
 
+        const params = new URLSearchParams();
+
+
         if (selectedProperties.length > 0){
 
-            const params = new URLSearchParams({
-                property_types: selectedProperties.toString(),
-            });
+            params.set("property_types", selectedProperties.toString())
+        }
+
+
+        if (beds){
+            params.set("beds", beds.toString())
+
+        }
+        if (baths){
+            params.set("baths", baths.toString())
+
+        }
+
+        if (sortBy){
+            params.set("sort", sortBy)
+
+        }
+
+        if (params.has("property_types") || params.has("beds") || params.has("baths") || params.has("sort")){
 
             navigate(`/homes/${status}/?${params}`)
 
         }else{
+
             navigate(`/homes/${status}`)
-            console.log(selectedProperties)
         }
 
 
 
 
-    }, [selectedProperties, status]);
-
+    }, [selectedProperties, status, baths, beds, sortBy]);
 
 
 
@@ -294,7 +324,10 @@ function FilterBar() {
                                            id={sort}
                                            value={sort}
                                            checked={currentSort === sort}
-                                           onChange={(event) => setCurrentSort(event.target.id)}/>
+                                           onChange={(event) => {
+                                               setSortBy(event.target.id === sortArray[0] ? "desc" : event.target.id === sortArray[1] ? "asc" : null)
+                                               setCurrentSort(event.target.id)
+                                           }}/>
 
                                     <label htmlFor={sort}>{sort}</label>
                                 </li>

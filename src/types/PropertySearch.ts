@@ -3,5 +3,6 @@ export interface PropertySearch{
     property_type?: string | string[];
     beds?: number | null;
     baths?: number | null;
+    sort?: "desc" | "asc" | string
 
 }
