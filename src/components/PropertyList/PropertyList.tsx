@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import "./propertyList.scss"
-import {PropertyCard} from "../index";
+import {PropertyCard, PropertyCardSekeleton} from "../index";
 import {MdNavigateNext, MdNavigateBefore} from "react-icons/md"
 import {getProperty} from "../../http/propertyAPI";
 import {Property} from "../../types/Property";
@@ -28,6 +28,8 @@ function PropertyList() {
     const itemsPerPage = 12 // property to display per page
 
     const [currentPage, setCurrentPage] = useState<number>(1);
+
+    const [loading, setLoading] = useState<boolean>(true);
 
     const totalPages = Math.ceil(totalProperties / itemsPerPage);
 
@@ -65,7 +67,10 @@ function PropertyList() {
 
 
         getProperty(propertyRef.current).then((properties) => {
+
             setProperties(properties)
+            setLoading(false)
+
 
         }).catch((error) => {
             console.log(error)
@@ -116,12 +121,15 @@ function PropertyList() {
     return (
         <div className="property-list">
             <div className="list-container">
-
-                {paginatedItems?.map((property, index) => (
-                    <PropertyCard key={index} property={property}/>
-                ))}
-
-
+                {!loading ? (
+                    paginatedItems?.map((property, index) => (
+                        <PropertyCard key={index} property={property}/>
+                    ))
+                ): (
+                    Array(12).fill(0).map((_, index) => (
+                        <PropertyCardSekeleton key={index}/>
+                    ) )
+                )}
 
             </div>
             <div className="pagination">

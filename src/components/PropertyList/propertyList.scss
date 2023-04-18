@@ -74,11 +74,10 @@
 
   .list-container{
 
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 170px));
     justify-content: center;
+
     gap: 3rem;
 
 

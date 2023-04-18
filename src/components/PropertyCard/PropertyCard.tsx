@@ -29,7 +29,7 @@ const PropertyCard:FC<PropertyCardProps> = ({property}) => {
     return (
         <div className="card" onClick={navigateToDetails}>
             <div className="container">
-                <div className="image skeleton-box">
+                <div className="image">
 
                     <div className="status">
                         <p>
@@ -44,14 +44,14 @@ const PropertyCard:FC<PropertyCardProps> = ({property}) => {
                 </div>
                 <div className="body">
 
-                    <p className="price skeleton-box">
+                    <p className="price">
                         {property.property_status === PropertyStatus.Rent ? `$${property.price.toLocaleString()}/month` : `$${property.price.toLocaleString()}`}
                     </p>
-                    <address className="skeleton-box">
+                    <address >
                         {`${property.address}, ${property.city}, ${property.state_province} ${property.zipcode}`}
                     </address>
 
-                    <div className="data skeleton-box">
+                    <div className="data">
                         <p>
                             <strong>{property.bedrooms}</strong> bed
                         </p>
