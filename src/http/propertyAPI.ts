@@ -11,10 +11,6 @@ export interface PropertyList{
 
 export const getProperty = async (property_params?: PropertySearch): Promise<Property[]> => {
 
-    //?property_status=sell
-
-    // interface MyAxiosRequestConfig extends Omit<AxiosRequestConfig, 'encoding'> {}
-
     const config: AxiosRequestConfig = {
         params: {...property_params}
     };

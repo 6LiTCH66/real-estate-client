@@ -25,7 +25,7 @@ function FilterBar() {
     const [searchProperties, setSearchProperties] = useState<PropertySearch>({property_status: "", property_type: "", beds: null, baths: null})
     const location = useLocation()
     const navigate = useNavigate();
-    const {status,property_types} = useParams()
+    const {status} = useParams()
 
     const dispatch = useDispatch();
     const { statusButton, typeButton, bedsBathsButton, sortButton } = useSelector(
@@ -59,6 +59,8 @@ function FilterBar() {
     const propertyStatus = ["Any", "For Sale", "For Rent"]
 
     const [search, setSearch] = useState<string>("");
+    const searchParams = new URLSearchParams(location.search);
+    const property_type_params = searchParams.get('property_types');
 
     useEffect(() => {
         const newSearch = new URLSearchParams(location.search);
@@ -90,25 +92,34 @@ function FilterBar() {
     // }
 
     const handlePropertyType = (event: React.ChangeEvent) =>{
+
         setCurrentCheck(event.target.id)
         const property_type = event.target.id
         const search_property_type = property_type === "For Sale" ? "buy" : property_type === "For Rent" ? "rent": "any"
-        navigate(`/homes/${search_property_type}`)
+
+        const params = new URLSearchParams()
+
+        if (selectedProperties.length > 0){
+            params.set("property_types", selectedProperties.toString())
+        }
+
+        navigate(`/homes/${search_property_type}/?${params}`)
 
     }
 
+    // if the user changed page set drop down value depending on the page status (buy or sale)
     useEffect(() => {
         const property_type = status === "buy" ? "For Sale" : status === "rent" ? "For Rent": "Any"
         setCurrentCheck(property_type)
     }, [status]);
 
 
+    // if the user changed page set drop down value depending on the page property types (Duplex, Apartment ....)
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
         const property_types = searchParams.get('property_types');
 
         if (property_types){
-            // console.log(property_types.split(","))
             setSelectedProperties(property_types.split(","))
 
         }
@@ -123,16 +134,18 @@ function FilterBar() {
             const params = new URLSearchParams({
                 property_types: selectedProperties.toString(),
             });
+
             navigate(`/homes/${status}/?${params}`)
 
         }else{
             navigate(`/homes/${status}`)
+            console.log(selectedProperties)
         }
 
 
 
 
-    }, [selectedProperties]);
+    }, [selectedProperties, status]);
 
 
 

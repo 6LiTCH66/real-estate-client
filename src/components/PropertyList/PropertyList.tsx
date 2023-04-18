@@ -35,49 +35,40 @@ function PropertyList() {
     const property_types = searchParams.get('property_types');
 
 
-    // check page: sell, rent or any
+    // check page: sell, rent or any or property_types
     useEffect( () => {
 
         const propertyStatus = status === "buy" ? "sell" : status === "any" ? "" : status
 
-        const updatedParams = {...propertyParams, property_status: propertyStatus};
+        let updatedParams = {...propertyParams, property_status: propertyStatus}
+
+        if (property_types){
+            const property_params = property_types.split(",")
+            updatedParams = {...propertyParams, property_status: propertyStatus, property_type: property_params};
+
+        }else{
+            // console.log(property_search)
+        }
+
+
 
         setPropertyParams(updatedParams)
 
         getProperty(updatedParams).then((properties) => {
             setProperties(properties)
+
         }).catch((error) => {
             console.log(error)
         })
 
-    }, [status]);
 
-    // change
+    }, [status, property_types]);
+
+
     useEffect(() => {
         dispatch(setFilterSearch(propertyParams))
 
     }, [propertyParams]);
-
-
-
-    useEffect(() => {
-
-        if (property_types){
-            const property_params = property_types.split(",")
-
-            const updatedParams = {...propertyParams, property_type: property_params};
-
-            getProperty(updatedParams).then((properties) => {
-                setProperties(properties)
-            }).catch((error) => {
-                console.log(error)
-            })
-
-        }
-
-    }, [property_types]);
-
-
 
 
     const handleClickPrev = () => {
@@ -121,55 +112,56 @@ function PropertyList() {
                 ))}
 
 
-                <div className="pagination">
 
-                    <ul>
-                        <li>
-                            <button onClick={handleClickPrev} disabled={currentPage === 1}>
-                                <MdNavigateBefore size={30}/>
+            </div>
+            <div className="pagination">
+
+                <ul>
+                    <li>
+                        <button onClick={handleClickPrev} disabled={currentPage === 1}>
+                            <MdNavigateBefore size={30}/>
+                        </button>
+                    </li>
+                    {Array(totalPages).fill(0).map((_, index) => (
+                        <li key={index}>
+                            <button
+                                style={{backgroundColor: currentPage === index + 1 ? "#091638" : "",
+                                    color: currentPage === index + 1 ? "#FFFFFF" : ""}} onClick={() => handleClickPage(index + 1)}>
+
+                                {index + 1}
+
                             </button>
                         </li>
-                        {Array(totalPages).fill(0).map((_, index) => (
-                            <li key={index}>
-                                <button
-                                    style={{backgroundColor: currentPage === index + 1 ? "#091638" : "",
-                                        color: currentPage === index + 1 ? "#FFFFFF" : ""}} onClick={() => handleClickPage(index + 1)}>
+                    ))}
+                    {totalPages > 5 ? (
+                        <>
+                            <li className="pagination-dots">
+                                <div className="dots">
+                                    <div className="dot"></div>
+                                    <div className="dot"></div>
+                                    <div className="dot"></div>
 
-                                    {index + 1}
-
-                                </button>
+                                </div>
                             </li>
-                        ))}
-                        {totalPages > 5 ? (
-                            <>
-                                <li className="pagination-dots">
-                                    <div className="dots">
-                                        <div className="dot"></div>
-                                        <div className="dot"></div>
-                                        <div className="dot"></div>
 
-                                    </div>
-                                </li>
+                            <li>
+                                <button>{totalProperties}</button>
+                            </li>
+                        </>
 
-                                <li>
-                                    <button>{totalProperties}</button>
-                                </li>
-                            </>
-
-                        ): (<></>)
-                        }
+                    ): (<></>)
+                    }
 
 
 
-                        <li>
-                            <button onClick={handleClickNext} disabled={currentPage === totalPages}>
-                                <MdNavigateNext size={30}/>
-                            </button>
-                        </li>
+                    <li>
+                        <button onClick={handleClickNext} disabled={currentPage === totalPages}>
+                            <MdNavigateNext size={30}/>
+                        </button>
+                    </li>
 
-                    </ul>
+                </ul>
 
-                </div>
             </div>
         </div>
     );

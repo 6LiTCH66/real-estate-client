@@ -21,6 +21,7 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search }) => {
         event.preventDefault();
     }
     const onSearchItemClick = (event: React.MouseEvent<HTMLAnchorElement>, searchProperty: string) => {
+        console.log("here")
         event.preventDefault()
         const newSearch = new URLSearchParams(location.search);
         if (search){
