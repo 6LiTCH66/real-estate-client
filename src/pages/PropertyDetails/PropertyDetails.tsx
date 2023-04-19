@@ -56,6 +56,7 @@ function PropertyDetails() {
             setProperty(property)
             setLoading(false)
 
+
         }).catch((error) => {
             console.log(error)
         })
