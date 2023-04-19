@@ -66,14 +66,18 @@ function PropertyList() {
 
         setPropertyParams(propertyRef.current)
 
+        // console.log(propertyRef.current)
 
         getProperty(propertyRef.current).then((properties) => {
             setProperties(properties)
-            setLoading(false)
 
 
         }).catch((error) => {
             console.log(error)
+
+        }).finally(() => {
+            setLoading(false)
+
         })
 
 
@@ -81,9 +85,9 @@ function PropertyList() {
 
 
     useEffect(() => {
-        dispatch(setFilterSearch(propertyParams))
+        dispatch(setFilterSearch(propertyRef.current))
 
-    }, [propertyParams]);
+    }, [propertyRef]);
 
 
     const handleClickPrev = () => {
