@@ -44,6 +44,8 @@ function PropertyList() {
     // check page: sell, rent or any or property_types
     useEffect( () => {
 
+        setLoading(true)
+
         const propertyStatus = status === "buy" ? "sell" : status === "any" ? "" : status
 
         propertyRef.current.property_status = propertyStatus
@@ -65,9 +67,7 @@ function PropertyList() {
         setPropertyParams(propertyRef.current)
 
 
-
         getProperty(propertyRef.current).then((properties) => {
-
             setProperties(properties)
             setLoading(false)
 
