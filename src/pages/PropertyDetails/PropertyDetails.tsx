@@ -44,6 +44,8 @@ function PropertyDetails() {
 
     const [scrolledToEnd, scrolledToStart] = useScroll(scrollRef)
 
+    const [loading, setLoading] = useState<boolean>(true)
+
 
     useEffect(() => {
         window.scrollTo({
@@ -52,6 +54,8 @@ function PropertyDetails() {
         });
         oneProperty(propertyId || "").then((property) => {
             setProperty(property)
+            setLoading(false)
+
         }).catch((error) => {
             console.log(error)
         })
@@ -171,7 +175,7 @@ function PropertyDetails() {
                                 <MdNavigateBefore size={80} />
                             </button>
 
-                            <div className="image">
+                            <div className={`image ${loading ? "skeleton-box" : ""}`}>
                                 <img src={property?.images[currentPhoto]} alt="Property index" loading="lazy" />
 
                             </div>
@@ -187,9 +191,9 @@ function PropertyDetails() {
                         </div>
 
                         <div className="images-slider" ref={sliderRef}>
-                            {property?.images.map((image, index) => (
-                                <div className="slide" key={index} onClick={() => desired(index)}>
-                                    <img src={image} alt="image" style={{ outline: currentPhoto === index ? "4px solid #1C3988" : "" }} />
+                            {(property?.images || Array(4).fill(0)).map((image, index) => (
+                                <div className={`slide ${loading ? "skeleton-box" : ""}`} key={index} onClick={() => desired(index)}>
+                                    <img  src={image} alt="image" style={{ outline: currentPhoto === index ? "4px solid #1C3988" : "" }} />
                                 </div>
                             ))}
                         </div>
@@ -201,7 +205,7 @@ function PropertyDetails() {
                         <div className="property-wrapper">
 
 
-                            <div className="statusNprice">
+                            <div className={`statusNprice ${loading ? "skeleton-box" : ""}`}>
 
                                 <div className="status">
                                     <p>
@@ -215,7 +219,7 @@ function PropertyDetails() {
 
 
 
-                            <div className="data">
+                            <div className={`data ${loading ? "skeleton-box" : ""}`}>
                                 <p>
                                     <BiBed size={20} />
                                     <strong>{property?.bedrooms}</strong> bed
@@ -232,7 +236,7 @@ function PropertyDetails() {
                             </div>
 
 
-                            <address>
+                            <address className={loading ? "skeleton-box" : ""} style={{color: loading ? "transparent": ""}}>
                                 {`${property?.address}, ${property?.city}, ${property?.state_province} ${property?.zipcode}`}
                             </address>
 
@@ -243,7 +247,7 @@ function PropertyDetails() {
                                         <AiOutlineHome size={25} />
 
                                         <div className="facts-info">
-                                            <strong>
+                                            <strong className={`${loading ? "skeleton-box" : ""}`}>
                                                 {/*Single family*/}
                                                 {property?.property_type}
                                             </strong>
@@ -256,7 +260,7 @@ function PropertyDetails() {
                                         <AiOutlineCalendar size={25} />
 
                                         <div className="facts-info">
-                                            <strong>
+                                            <strong className={`${loading ? "skeleton-box" : ""}`}>
                                                 366 days
                                                 {/*{new Date()}*/}
                                             </strong>
@@ -270,7 +274,7 @@ function PropertyDetails() {
                                         <TfiRulerAlt2 size={25} />
 
                                         <div className="facts-info">
-                                            <strong>
+                                            <strong className={`${loading ? "skeleton-box" : ""}`}>
                                                 {/*$128*/}
                                                 ${property?.pricePerSqft}
                                             </strong>
@@ -283,7 +287,7 @@ function PropertyDetails() {
                                         <MdOutlineGarage size={25} />
 
                                         <div className="facts-info">
-                                            <strong>
+                                            <strong className={`${loading ? "skeleton-box" : ""}`}>
                                                 {(property?.garage || 0) > 0 ? `${property?.garage} ${(property?.garage || 0) > 1 ? "cars" : "car"}`: `No garage` }
                                             </strong>
                                             <span>Garage</span>
@@ -291,12 +295,10 @@ function PropertyDetails() {
                                     </li>
 
                                     <li>
-                                        {/*Year built*/}
                                         <IoHammerOutline size={25} />
 
                                         <div className="facts-info">
-                                            <strong>
-                                                {/*1951*/}
+                                            <strong className={`${loading ? "skeleton-box" : ""}`}>
                                                 {property?.build_year}
                                             </strong>
                                             <span>Year built</span>
@@ -311,9 +313,9 @@ function PropertyDetails() {
 
                     </div>
 
-                    <div className="overview-info">
+                    <div className="overview-info ">
                         <h6 className="overview-title">Overview</h6>
-                        <p className="overview-description">
+                        <p className={`overview-description ${loading ? "skeleton-box" : ""}`}>
                             {/*Welcome to your dream home in the heart of South Denver! This newly remodeled home located at 2059 South Logan Street, Denver, CO is sure to exceed all your expectations.    From the moment you step inside, you'll notice the attention to detail that has been put into every aspect of this home. The open and spacious floor plan is perfect for entertaining and offers plenty of natural light throughout. The living room features large windows, providing the perfect space to unwind after a long day.    The kitchen features stainless steel appliances, gorgeous countertops, and ample cabinet space. The adjacent dining area is the perfect spot for family meals or hosting dinner parties with friends. This home boasts two spacious bedrooms and an updated bathroom, providing plenty of space for everyone to relax and recharge. The large yard is a true oasis, providing plenty of space for outdoor entertaining or simply relaxing in the sun. Located in the highly desirable South Denver neighborhood, this home is just minutes away from restaurants, shopping, and all the best Denver offers. Don't miss out on this incredible opportunity to own a beautifully remodeled home in one of the city's most sought-after areas. Schedule your showing today before its sold!*/}
                             {property?.description}
                         </p>
