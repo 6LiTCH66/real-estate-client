@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import "./filteredDropdownSearch.scss"
-import { Property } from "../Header/Header";
+import {Property} from "../Header/Header";
 import { filterProperty } from "../../utils/filterProperty";
 import { boldify } from "../../utils/boldify";
 import {Link, useLocation, useNavigate} from "react-router-dom"
@@ -16,6 +16,7 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search }) => {
     const { property_search } = useSelector(
         (state: RootState) => state.search
     );
+    const states = ["Texas", "Florida", "Colorado", "New York", "California"]
 
     const preventClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
@@ -38,15 +39,27 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search }) => {
 
     }
 
+
+
+
     return (
         <>
             {
                 filterProperty(properties, search).length > 0 ? (
+
+
                     filterProperty(properties, search).map((property, index) => (
-                        <li key={index}>
-                            <Link to="" onClick={(event: React.MouseEvent<HTMLAnchorElement>) => onSearchItemClick(event, `${property.city}, ${property.state}`)}>{boldify(property.city, search)}, {property.state}</Link>
-                        </li>
+                            <div key={index}>
+                                <li>
+                                    <Link to="" onClick={(event: React.MouseEvent<HTMLAnchorElement>) => onSearchItemClick(event, `${property.city}, ${property.state}`)}>{boldify(property.city, search)}, {boldify(property.state, search)}</Link>
+                                </li>
+
+                            </div>
+
                     ))
+
+
+
                 ) : (
                     <li>
                         <Link to="" onClick={preventClick}>City not found</Link>

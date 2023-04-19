@@ -66,17 +66,14 @@ function PropertyList() {
 
         setPropertyParams(propertyRef.current)
 
-        // console.log(propertyRef.current)
 
         getProperty(propertyRef.current).then((properties) => {
             setProperties(properties)
+            setLoading(false)
 
 
         }).catch((error) => {
             console.log(error)
-
-        }).finally(() => {
-            setLoading(false)
 
         })
 

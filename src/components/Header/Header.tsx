@@ -16,8 +16,14 @@ import {useDispatch} from "react-redux";
 import {setHeaderSearch} from "../../store/searchSlice";
 import {PropertyType} from "../../types/PropertyType";
 import {PropertyStatus} from "../../types/PropertyStatus";
+import {getProperty} from "../../http/propertyAPI";
 
 export interface Property{
+    city: string,
+    state: string,
+}
+
+export interface PropertyHeader{
     city: string,
     state: string,
 }
@@ -31,7 +37,7 @@ function Header() {
 
     const propertyTypes: string[] = Object.values(PropertyType);
 
-    const properties: Property[] = property_json.states
+    const [properties, setProperties] = useState<PropertyHeader[]>([])
 
     const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
 
@@ -41,6 +47,31 @@ function Header() {
     const preventClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
     }
+
+    useEffect(() => {
+
+        getProperty().then((properties) => {
+
+            const headers: PropertyHeader[] = properties.map((properties) => {
+                const { city, state_province } = properties;
+                return { city, state: state_province};
+            });
+
+            setProperties(headers)
+
+
+        }).catch((error) => {
+            console.log(error)
+
+        })
+
+    }, []);
+
+
+
+
+
+
 
     const searchByFilter = () => {
         const newSearch = new URLSearchParams(location.search);
@@ -105,6 +136,7 @@ function Header() {
                                     <ImLocation size={22} className="location-icon"/>
                                 </div>
                                 <input type="text" placeholder="Search location" onChange={handleSearch}/>
+
                                 <ul>
 
                                     <FilteredDropdownSearch properties={properties} search={search}/>

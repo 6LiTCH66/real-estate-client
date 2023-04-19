@@ -15,10 +15,11 @@ import {setFilterSearch} from "../../store/searchSlice";
 import {debounce} from "lodash";
 
 import property_json from "../../data/property.json";
-import {Property} from "../Header/Header";
+import {Property, PropertyHeader} from "../Header/Header";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import qs from "qs";
 import {PropertySearch} from "../../types/PropertySearch";
+import {getProperty} from "../../http/propertyAPI";
 
 function FilterBar() {
 
@@ -51,6 +52,7 @@ function FilterBar() {
 
     const [beds, setBeds] = useState<number>(0);
     const [baths, setBaths] = useState<number>(0);
+    const [propertySearch, setPropertySearch] = useState<PropertyHeader[]>([])
 
     const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
 
@@ -113,6 +115,24 @@ function FilterBar() {
         const property_type = status === "buy" ? "For Sale" : status === "rent" ? "For Rent": "Any"
         setCurrentCheck(property_type)
     }, [status]);
+    useEffect(() => {
+        getProperty().then((properties) => {
+
+            const headers: PropertyHeader[] = properties.map((properties) => {
+                const { city, state_province } = properties;
+
+                return { city, state: state_province };
+            });
+
+            setPropertySearch(headers)
+
+
+        }).catch((error) => {
+            console.log(error)
+
+        })
+    }, []);
+
 
 
     // if the user changed page set drop down value depending on the page property types (Duplex, Apartment ....)
@@ -190,7 +210,7 @@ function FilterBar() {
                         <input type="text" value={search} placeholder="Enter a keyword" onChange={(event) => setSearch(event.target.value)}/>
                         <SelectDropdown styles={{display: search ? "block": "none"}}>
 
-                            <FilteredDropdownSearch properties={properties} search={search}/>
+                            <FilteredDropdownSearch properties={propertySearch} search={search}/>
                         </SelectDropdown>
                     </div>
                     <Button onClick={() => console.log("Hello from filter bar")}/>
