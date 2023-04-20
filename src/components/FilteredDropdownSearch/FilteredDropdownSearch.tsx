@@ -9,7 +9,7 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 
 
-const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search }) => {
+const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search, selected_properties }) => {
     const history = useNavigate();
     const location = useLocation()
 
@@ -30,6 +30,9 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search }) => {
         if (search){
             newSearch.set(params, searchProperty);
 
+        }
+        if (selected_properties){
+            newSearch.set("property_types", selected_properties.toString())
         }
 
         switch (params){

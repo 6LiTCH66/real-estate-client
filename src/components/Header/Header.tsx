@@ -151,7 +151,7 @@ function Header() {
 
                                 <ul>
 
-                                    <FilteredDropdownSearch properties={properties} search={search}/>
+                                    <FilteredDropdownSearch properties={properties} search={search} selected_properties={selectedProperties}/>
 
                                 </ul>
                             </div>

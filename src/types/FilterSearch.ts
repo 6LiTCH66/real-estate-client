@@ -3,5 +3,7 @@ import React from "react";
 export interface FilterSearch{
     properties: PropertyHeader[],
     search: string,
-    setSearch?:  React.Dispatch<React.SetStateAction<string>>
+    setSearch?:  React.Dispatch<React.SetStateAction<string>>;
+    selected_properties?: string[];
+
 }
