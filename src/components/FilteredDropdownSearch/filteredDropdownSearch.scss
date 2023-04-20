@@ -1,6 +1,7 @@
 @import "../../styles/variables";
 
 .select-dropdown {
+  z-index: 99999;
 
   li {
     font-family: $body-font;

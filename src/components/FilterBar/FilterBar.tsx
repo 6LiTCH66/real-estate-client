@@ -63,19 +63,9 @@ function FilterBar() {
 
     const [search, setSearch] = useState<string>("");
     const searchParams = new URLSearchParams(location.search);
+    const city = searchParams.get("city") || undefined
+    const state = searchParams.get("state") || undefined
     const property_type_params = searchParams.get('property_types');
-
-    useEffect(() => {
-        const newSearch = new URLSearchParams(location.search);
-        const paramsObj = Object.fromEntries(newSearch.entries());
-
-        if (paramsObj.city){
-            console.log(paramsObj)
-            // setSearch(paramsObj.city)
-
-        }
-
-    }, []);
 
 
 
@@ -115,9 +105,11 @@ function FilterBar() {
         const property_type = status === "buy" ? "For Sale" : status === "rent" ? "For Rent": "Any"
         setCurrentCheck(property_type)
     }, [status]);
-    useEffect(() => {
-        getProperty().then((properties) => {
 
+    useEffect(() => {
+        // const newSearch = new URLSearchParams(location.search);
+
+        getProperty({property_status: status === "buy" ? "sell" : status === "any" ? "" : status, city: city }).then((properties) => {
             const headers: PropertyHeader[] = properties.map((properties) => {
                 const { city, state_province } = properties;
 
@@ -131,7 +123,7 @@ function FilterBar() {
             console.log(error)
 
         })
-    }, []);
+    }, [status]);
 
 
 
@@ -184,7 +176,14 @@ function FilterBar() {
 
         }
 
-        if (params.has("property_types") || params.has("beds") || params.has("baths") || params.has("sort")){
+        if (city){
+            params.set("city", city)
+        }
+        if (state){
+            params.set("state", state)
+        }
+
+        if (params.has("property_types") || params.has("beds") || params.has("baths") || params.has("sort") || params.has("city") || params.has("state")){
 
             navigate(`/homes/${status}/?${params}`)
 
@@ -196,7 +195,7 @@ function FilterBar() {
 
 
 
-    }, [selectedProperties, status, baths, beds, sortBy]);
+    }, [selectedProperties, status, baths, beds, sortBy, city, state]);
 
 
 

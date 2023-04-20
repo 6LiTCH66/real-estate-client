@@ -75,17 +75,29 @@ function Header() {
 
     const searchByFilter = () => {
         const newSearch = new URLSearchParams(location.search);
+
+        // create redux slice for drop down if the user clicked on drop down
         if (search){
-            newSearch.set('city', search);
+            newSearch.set('state', search);
 
         }
 
         if (selectedProperties.length){
-            newSearch.set("type", selectedProperties.toString());
+            newSearch.set("property_types", selectedProperties.toString());
 
         }
-        history(`homes/buy?${newSearch}`)
+        if (newSearch.has("state") || newSearch.has("property_types")){
+            history(`homes/any?${newSearch}`)
+
+        }else{
+            history(`homes/any`)
+
+        }
     }
+
+
+
+
 
     useEffect(() => {
         dispatch(setHeaderSearch(selectedProperties.toString()))

@@ -40,7 +40,8 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search }) => {
                 newSearch.delete("city")
 
         }
-        history(`/homes/${status}?${newSearch}`)
+
+        history(`/homes/${!status ? "any": status}?${newSearch}`)
 
 
     }
