@@ -15,7 +15,7 @@ function PropertyList() {
     const location = useLocation();
 
     const dispatch = useDispatch()
-    const [propertyParams, setPropertyParams] = useState<PropertySearch>({property_status: undefined, property_type: undefined, baths: undefined, beds: undefined, sort: undefined})
+    const [propertyParams, setPropertyParams] = useState<PropertySearch>({property_status: undefined, property_type: undefined, baths: undefined, beds: undefined, sort: undefined, city: undefined, state_province: undefined})
     const propertyRef = useRef(propertyParams)
     const { property_search } = useSelector(
         (state: RootState) => state.search
@@ -40,6 +40,9 @@ function PropertyList() {
     const baths = searchParams.get('baths');
     const sortBy = searchParams.get('sort') || undefined;
 
+    const city = searchParams.get('city') || undefined;
+    const state_province = searchParams.get('state') || undefined;
+
 
     // check page: sell, rent or any or property_types
     useEffect( () => {
@@ -63,11 +66,14 @@ function PropertyList() {
         propertyRef.current.baths = typeof baths === "string" ? parseInt(baths): null
 
         propertyRef.current.sort = sortBy
-
+        propertyRef.current.city = city
+        propertyRef.current.state_province = state_province
         setPropertyParams(propertyRef.current)
 
 
+
         getProperty(propertyRef.current).then((properties) => {
+
             setProperties(properties)
             setLoading(false)
 
@@ -78,7 +84,7 @@ function PropertyList() {
         })
 
 
-    }, [status, property_types, beds, baths, sortBy]);
+    }, [status, property_types, beds, baths, sortBy, city, state_province]);
 
 
     useEffect(() => {

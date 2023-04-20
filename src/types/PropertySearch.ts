@@ -3,6 +3,8 @@ export interface PropertySearch{
     property_type?: string | string[];
     beds?: number | null;
     baths?: number | null;
-    sort?: "desc" | "asc" | string
+    sort?: "desc" | "asc" | string,
+    city?: string;
+    state_province?: string;
 
 }
