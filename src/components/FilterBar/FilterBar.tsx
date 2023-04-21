@@ -11,6 +11,7 @@ import {RootState} from "../../store/store"
 
 import {reset, toggleButton} from "../../store/dropdownSlice";
 import {setFilterSearch} from "../../store/searchSlice";
+import {setShowDropdown} from "../../store/fliterDropdown";
 
 import {debounce} from "lodash";
 
@@ -32,6 +33,8 @@ function FilterBar() {
     const { statusButton, typeButton, bedsBathsButton, sortButton } = useSelector(
         (state: RootState) => state.dropDown
     );
+
+    const {showDropDown} = useSelector((state: RootState) => state.filterDropdown)
 
     const { property_search } = useSelector(
         (state: RootState) => state.search
@@ -66,6 +69,7 @@ function FilterBar() {
     const city = searchParams.get("city") || undefined
     const state = searchParams.get("state") || undefined
     const property_type_params = searchParams.get('property_types');
+    // const [showDropDown, setShowDropDown] = useState<boolean>(false)
 
 
 
@@ -109,7 +113,7 @@ function FilterBar() {
     useEffect(() => {
         // const newSearch = new URLSearchParams(location.search);
 
-        getProperty({property_status: status === "buy" ? "sell" : status === "any" ? "" : status, city: city }).then((properties) => {
+        getProperty({property_status: status === "buy" ? "sell" : status === "any" ? "" : status }).then((properties) => {
             const headers: PropertyHeader[] = properties.map((properties) => {
                 const { city, state_province } = properties;
 
@@ -178,9 +182,15 @@ function FilterBar() {
 
         if (city){
             params.set("city", city)
+            setSearch(city)
         }
         if (state){
             params.set("state", state)
+            setSearch(state)
+
+        }
+        if (city && state){
+            setSearch(`${city}, ${state}`)
         }
 
         if (params.has("property_types") || params.has("beds") || params.has("baths") || params.has("sort") || params.has("city") || params.has("state")){
@@ -197,6 +207,16 @@ function FilterBar() {
 
     }, [selectedProperties, status, baths, beds, sortBy, city, state]);
 
+    const searchButton = () => {
+
+        if (!search){
+            navigate(`/homes/${status}`)
+            setSearch("")
+
+        }
+
+    }
+
 
 
     return (
@@ -206,13 +226,18 @@ function FilterBar() {
                 <div className="search-form">
 
                     <div className="search-input_wrapper">
-                        <input type="text" value={search} placeholder="Enter a keyword" onChange={(event) => setSearch(event.target.value)}/>
-                        <SelectDropdown styles={{display: search ? "block": "none"}}>
+                        <input type="text" value={search} placeholder="Enter a keyword" onChange={(event) => {
+                            setSearch(event.target.value)
+                            dispatch(setShowDropdown(true))
+
+                        }}/>
+                        <SelectDropdown styles={{display: search && showDropDown ? "block": "none"}}>
 
                             <FilteredDropdownSearch properties={propertySearch} search={search}/>
+
                         </SelectDropdown>
                     </div>
-                    <Button onClick={() => console.log("Hello from filter bar")}/>
+                    <Button onClick={searchButton}/>
 
                 </div>
 

@@ -4,6 +4,7 @@ import paginationReducer from "./paginationSlice";
 import modalReducer from "./modalSlice";
 import userReducer from "./userSlice";
 import searchReducer from "./searchSlice";
+import filterDropDownReducer from "./fliterDropdown"
 
 const store = configureStore({
     reducer: {
@@ -11,7 +12,8 @@ const store = configureStore({
         pagination: paginationReducer,
         modalWindow: modalReducer,
         userSlice: userReducer,
-        search: searchReducer
+        search: searchReducer,
+        filterDropdown: filterDropDownReducer
 
     },
 });

@@ -7,11 +7,14 @@ import {Link, useLocation, useNavigate, useParams} from "react-router-dom"
 import { FilterSearch } from "../../types/FilterSearch";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
+import {setShowDropdown} from "../../store/fliterDropdown";
+import {useDispatch} from "react-redux";
 
 
 const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search, selected_properties }) => {
     const history = useNavigate();
     const location = useLocation()
+    const dispatch = useDispatch()
 
     const {status} = useParams()
 
@@ -24,6 +27,8 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search, selected
     }
     const onSearchItemClick = (event: React.MouseEvent<HTMLAnchorElement>, searchProperty: string, params: "city" | "state") => {
         event.preventDefault()
+
+        dispatch(setShowDropdown(false))
         const newSearch = new URLSearchParams(location.search);
 
 
