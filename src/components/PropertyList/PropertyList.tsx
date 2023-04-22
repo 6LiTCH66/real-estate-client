@@ -42,6 +42,8 @@ function PropertyList() {
 
     const city = searchParams.get('city') || undefined;
     const state_province = searchParams.get('state') || undefined;
+    const max = searchParams.get('max');
+    const min = searchParams.get('min');
 
 
     // check page: sell, rent or any or property_types
@@ -68,8 +70,11 @@ function PropertyList() {
         propertyRef.current.sort = sortBy
         propertyRef.current.city = city
         propertyRef.current.state_province = state_province
-        setPropertyParams(propertyRef.current)
 
+        propertyRef.current.min = typeof min === "string" ? parseInt(min): null
+        propertyRef.current.max = typeof max === "string" ? parseInt(max): null
+
+        setPropertyParams(propertyRef.current)
 
 
         getProperty(propertyRef.current).then((properties) => {
@@ -84,7 +89,7 @@ function PropertyList() {
         })
 
 
-    }, [status, property_types, beds, baths, sortBy, city, state_province]);
+    }, [status, property_types, beds, baths, sortBy, city, state_province, min, max]);
 
 
     useEffect(() => {

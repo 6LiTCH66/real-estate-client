@@ -74,18 +74,22 @@ function FilterBar() {
 
 
 
-    // const someFunction = (text: string) => {
-    //     console.log("search is send")
-    //     return text
-    // }
-    //
-    // const debouncedSearch = debounce( (text: string) => {
-    //     setSearch(someFunction(text));
-    // }, 300);
-    //
+    const valueSetter = (value: number) => {
+        return value
+    }
+
+    const debouncedMin = debounce( (value: number) => {
+        setMin(valueSetter(value));
+    }, 300);
+
+    const debouncedMax = debounce( (value: number) => {
+        setMax(valueSetter(value));
+    }, 300);
+
+
+
     // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //     debouncedSearch(event.target.value)
-    //
     //
     // }
 
@@ -194,7 +198,24 @@ function FilterBar() {
             setSearch(`${city}, ${state}`)
         }
 
-        if (params.has("property_types") || params.has("beds") || params.has("baths") || params.has("sort") || params.has("city") || params.has("state")){
+        if (min){
+            params.set("min", min.toString())
+        }
+
+        if (max){
+            params.set("max", max.toString())
+        }
+
+
+
+        if (params.has("property_types") ||
+            params.has("beds") ||
+            params.has("baths") ||
+            params.has("sort") ||
+            params.has("city") ||
+            params.has("state") ||
+            params.has("min") ||
+            params.has("max")){
 
             navigate(`/homes/${status}/?${params}`)
 
@@ -206,7 +227,13 @@ function FilterBar() {
 
 
 
-    }, [selectedProperties, status, baths, beds, sortBy, city, state]);
+    }, [selectedProperties, status, baths, beds, sortBy, city, state, min, max]);
+
+    // useEffect(() => {
+    //
+    //
+    //
+    // }, [min, max])
 
     const searchButton = () => {
         const newSearch = new URLSearchParams(location.search);
@@ -414,8 +441,11 @@ function FilterBar() {
                         min={0}
                         max={980000}
                         onChange={({ min, max }) => {
-                                setMax(max)
-                                setMin(min)
+                                debouncedMin(min)
+                                debouncedMax(max)
+
+                                // setMax(max)
+                                // setMin(min)
                         }
                         }
                     />
