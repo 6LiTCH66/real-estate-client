@@ -21,6 +21,7 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import qs from "qs";
 import {PropertySearch} from "../../types/PropertySearch";
 import {getProperty} from "../../http/propertyAPI";
+import {getSearch} from "../../utils/getSearch";
 
 function FilterBar() {
 
@@ -208,6 +209,24 @@ function FilterBar() {
     }, [selectedProperties, status, baths, beds, sortBy, city, state]);
 
     const searchButton = () => {
+        const newSearch = new URLSearchParams(location.search);
+
+        const searchProperty = getSearch(propertySearch, search)
+
+        if (searchProperty?.state){
+
+            newSearch.set('state', searchProperty.state);
+        }
+
+        if (searchProperty?.city){
+            newSearch.set('city', searchProperty.city);
+        }
+
+        if (newSearch.has("state") || newSearch.has("city")){
+            navigate(`/homes/${status}?${newSearch}`)
+            dispatch(setShowDropdown(false))
+
+        }
 
         if (!search){
             navigate(`/homes/${status}`)

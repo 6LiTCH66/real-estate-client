@@ -25,27 +25,35 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search, selected
     const preventClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
         event.preventDefault();
     }
-    const onSearchItemClick = (event: React.MouseEvent<HTMLAnchorElement>, searchProperty: string, params: "city" | "state") => {
+    const onSearchItemClick = (event: React.MouseEvent<HTMLAnchorElement>, searchProperty: string, params: "city" | "state" | "all") => {
         event.preventDefault()
 
         dispatch(setShowDropdown(false))
         const newSearch = new URLSearchParams(location.search);
 
+        if (searchProperty.split(",").length > 1){
 
-        if (search){
+            const [city, state] = searchProperty.split(",")
+            newSearch.set("city", city)
+            newSearch.set("state", state)
+        }
+
+        if (search && params !== "all"){
             newSearch.set(params, searchProperty);
 
         }
+
         if (selected_properties){
             newSearch.set("property_types", selected_properties.toString())
         }
 
         switch (params){
             case "city":
-                newSearch.delete("state_province")
+                newSearch.delete("state")
                 break
             case "state":
                 newSearch.delete("city")
+                break
 
         }
 
@@ -66,7 +74,7 @@ const FilteredDropdownSearch: FC<FilterSearch> = ({ properties, search, selected
                     {filterProperty(properties, search).map((property, index) => (
                             <div key={index}>
                                 <li>
-                                    <Link to="" onClick={(event: React.MouseEvent<HTMLAnchorElement>) => onSearchItemClick(event, `${property.city}`, "city")}>{boldify(property.city, search)}, {boldify(property.state, search)}</Link>
+                                    <Link to="" onClick={(event: React.MouseEvent<HTMLAnchorElement>) => onSearchItemClick(event, `${property.city},${property.state}`, "all")}>{boldify(property.city, search)}, {boldify(property.state, search)}</Link>
                                 </li>
 
                             </div>

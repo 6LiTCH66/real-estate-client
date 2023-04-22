@@ -18,6 +18,7 @@ import {PropertyType} from "../../types/PropertyType";
 import {PropertyStatus} from "../../types/PropertyStatus";
 import {getProperty} from "../../http/propertyAPI";
 import {property} from "lodash";
+import {getSearch} from "../../utils/getSearch";
 
 export interface Property{
     city: string,
@@ -70,31 +71,31 @@ function Header() {
 
 
 
-    type Location = {
-        city?: string;
-        state?: string;
-    }
-
-    function getSearch(): Location | null {
-        const matchingHeader = properties.find(({city, state}) => city.toLowerCase() === search.toLowerCase() || state.toLowerCase() === search.toLowerCase());
-
-        if (matchingHeader) {
-            if (matchingHeader.city.toLowerCase() === search.toLowerCase()) {
-                return { city: matchingHeader.city };
-            } else {
-                return { state: matchingHeader.state };
-            }
-        }
-
-        return null;
-    }
+    // type Location = {
+    //     city?: string;
+    //     state?: string;
+    // }
+    //
+    // function getSearch(): Location | null {
+    //     const matchingHeader = properties.find(({city, state}) => city.toLowerCase() === search.toLowerCase() || state.toLowerCase() === search.toLowerCase());
+    //
+    //     if (matchingHeader) {
+    //         if (matchingHeader.city.toLowerCase() === search.toLowerCase()) {
+    //             return { city: matchingHeader.city };
+    //         } else {
+    //             return { state: matchingHeader.state };
+    //         }
+    //     }
+    //
+    //     return null;
+    // }
 
 
     const searchByFilter = () => {
         const newSearch = new URLSearchParams(location.search);
 
 
-        const searchProperty = getSearch()
+        const searchProperty = getSearch(properties, search)
 
         if (searchProperty?.state){
 
@@ -105,12 +106,8 @@ function Header() {
             newSearch.set('city', searchProperty.city);
         }
 
-        // create redux slice for drop down if the user clicked on drop down
 
-        // if (search){
-        //     newSearch.set('state', search);
-        //
-        // }
+        // create redux slice for drop down if the user clicked on drop down
 
         if (selectedProperties.length){
             newSearch.set("property_types", selectedProperties.toString());
@@ -121,6 +118,7 @@ function Header() {
 
         }else{
             history(`homes/any`)
+
 
         }
     }
