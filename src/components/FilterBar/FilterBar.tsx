@@ -222,6 +222,12 @@ function FilterBar() {
             newSearch.set('city', searchProperty.city);
         }
 
+        if (searchProperty?.city && searchProperty?.state){
+
+            newSearch.set('city', searchProperty.city);
+            newSearch.set('state', searchProperty.state);
+        }
+
         if (newSearch.has("state") || newSearch.has("city")){
             navigate(`/homes/${status}?${newSearch}`)
             dispatch(setShowDropdown(false))

@@ -10,7 +10,7 @@ export function getSearch(properties: PropertyHeader[], search: string): Locatio
 
     if (matchingHeader) {
         if (matchingHeader.city.toLowerCase() === search.toLowerCase()) {
-            return { city: matchingHeader.city };
+            return { city: matchingHeader.city, state: matchingHeader.state };
         } else {
             return { state: matchingHeader.state };
         }
