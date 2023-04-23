@@ -20,7 +20,7 @@
     }
 
     .menu{
-      z-index: 99;
+      z-index: 100;
       overflow: hidden;
 
       .close{
@@ -35,6 +35,26 @@
       ul{
         list-style: none;
         display: flex;
+
+        .favourites-link{
+          position: relative;
+
+          span{
+            font-family: $body-font;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: crimson;
+            font-size: 12px;
+            color: white;
+            border-radius: 50%;
+            height: 23px;
+            width: 23px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
 
         li {
           display: inline-block;

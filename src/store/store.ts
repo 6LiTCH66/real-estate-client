@@ -4,7 +4,9 @@ import paginationReducer from "./paginationSlice";
 import modalReducer from "./modalSlice";
 import userReducer from "./userSlice";
 import searchReducer from "./searchSlice";
-import filterDropDownReducer from "./fliterDropdown"
+import filterDropDownReducer from "./fliterDropdown";
+import favouriteReducer from "./favouriteSlice";
+import { useDispatch } from 'react-redux';
 
 const store = configureStore({
     reducer: {
@@ -13,12 +15,13 @@ const store = configureStore({
         modalWindow: modalReducer,
         userSlice: userReducer,
         search: searchReducer,
-        filterDropdown: filterDropDownReducer
-
+        filterDropdown: filterDropDownReducer,
+        favouriteSlice: favouriteReducer
     },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 export default store;

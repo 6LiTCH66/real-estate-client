@@ -2,12 +2,13 @@ import React, {FC, useEffect, useState} from 'react';
 import {AiFillHeart} from "react-icons/ai";
 import './favourite.scss'
 import {useSelector, useDispatch} from "react-redux";
-import {RootState} from "../../../store/store";
+import {RootState, useAppDispatch} from "../../../store/store";
 import {toggleModal} from "../../../store/modalSlice";
 import {checkAuth} from "../../../store/userSlice";
 import {getFavourites, addToFavourite, deleteFavourite} from "../../../http/userAPI";
 import {Property} from "../../../types/Property";
 import toast from 'react-hot-toast';
+import {fetchFavourites, setFavouriteList} from "../../../store/favouriteSlice";
 
 
 interface FavouriteProps{
@@ -23,16 +24,22 @@ export interface Favourite{
 
 const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
     const dispatch = useDispatch();
+    const appDispatch = useAppDispatch()
 
     const [favourite, setFavourite] = useState<boolean>(false)
+
     const { currentUser, isAuth } = useSelector(
         (state: RootState) => state.userSlice
     );
+
+    const { favourites, status } = useSelector(
+        (state: RootState) => state.favouriteSlice
+    );
     const favouriteHandler = () => {
 
-        getFavourites().then((favourite) => {
-            const isFavourite = favourite.some((favourite) => favourite.propertyId._id === propertyId)
-            // console.log(isFavourite)
+        if (isAuth){
+
+            const isFavourite = favourites.some((favourite) => favourite.propertyId._id === propertyId)
 
             if (propertyId){
                 if (!isFavourite){
@@ -54,32 +61,38 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
                     })
                 }
             }
-
-
-        }).catch((err) => {
-            console.error(err)
-        })
-
-        if (isAuth){
-            // console.log(propertyId)
-            // setIsFavourite(prevState => !prevState)
-
         }else{
             dispatch(toggleModal())
         }
     }
 
+    useEffect(() => {
+
+        if (isAuth && status === "succeeded"){
+
+            const filterFavourite = favourites.some((favourite) => favourite.propertyId._id === propertyId)
+
+            setFavourite(filterFavourite)
+
+        }else{
+            setFavourite(false)
+        }
+
+
+    }, [favourites]);
 
 
     useEffect(() => {
-        getFavourites().then((favourite) => {
-            const fav = favourite.some((favourite) => favourite.propertyId._id === propertyId)
-            setFavourite(fav)
-        }).catch((err) => {
-            console.error(err)
-        })
 
-    }, [favourite]);
+        if (isAuth){
+            appDispatch(fetchFavourites())
+
+        }
+
+    }, [appDispatch, favourite, isAuth, currentUser]);
+
+
+
 
 
     return (

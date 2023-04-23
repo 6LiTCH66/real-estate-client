@@ -1,0 +1,25 @@
+@import "../../styles/variables";
+
+.favourites{
+  display: flex;
+  justify-content: center;
+  .favourites-container{
+    width: 100%;
+
+    .favourites-info{
+      padding: 40px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .title{
+        font-family: $headings-font;
+        color: $text-color;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 51.88px;
+        line-height: 69px;
+      }
+    }
+  }
+}

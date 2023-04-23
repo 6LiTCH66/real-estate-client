@@ -5,24 +5,21 @@ import store from "../store/store";
 import {Favourite} from "../components/UI/FavouriteIcon/FavouriteIcon";
 
 
-export const login = async (userCredentials: UserAuthentication) => {
+export const login = async (userCredentials: UserAuthentication):Promise<UserAuthentication> => {
     try{
         const user = await axios.post<UserAuthentication>(`${process.env.REACT_APP_BASE_URL}/auth/sign-in`, userCredentials, {withCredentials: true})
-        store.dispatch(setUser(user.data))
-        localStorage.setItem("user", JSON.stringify(user.data))
+        return user.data
 
     }catch (error){
         console.error(error)
+        throw error
     }
 
 }
 
 export const logout = async () => {
     try{
-        const user = await axios.post<UserAuthentication>(`${process.env.REACT_APP_BASE_URL}/auth/logout`)
-        store.dispatch(setUser(user.data))
-        // console.log(user.data)
-        localStorage.removeItem("user")
+        const user = await axios.post<UserAuthentication>(`${process.env.REACT_APP_BASE_URL}/auth/logout`, {}, {withCredentials: true})
 
     }catch (error){
         console.error(error)

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import "./propertyList.scss"
 import {PropertyCard, PropertyCardSekeleton} from "../index";
 import {MdNavigateNext, MdNavigateBefore} from "react-icons/md"
@@ -10,92 +10,114 @@ import {RootState} from "../../store/store";
 import {PropertySearch} from "../../types/PropertySearch";
 import {setFilterSearch} from "../../store/searchSlice";
 
-function PropertyList() {
+interface PropertyListProps{
+    properties?: Property[];
+    loading: boolean;
+
+}
+
+const PropertyList: FC<PropertyListProps> = ({properties, loading}) => {
 
     const location = useLocation();
 
-    const dispatch = useDispatch()
-    const [propertyParams, setPropertyParams] = useState<PropertySearch>({property_status: undefined, property_type: undefined, baths: undefined, beds: undefined, sort: undefined, city: undefined, state_province: undefined})
-    const propertyRef = useRef(propertyParams)
-    const { property_search } = useSelector(
-        (state: RootState) => state.search
-    );
-    const {status} = useParams()
+    // const dispatch = useDispatch()
 
-    const [properties, setProperties] = useState<Property[]>();
+
+    // const [propertyParams, setPropertyParams] = useState<PropertySearch>({property_status: undefined, property_type: undefined, baths: undefined, beds: undefined, sort: undefined, city: undefined, state_province: undefined})
+    // const propertyRef = useRef(propertyParams)
+
+    // const { property_search } = useSelector(
+    //     (state: RootState) => state.search
+    // );
+
+    // const {status} = useParams()
+
+    // const [properties, setProperties] = useState<Property[]>();
+
 
     const totalProperties = properties?.length || 0; // Property[].length
     const itemsPerPage = 12 // property to display per page
 
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const [loading, setLoading] = useState<boolean>(true);
+    // const [loading, setLoading] = useState<boolean>(true);
 
     const totalPages = Math.ceil(totalProperties / itemsPerPage);
 
+
+
     const searchParams = new URLSearchParams(location.search);
-    const property_types = searchParams.get('property_types') || undefined;
 
-    const beds = searchParams.get('beds');
-    const baths = searchParams.get('baths');
-    const sortBy = searchParams.get('sort') || undefined;
+    useEffect(() => {
 
-    const city = searchParams.get('city') || undefined;
-    const state_province = searchParams.get('state') || undefined;
-    const max = searchParams.get('max');
-    const min = searchParams.get('min');
+    }, [properties]);
+
+
+    // const property_types = searchParams.get('property_types') || undefined;
+    //
+    // const beds = searchParams.get('beds');
+    // const baths = searchParams.get('baths');
+    // const sortBy = searchParams.get('sort') || undefined;
+    //
+    // const city = searchParams.get('city') || undefined;
+    // const state_province = searchParams.get('state') || undefined;
+    // const max = searchParams.get('max');
+    // const min = searchParams.get('min');
 
 
     // check page: sell, rent or any or property_types
-    useEffect( () => {
 
-        setLoading(true)
+    // useEffect( () => {
 
-        const propertyStatus = status === "buy" ? "sell" : status === "any" ? "" : status
+        // setLoading(true)
 
-        propertyRef.current.property_status = propertyStatus
-
-        if (property_types){
-            const property_params = property_types.split(",")
-            propertyRef.current.property_type = property_params
-
-
-        }else{
-            propertyRef.current.property_type = property_types
-        }
-
-        propertyRef.current.beds = typeof beds === "string" ? parseInt(beds): null
-        propertyRef.current.baths = typeof baths === "string" ? parseInt(baths): null
-
-        propertyRef.current.sort = sortBy
-        propertyRef.current.city = city
-        propertyRef.current.state_province = state_province
-
-        propertyRef.current.min = typeof min === "string" ? parseInt(min): null
-        propertyRef.current.max = typeof max === "string" ? parseInt(max): null
-
-        setPropertyParams(propertyRef.current)
-
-
-        getProperty(propertyRef.current).then((properties) => {
-
-            setProperties(properties)
-            setLoading(false)
+        // const propertyStatus = status === "buy" ? "sell" : status === "any" ? "" : status
+        //
+        // propertyRef.current.property_status = propertyStatus
+        //
+        // if (property_types){
+        //     const property_params = property_types.split(",")
+        //     propertyRef.current.property_type = property_params
+        //
+        //
+        // }else{
+        //     propertyRef.current.property_type = property_types
+        // }
+        //
+        // propertyRef.current.beds = typeof beds === "string" ? parseInt(beds): null
+        // propertyRef.current.baths = typeof baths === "string" ? parseInt(baths): null
+        //
+        // propertyRef.current.sort = sortBy
+        // propertyRef.current.city = city
+        // propertyRef.current.state_province = state_province
+        //
+        // propertyRef.current.min = typeof min === "string" ? parseInt(min): null
+        // propertyRef.current.max = typeof max === "string" ? parseInt(max): null
+        //
+        // setPropertyParams(propertyRef.current)
 
 
-        }).catch((error) => {
-            console.log(error)
+        // getProperty(propertyRef.current).then((properties) => {
+        //
+        //     setProperties(properties)
+        //     setLoading(false)
+        //
+        //
+        // }).catch((error) => {
+        //     console.log(error)
+        //
+        // })
 
-        })
+
+    // }, [status, property_types, beds, baths, sortBy, city, state_province, min, max]);
 
 
-    }, [status, property_types, beds, baths, sortBy, city, state_province, min, max]);
 
 
-    useEffect(() => {
-        dispatch(setFilterSearch(propertyRef.current))
-
-    }, [propertyRef]);
+    // useEffect(() => {
+    //     dispatch(setFilterSearch(propertyRef.current))
+    //
+    // }, [propertyRef]);
 
 
     const handleClickPrev = () => {

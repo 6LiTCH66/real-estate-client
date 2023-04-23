@@ -12,6 +12,8 @@ import { useDispatch } from 'react-redux';
 import {RootState} from "../../store/store";
 import {useSelector} from "react-redux";
 import {logout} from "../../http/userAPI";
+import {signout} from "../../store/userSlice";
+import toast from "react-hot-toast";
 
 function Navbar() {
     const [toggle, setToggle] = useState<boolean>(false);
@@ -22,8 +24,20 @@ function Navbar() {
         (state: RootState) => state.userSlice
     );
 
+    const { favourites } = useSelector(
+        (state: RootState) => state.favouriteSlice
+    );
+
+    const handleLogout = () => {
+        logout()
+        dispatch(signout())
+        toast.success("You've been logged out successfully!")
+    }
+
     const handleModalWindow = () => {
+
         dispatch(toggleModal())
+
     }
 
     return (
@@ -60,18 +74,34 @@ function Navbar() {
 
                            <a href="#our-team">Our team</a>
                        </li>
-                       <li>
+                       {isAuth ? (
+                           <li className="favourites-link">
+                               {favourites.length ? (
+                                   <span>{favourites.length}</span>
+                               ): (
+                                   <></>
+                               )}
 
-                       </li>
+                               <Link to="/favourites">Favourites</Link>
+                           </li>
+                       ):  (
+                           <></>
+                       )}
+
 
                    </ul>
 
                    <div>
-                       <button type="button" onClick={logout}>Logout</button>
                    </div>
 
-                   <div className="signIn" onClick={handleModalWindow}>
-                       <Link to="#" onClick={(event) => event.preventDefault()}>Sing in</Link>
+                   <div className="signIn" onClick={isAuth ? handleLogout : handleModalWindow}>
+                       {isAuth ? (
+                           <Link to="#" onClick={(event) => event.preventDefault()}>Logout</Link>
+
+                       ): (
+                           <Link to="#" onClick={(event) => event.preventDefault()}>Sing in</Link>
+
+                       )}
                    </div>
 
                </div>

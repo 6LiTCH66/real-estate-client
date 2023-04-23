@@ -5,6 +5,8 @@ import {login} from "../../../http/userAPI";
 import toast from 'react-hot-toast';
 import {useDispatch} from "react-redux";
 import {toggleModal} from "../../../store/modalSlice";
+import store from "../../../store/store";
+import {setUser} from "../../../store/userSlice";
 
 function Login() {
     const [userCredentials, setUserCredentials] = useState<UserAuthentication>({email: "", password: ""})
@@ -12,7 +14,11 @@ function Login() {
     const handleUserForm = async (event: FormEvent) => {
         event.preventDefault()
 
-        await login(userCredentials).then(() => {
+        login(userCredentials).then((user) => {
+            localStorage.setItem("user", JSON.stringify(user))
+
+            dispatch(setUser(user))
+
             dispatch(toggleModal())
             toast.success("You've been logged in successfully!")
 
