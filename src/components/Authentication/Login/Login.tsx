@@ -2,13 +2,24 @@ import React, {FormEvent, useState} from 'react';
 import "../authentication.scss"
 import {UserAuthentication} from "../../../types/UserAuthentication";
 import {login} from "../../../http/userAPI";
+import toast from 'react-hot-toast';
+import {useDispatch} from "react-redux";
+import {toggleModal} from "../../../store/modalSlice";
 
 function Login() {
     const [userCredentials, setUserCredentials] = useState<UserAuthentication>({email: "", password: ""})
+    const dispatch = useDispatch()
     const handleUserForm = async (event: FormEvent) => {
         event.preventDefault()
 
-        await login(userCredentials)
+        await login(userCredentials).then(() => {
+            dispatch(toggleModal())
+            toast.success("You've been logged in successfully!")
+
+        }).catch((err) => {
+            toast.error("Something wrong while signing in!")
+        })
+
         setUserCredentials({email: "", password: ""})
 
     }

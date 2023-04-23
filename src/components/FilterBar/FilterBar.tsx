@@ -439,7 +439,7 @@ function FilterBar() {
                 <div style={{display: "flex", justifyContent: "center"}}>
                     <MultiRangeSlider
                         min={0}
-                        max={980000}
+                        max={3500000}
                         onChange={({ min, max }) => {
                                 debouncedMin(min)
                                 debouncedMax(max)

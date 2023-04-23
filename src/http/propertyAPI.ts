@@ -25,7 +25,7 @@ export const getProperty = async (property_params?: PropertySearch): Promise<Pro
     }
 }
 
-export const oneProperty = async (id: string):Promise<Property> =>{
+export const oneProperty = async (id: string): Promise<Property> =>{
     try{
         const property = await axios.get<Property>(`${process.env.REACT_APP_BASE_URL}/property/single/${id}`)
         return property.data

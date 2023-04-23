@@ -9,11 +9,18 @@ import {useNavigate} from "react-router-dom";
 
 import {toggleModal} from "../../store/modalSlice";
 import { useDispatch } from 'react-redux';
+import {RootState} from "../../store/store";
+import {useSelector} from "react-redux";
+import {logout} from "../../http/userAPI";
 
 function Navbar() {
     const [toggle, setToggle] = useState<boolean>(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const { currentUser, isAuth } = useSelector(
+        (state: RootState) => state.userSlice
+    );
 
     const handleModalWindow = () => {
         dispatch(toggleModal())
@@ -53,12 +60,20 @@ function Navbar() {
 
                            <a href="#our-team">Our team</a>
                        </li>
+                       <li>
+
+                       </li>
 
                    </ul>
 
-                   <div className="signIn" onClick={handleModalWindow}>
-                       <Link to="/sing-in">Sing in</Link>
+                   <div>
+                       <button type="button" onClick={logout}>Logout</button>
                    </div>
+
+                   <div className="signIn" onClick={handleModalWindow}>
+                       <Link to="#" onClick={(event) => event.preventDefault()}>Sing in</Link>
+                   </div>
+
                </div>
 
            </div>

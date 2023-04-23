@@ -12,9 +12,6 @@ interface PropertyCardProps{
 }
 
 const PropertyCard:FC<PropertyCardProps> = ({property}) => {
-    const [favouriteClick, setFavouriteClick] = useState<boolean>(false)
-
-
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -27,8 +24,10 @@ const PropertyCard:FC<PropertyCardProps> = ({property}) => {
 
 
     return (
-        <div className="card" onClick={navigateToDetails}>
-            <div className="container">
+        <div className="card" >
+            <Favourite size={27} propertyId={property._id}/>
+
+            <div className="container" onClick={navigateToDetails}>
                 <div className="image">
 
                     <div className="status">
@@ -39,7 +38,6 @@ const PropertyCard:FC<PropertyCardProps> = ({property}) => {
 
                     <img src={property.images[0]} alt="Property" loading="lazy"/>
 
-                    <Favourite isFavourite={favouriteClick} size={27} onClick={() => setFavouriteClick(prevState => !prevState)}/>
 
                 </div>
                 <div className="body">

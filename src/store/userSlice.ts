@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {UserAuthentication} from "../types/UserAuthentication";
+import store from "./store";
 
 interface UserState{
     currentUser: UserAuthentication,
@@ -18,15 +19,18 @@ const userSlice = createSlice({
     reducers: {
         setUser: (state, action: PayloadAction<UserAuthentication>) =>{
             state.currentUser = action.payload;
-            state.isAuth = true;
+            state.isAuth = localStorage.getItem("user") ? true : false;
         },
         logout: (state) => {
             localStorage.removeItem("user")
             state.currentUser = {} as UserAuthentication;
             state.isAuth = false;
+        },
+        checkAuth: (state) => {
+            state.isAuth = localStorage.getItem("user") ? true : false;
         }
     }
 })
 
-export const { setUser, logout } = userSlice.actions;
+export const { setUser, logout, checkAuth } = userSlice.actions;
 export default userSlice.reducer;

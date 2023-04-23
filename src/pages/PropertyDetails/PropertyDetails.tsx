@@ -169,7 +169,7 @@ function PropertyDetails() {
                     <div className="frame">
 
                         <div className="image-container">
-                            <Favourite size={27} isFavourite={false} onClick={() => console.log("test")} />
+                            <Favourite size={27} propertyId={propertyId} />
 
 
                             <button className="left-arrow" onClick={prevSlide}>

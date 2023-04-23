@@ -1,6 +1,7 @@
 @import "../../../styles/variables";
 
 .favourite{
+  z-index: 99;
   cursor: pointer;
   display: flex;
   justify-content: center;

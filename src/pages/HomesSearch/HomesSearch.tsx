@@ -6,6 +6,7 @@ import {FilterBar} from "../../components";
 import {getProperty} from "../../http/propertyAPI";
 
 import { Outlet } from "react-router-dom"
+import {Toaster} from "react-hot-toast";
 function HomesSearch() {
 
     const {status} = useParams();
@@ -57,6 +58,8 @@ function HomesSearch() {
                 <Outlet/>
 
             </div>
+
+
         </div>
     );
 }
