@@ -10,6 +10,9 @@ import {Property} from "../../../types/Property";
 import toast from 'react-hot-toast';
 import {fetchFavourites, setFavouriteList} from "../../../store/favouriteSlice";
 
+import UseAnimations from "react-useanimations";
+import loading from "react-useanimations/lib/loading"
+
 
 interface FavouriteProps{
     size: number
@@ -23,10 +26,13 @@ export interface Favourite{
 }
 
 const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
+
     const dispatch = useDispatch();
     const appDispatch = useAppDispatch()
 
     const [favourite, setFavourite] = useState<boolean>(false)
+
+    const [saveFavourite, setSaveFavourite] = useState<boolean>(false)
 
     const { currentUser, isAuth } = useSelector(
         (state: RootState) => state.userSlice
@@ -42,14 +48,21 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
             const isFavourite = favourites.some((favourite) => favourite.propertyId._id === propertyId)
 
             if (propertyId){
+                setSaveFavourite(true)
+
                 if (!isFavourite){
 
                     addToFavourite(propertyId).then(() => {
                         setFavourite(true)
                         toast.success("Property's been added successfully!")
                     }).catch((err) => {
+                        setFavourite(false)
                         console.error(err)
                     })
+                    setSaveFavourite(false)
+
+
+
 
 
                 }else{
@@ -57,8 +70,12 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
                         setFavourite(false)
                         toast.success("Property's been deleted successfully!")
                     }).catch((err) => {
+                        setFavourite(false)
                         console.error(err)
                     })
+                    setSaveFavourite(false)
+
+
                 }
             }
         }else{
@@ -96,9 +113,17 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
 
 
     return (
-        <div className="favourite" onClick={favouriteHandler} style={styles} >
-            <AiFillHeart size={size} color={favourite ? '#E83845' : '#141B2D'}/>
-        </div>
+        <button className="favourite" onClick={favouriteHandler} disabled={saveFavourite} style={{...styles, cursor: saveFavourite ? "wait" : "pointer"}} >
+
+            {saveFavourite ? (
+                <UseAnimations animation={loading} size={size} />
+
+            ) : (
+                <AiFillHeart size={size} color={favourite ? '#E83845' : '#141B2D'}/>
+
+            )}
+
+        </button>
     );
 }
 
