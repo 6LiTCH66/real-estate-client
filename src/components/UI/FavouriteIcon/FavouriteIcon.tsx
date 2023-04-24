@@ -55,11 +55,12 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
                     addToFavourite(propertyId).then(() => {
                         setFavourite(true)
                         toast.success("Property's been added successfully!")
+                        setSaveFavourite(false)
+
                     }).catch((err) => {
                         setFavourite(false)
                         console.error(err)
                     })
-                    setSaveFavourite(false)
 
 
 
@@ -69,11 +70,12 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
                     deleteFavourite(propertyId).then(() => {
                         setFavourite(false)
                         toast.success("Property's been deleted successfully!")
+                        setSaveFavourite(false)
+
                     }).catch((err) => {
                         setFavourite(false)
                         console.error(err)
                     })
-                    setSaveFavourite(false)
 
 
                 }
