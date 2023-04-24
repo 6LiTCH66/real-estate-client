@@ -4,56 +4,63 @@ import {PropertyCard, PropertyCardSekeleton} from "../index";
 import {MdNavigateNext, MdNavigateBefore} from "react-icons/md"
 import {getProperty} from "../../http/propertyAPI";
 import {Property} from "../../types/Property";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
+import {setPage} from "../../store/paginationSlice";
 import {RootState} from "../../store/store";
-import {PropertySearch} from "../../types/PropertySearch";
-import {setFilterSearch} from "../../store/searchSlice";
 
 interface PropertyListProps{
     properties?: Property[];
     loading: boolean;
+    propertiesLength?: number
 
 }
 
-const PropertyList: FC<PropertyListProps> = ({properties, loading}) => {
+const PropertyList: FC<PropertyListProps> = ({properties, loading, propertiesLength}) => {
 
     const location = useLocation();
+    const dispatch = useDispatch()
 
+    const { itemsPerPage, currentPage } = useSelector(
+        (state: RootState) => state.pagination
+    );
 
-    const totalProperties = properties?.length || 0; // Property[].length
-    const itemsPerPage = 12 // property to display per page
-
-    const [currentPage, setCurrentPage] = useState<number>(1);
-
+    const totalProperties = propertiesLength || 0;
 
     const totalPages = Math.ceil(totalProperties / itemsPerPage);
 
 
 
     const searchParams = new URLSearchParams(location.search);
-
-    useEffect(() => {
-
-    }, [properties]);
-
+    const page = searchParams.get('page');
 
     const handleClickPrev = () => {
-        setCurrentPage(prevState => prevState - 1)
+        dispatch(setPage(currentPage - 1))
     };
 
     const handleClickNext = () => {
-        setCurrentPage(prevState => prevState + 1)
+        dispatch(setPage(currentPage + 1))
     };
 
     const handleClickPage = (index: number) => {
-        setCurrentPage(index)
+        dispatch(setPage(index))
     }
 
+    useEffect(() => {
 
-    const start = (currentPage - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    const paginatedItems = properties?.slice(start, end);
+        if (Number(page) > currentPage){
+            dispatch(setPage(Number(page)))
+        }
+
+    }, [page]);
+
+
+    // useEffect(() => {
+    //     console.log(properties)
+    // }, [properties]);
+
+
+
 
 
     useEffect(() => {
@@ -64,7 +71,8 @@ const PropertyList: FC<PropertyListProps> = ({properties, loading}) => {
             behavior: "smooth"
         });
 
-    }, [currentPage]);
+
+    }, [currentPage, page]);
 
 
 
@@ -74,7 +82,7 @@ const PropertyList: FC<PropertyListProps> = ({properties, loading}) => {
         <div className="property-list">
             <div className="list-container">
                 {!loading ? (
-                    paginatedItems?.map((property, index) => (
+                    properties?.map((property, index) => (
                         <PropertyCard key={index} property={property}/>
                     ))
                 ): (

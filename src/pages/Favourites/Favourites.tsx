@@ -60,7 +60,7 @@ function Favourites() {
 
                     <h4 className="title">Your favourites properties</h4>
                 </div>
-                <PropertyList properties={favouriteProperties} loading={loading}/>
+                <PropertyList properties={favouriteProperties} loading={loading} propertiesLength={favouriteProperties?.length}/>
 
             </div>
         </div>

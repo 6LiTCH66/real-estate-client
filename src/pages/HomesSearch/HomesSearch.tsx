@@ -3,14 +3,15 @@ import "./homesSearch.scss"
 import {useParams, useNavigate, useLocation} from "react-router-dom";
 import {PropertyStatus} from "../../types/PropertyStatus";
 import {FilterBar, PropertyList} from "../../components";
-import {getProperty} from "../../http/propertyAPI";
+import {getProperty, Pagination} from "../../http/propertyAPI";
 
 import { Outlet } from "react-router-dom"
 import {Toaster} from "react-hot-toast";
 import {PropertySearch} from "../../types/PropertySearch";
 import {Property} from "../../types/Property";
 import {setFilterSearch} from "../../store/searchSlice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store/store";
 function HomesSearch() {
 
     const dispatch = useDispatch()
@@ -19,6 +20,10 @@ function HomesSearch() {
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState<boolean>(true);
+
+    const { itemsPerPage, currentPage } = useSelector(
+        (state: RootState) => state.pagination
+    );
 
 
     const searchParams = new URLSearchParams(location.search);
@@ -30,6 +35,7 @@ function HomesSearch() {
 
     const [propertyParams, setPropertyParams] = useState<PropertySearch>({property_status: undefined, property_type: undefined, baths: undefined, beds: undefined, sort: undefined, city: undefined, state_province: undefined})
     const propertyRef = useRef(propertyParams)
+    const paginationRef = useRef<Pagination>({page: 1, limit: 12})
 
 
     const property_types = searchParams.get('property_types') || undefined;
@@ -42,6 +48,10 @@ function HomesSearch() {
     const state_province = searchParams.get('state') || undefined;
     const max = searchParams.get('max');
     const min = searchParams.get('min');
+
+    const page = searchParams.get('page');
+    // const limit = searchParams.get('limit');
+    const [propertiesLength, setPropertiesLength] = useState<Property[]>([])
 
 
 
@@ -76,10 +86,11 @@ function HomesSearch() {
                 propertyRef.current.min = typeof min === "string" ? parseInt(min): null
                 propertyRef.current.max = typeof max === "string" ? parseInt(max): null
 
+                paginationRef.current.page = typeof page === "string" ? parseInt(page): null
+
                 setPropertyParams(propertyRef.current)
 
-                getProperty(propertyRef.current).then((properties) => {
-
+                getProperty(propertyRef.current, paginationRef.current).then((properties) => {
                     setProperties(properties)
                     setLoading(false)
 
@@ -89,6 +100,13 @@ function HomesSearch() {
 
                 })
 
+                getProperty(propertyRef.current).then((properties) => {
+                    setPropertiesLength(properties)
+
+                }).catch((error) => {
+                    console.log(error)
+
+                })
 
             }
 
@@ -96,7 +114,8 @@ function HomesSearch() {
                 navigate("/")
             }
         }
-    }, [status, property_types, beds, baths, sortBy, city, state_province, min, max]);
+    }, [status, property_types, beds, baths, sortBy, city, state_province, min, max, page]);
+
 
 
     useEffect(() => {
@@ -124,7 +143,7 @@ function HomesSearch() {
                 <FilterBar/>
 
                 {/*<Outlet/>*/}
-                <PropertyList properties={properties} loading={loading}/>
+                <PropertyList properties={properties} loading={loading} propertiesLength={propertiesLength.length}/>
             </div>
 
 

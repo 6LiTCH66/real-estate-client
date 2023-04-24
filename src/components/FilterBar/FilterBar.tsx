@@ -22,6 +22,7 @@ import qs from "qs";
 import {PropertySearch} from "../../types/PropertySearch";
 import {getProperty} from "../../http/propertyAPI";
 import {getSearch} from "../../utils/getSearch";
+import {setPage} from "../../store/paginationSlice";
 
 function FilterBar() {
 
@@ -31,6 +32,7 @@ function FilterBar() {
     const {status} = useParams()
 
     const dispatch = useDispatch();
+
     const { statusButton, typeButton, bedsBathsButton, sortButton } = useSelector(
         (state: RootState) => state.dropDown
     );
@@ -39,6 +41,10 @@ function FilterBar() {
 
     const { property_search } = useSelector(
         (state: RootState) => state.search
+    );
+
+    const { itemsPerPage, currentPage } = useSelector(
+        (state: RootState) => state.pagination
     );
 
 
@@ -69,7 +75,8 @@ function FilterBar() {
     const city = searchParams.get("city") || undefined
     const state = searchParams.get("state") || undefined
     const property_type_params = searchParams.get('property_types');
-    // const [showDropDown, setShowDropDown] = useState<boolean>(false)
+
+    const page = searchParams.get('page');
 
 
 
@@ -114,8 +121,8 @@ function FilterBar() {
         setCurrentCheck(property_type)
     }, [status]);
 
+
     useEffect(() => {
-        // const newSearch = new URLSearchParams(location.search);
 
         getProperty({property_status: status === "buy" ? "sell" : status === "any" ? "" : status }).then((properties) => {
             const headers: PropertyHeader[] = properties.map((properties) => {
@@ -207,6 +214,21 @@ function FilterBar() {
 
 
 
+        params.set("page", currentPage.toString())
+
+
+
+        // if (page && Number(page) === Number(currentPage)){
+        //     params.set("page", page)
+        // }else{
+        //     params.set("page", currentPage.toString())
+        //
+        // }
+
+
+
+
+
         if (params.has("property_types") ||
             params.has("beds") ||
             params.has("baths") ||
@@ -214,7 +236,8 @@ function FilterBar() {
             params.has("city") ||
             params.has("state") ||
             params.has("min") ||
-            params.has("max")){
+            params.has("max") ||
+            params.has("page")){
 
             navigate(`/homes/${status}/?${params}`)
 
@@ -226,7 +249,7 @@ function FilterBar() {
 
 
 
-    }, [selectedProperties, status, baths, beds, sortBy, city, state, min, max]);
+    }, [selectedProperties, status, baths, beds, sortBy, city, state, min, max, currentPage, page]);
 
     // useEffect(() => {
     //

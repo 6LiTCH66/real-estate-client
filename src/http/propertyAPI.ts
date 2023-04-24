@@ -9,10 +9,15 @@ export interface PropertyList{
 }
 
 
-export const getProperty = async (property_params?: PropertySearch): Promise<Property[]> => {
+export interface Pagination{
+    page?: number | null;
+    limit?: number | null;
+}
+
+export const getProperty = async (property_params?: PropertySearch, pagination?: Pagination): Promise<Property[]> => {
 
     const config: AxiosRequestConfig = {
-        params: {...property_params}
+        params: { ...property_params, ...pagination }
     };
 
     try{
