@@ -11,22 +11,36 @@ import {setUser} from "../../../store/userSlice";
 function Login() {
     const [userCredentials, setUserCredentials] = useState<UserAuthentication>({email: "", password: ""})
     const dispatch = useDispatch()
+    const [logging, setLogging] = useState<boolean>(false);
     const handleUserForm = async (event: FormEvent) => {
         event.preventDefault()
+        setLogging(true)
 
-        login(userCredentials).then((user) => {
-            localStorage.setItem("user", JSON.stringify(user))
 
-            dispatch(setUser(user))
+        toast.promise(
+            login(userCredentials).then((user) => {
 
-            dispatch(toggleModal())
-            toast.success("You've been logged in successfully!")
+                localStorage.setItem("user", JSON.stringify(user))
 
-        }).catch((err) => {
-            toast.error("Something wrong while signing in!")
-        })
+                dispatch(setUser(user))
+                dispatch(toggleModal())
+                setUserCredentials({email: "", password: ""})
+                setLogging(false)
 
-        setUserCredentials({email: "", password: ""})
+            }),
+            {
+                loading: 'Signing in...',
+                success: "Congratulations! You have successfully signed in to your account.",
+                error: "Sorry, we were unable to sign you in. Please check your username and password and try again.",
+
+            },
+            {
+                position: 'top-center',
+            }
+        ).catch(() => {
+            setLogging(false)
+        });
+
 
     }
 
@@ -38,7 +52,7 @@ function Login() {
 
                 <label htmlFor="login-password">Password</label>
                 <input type="password" value={userCredentials.password} required={true} id="login-password" onChange={(event) => setUserCredentials({...userCredentials, password: event.target.value})} placeholder="Enter password"/>
-                <button type="submit" className="submit-form">Submit</button>
+                <button type="submit" disabled={logging} className="submit-form">Submit</button>
             </form>
 
         </div>

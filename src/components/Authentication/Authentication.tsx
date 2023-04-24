@@ -30,7 +30,11 @@ function Authentication() {
     }
     return (
         <div className="authentication" style={{display: !isModalShow ? "none": ""}} onClick={handleClickOutsideModal}>
+
+
             <div className="modal-container" ref={modalRef}>
+
+
 
                 <IoMdClose size={30} className="close-modal" onClick={handleCloseModal}/>
 

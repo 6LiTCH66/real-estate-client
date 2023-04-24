@@ -54,12 +54,15 @@ export const getFavourites = async ():Promise<Favourite[]> => {
     }
 }
 
-export const signup = async (userCredentials: UserAuthentication) => {
+export const signup = async (userCredentials: UserAuthentication):Promise<UserAuthentication> => {
     try{
         const user = await axios.post<UserAuthentication>(`${process.env.REACT_APP_BASE_URL}/auth/sign-up`, userCredentials)
         console.log(user.data)
+        return user.data
 
     }catch (error){
         console.error(error)
+
+        throw error
     }
 }

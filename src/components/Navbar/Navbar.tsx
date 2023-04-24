@@ -29,9 +29,17 @@ function Navbar() {
     );
 
     const handleLogout = () => {
-        logout()
-        dispatch(signout())
-        toast.success("You've been logged out successfully!")
+        toast.promise(
+            logout().then(() => {
+                dispatch(signout())
+            }),
+            {
+                loading: 'Logging out...',
+                success: "Congratulations on a successful logout!",
+                error: "Sorry, an error occurred while trying to log you out.",
+            }
+        );
+
     }
 
     const handleModalWindow = () => {

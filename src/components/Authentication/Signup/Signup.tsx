@@ -1,20 +1,38 @@
 import React, {FormEvent, useState} from 'react';
 import "../authentication.scss"
 import {UserAuthentication} from "../../../types/UserAuthentication";
-import axios from "axios";
 import {signup} from "../../../http/userAPI";
-
+import toast from 'react-hot-toast';
 
 function Signup() {
     const [showAgentInfo, setShowAgentInfo] = useState<boolean>(false)
     const [userCredentials, setUserCredentials] = useState<UserAuthentication>({email: "", password: ""})
-
+    const [signing, setSigning] = useState<boolean>(false)
     const handleSingupForm = async (event: FormEvent) => {
         event.preventDefault()
 
-        await signup(userCredentials)
+        setSigning(true)
+        toast.promise(
+            signup(userCredentials).then(() => {
 
-        setUserCredentials({email: "", password: "", first_name: "", last_name: "", phone_number: ""})
+                setUserCredentials({email: "", password: "", first_name: "", last_name: "", phone_number: ""})
+                setSigning(false)
+
+
+            }),
+            {
+                loading: 'Signing up...',
+                success: "Congratulations! Your sign-up was successful. Welcome to our community!",
+                error: "Sorry, we couldn't sign you up at this time. Please check that all fields are filled out correctly and try again.",
+            },
+            {
+                position: "top-center",
+                duration: 4000
+            }
+        ).catch(() => {
+            setSigning(false)
+
+        });
 
 
     }
@@ -88,7 +106,7 @@ function Signup() {
                 </div>
 
 
-                <button type="submit" className="submit-form">Submit</button>
+                <button type="submit" disabled={signing} className="submit-form">Submit</button>
             </form>
 
         </div>

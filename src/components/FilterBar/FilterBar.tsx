@@ -41,7 +41,6 @@ function FilterBar() {
         (state: RootState) => state.search
     );
 
-    const properties: Property[] = property_json.states
 
     const handleButtonClick = (buttonName: string) => {
         dispatch(toggleButton(buttonName));
