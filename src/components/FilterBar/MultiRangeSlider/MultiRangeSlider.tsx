@@ -56,17 +56,22 @@ const MultiRangeSlider: FC<Props> = ({ min, max, onChange }) => {
 
     const changeMax = (event: React.ChangeEvent<HTMLInputElement>) => {
 
-        const value = Math.max(Number(event.target.value), minVal + 1);
+        // const value = Math.max(Number(event.target.value), minVal + 1);
+        const value = Number(event.target.value)
 
-        if (value + 1 >= max){
-            setMaxVal(max);
-            setMaxInput(max)
+        if (value > minVal){
+            if (value > max){
+                setMaxVal(max);
+                setMaxInput(max)
+
+            }else{
+                setMaxVal(value);
+                setMaxInput(value)
+                maxValRef.current = value;
+            }
 
         }else{
-            setMaxVal(value);
             setMaxInput(value)
-            maxValRef.current = value;
-
         }
 
     }
