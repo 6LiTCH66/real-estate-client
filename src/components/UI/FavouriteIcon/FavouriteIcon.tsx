@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {AiFillHeart} from "react-icons/ai";
 import './favourite.scss'
 import {useSelector, useDispatch} from "react-redux";
@@ -41,6 +41,8 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
     const { favourites, status } = useSelector(
         (state: RootState) => state.favouriteSlice
     );
+
+    const stateRef = useRef({ favourites, status });
     const favouriteHandler = () => {
 
         if (isAuth){
@@ -85,6 +87,9 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
         }
     }
 
+
+
+
     useEffect(() => {
 
         if (isAuth && status === "succeeded"){
@@ -108,7 +113,7 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
 
         }
 
-    }, [appDispatch, favourite, isAuth, currentUser]);
+    }, [dispatch, favourite, isAuth]);
 
 
 

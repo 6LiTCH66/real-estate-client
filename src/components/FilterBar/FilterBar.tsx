@@ -100,6 +100,7 @@ function FilterBar() {
     // }
 
     const handlePropertyType = (event: React.ChangeEvent) =>{
+        dispatch(setPage(1))
 
         setCurrentCheck(event.target.id)
         const property_type = event.target.id
@@ -358,7 +359,10 @@ function FilterBar() {
                                            id={type}
                                            value={type}
                                            checked={selectedProperties.includes(type)}
-                                           onChange={(event) => handleCheck(event, setSelectedProperties, selectedProperties)}/>
+                                           onChange={(event) => {
+                                               dispatch(setPage(1))
+                                               handleCheck(event, setSelectedProperties, selectedProperties)
+                                           }}/>
 
                                     <label htmlFor={type}>{type}</label>
                                 </li>
@@ -370,7 +374,10 @@ function FilterBar() {
                     <div className="input-wrapper">
                         <SelectButton title={`${ beds > 0 ? beds + "+" : ""}
                          Beds & ${baths > 0 ? baths + "+" : ""} Baths`}
-                                      onClick={() => handleButtonClick('bedsBathsButton')} disable={bedsBathsButton}/>
+                                      onClick={() => {
+
+                                          handleButtonClick('bedsBathsButton')
+                                      }} disable={bedsBathsButton}/>
 
                         <SelectDropdown currentButton="bedsBathsButton" styles={{width: "115%", display: bedsBathsButton ? "block" : "none"}} >
                             <li className="bedsBaths-container">
@@ -384,11 +391,14 @@ function FilterBar() {
                                                    value={index+1}
                                                    checked={index + 1 === beds}
                                                    onChange={(event) => {
+                                                       dispatch(setPage(1))
 
                                                        setBeds(parseInt(event.target.value))
                                                    }}
                                                    onClick={(event) => {
                                                        if (parseInt(event.currentTarget.value) === beds){
+                                                           dispatch(setPage(1))
+
                                                            setBeds(0)
                                                        }
                                                    }}
@@ -414,7 +424,10 @@ function FilterBar() {
                                                    onChange={(event) => setBaths(parseInt(event.target.value))}
                                                    onClick={(event) => {
                                                        if (parseInt(event.currentTarget.value) === baths){
+                                                           dispatch(setPage(1))
+
                                                            setBaths(0)
+
                                                        }
                                                    }}
                                             />
@@ -445,6 +458,7 @@ function FilterBar() {
                                            onChange={(event) => {
                                                setSortBy(event.target.id === sortArray[0] ? "desc" : event.target.id === sortArray[1] ? "asc" : null)
                                                setCurrentSort(event.target.id)
+
                                            }}/>
 
                                     <label htmlFor={sort}>{sort}</label>

@@ -73,6 +73,9 @@ const PropertyList: FC<PropertyListProps> = ({properties, loading, propertiesLen
 
 
     }, [currentPage, page]);
+    useEffect(() => {
+        console.log(loading)
+    }, [loading])
 
 
 

@@ -1,4 +1,5 @@
 import React from "react";
+import {setPage} from "../store/paginationSlice";
 
 export const handleCheck = (event: React.ChangeEvent<HTMLInputElement>,setSelectedProperties: React.Dispatch<React.SetStateAction<string[]>>, selectedProperties: string[]): void => {
     let updatedList = [...selectedProperties];

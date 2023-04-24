@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import "./Favourites.scss"
 import {PropertyList} from "../../components";
 
@@ -21,24 +21,15 @@ function Favourites() {
 
 
     useEffect(() => {
-        if (status === "loading"){
-            setLoading(true)
 
-        }
         dispatch(fetchFavourites())
 
-        if (status === "succeeded"){
-            setLoading(false)
-        }
 
-    }, [dispatch, favouriteProperties]);
+    }, [dispatch]);
+
+
 
     useEffect(() => {
-
-        if (status === "loading"){
-            setLoading(true)
-
-        }
 
         if (status === "succeeded"){
             const favouriteProperties = favourites.map((favourite) => favourite.propertyId)
