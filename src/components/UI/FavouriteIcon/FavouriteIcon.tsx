@@ -98,7 +98,7 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
         }
 
 
-    }, [favourites]);
+    }, [favourites, saveFavourite]);
 
 
     useEffect(() => {
