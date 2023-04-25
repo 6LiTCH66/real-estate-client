@@ -21,27 +21,25 @@ function Favourites() {
 
 
     useEffect(() => {
-
         dispatch(fetchFavourites())
 
 
     }, [dispatch]);
 
 
-
     useEffect(() => {
 
-        if (status === "succeeded"){
-            const favouriteProperties = favourites.map((favourite) => favourite.propertyId)
-            setFavouriteProperties(favouriteProperties)
-            setLoading(false)
+        if (status === "succeeded" && favourites){
 
+            setFavouriteProperties(favourites.map((favourite) => favourite.propertyId))
+            setLoading(false)
+        }else{
+            setLoading(true)
         }
 
 
 
-
-    }, [favourites])
+    }, [favourites]);
 
 
     return (

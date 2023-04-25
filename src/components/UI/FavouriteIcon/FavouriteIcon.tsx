@@ -8,10 +8,17 @@ import {checkAuth} from "../../../store/userSlice";
 import {getFavourites, addToFavourite, deleteFavourite} from "../../../http/userAPI";
 import {Property} from "../../../types/Property";
 import toast from 'react-hot-toast';
-import {fetchFavourites, setFavouriteList} from "../../../store/favouriteSlice";
+import {
+    addReduxFavourites,
+    deleteReduxFavourites,
+    fetchFavourites
+
+} from "../../../store/favouriteSlice";
 
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading"
+import {stat} from "fs";
+import app from "../../../App";
 
 
 interface FavouriteProps{
@@ -42,7 +49,6 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
         (state: RootState) => state.favouriteSlice
     );
 
-    const stateRef = useRef({ favourites, status });
     const favouriteHandler = () => {
 
         if (isAuth){
@@ -54,29 +60,18 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
 
                 if (!isFavourite){
 
-                    addToFavourite(propertyId).then(() => {
-                        setFavourite(true)
+                    appDispatch(addReduxFavourites(propertyId)).then(() => {
                         toast.success("Property's been added successfully!")
-                        setSaveFavourite(false)
 
-                    }).catch((err) => {
-                        setFavourite(false)
-                        console.error(err)
+                        setSaveFavourite(false)
                     })
 
 
-
-
-
                 }else{
-                    deleteFavourite(propertyId).then(() => {
-                        setFavourite(false)
+
+                    appDispatch(deleteReduxFavourites(propertyId)).then(() => {
                         toast.success("Property's been deleted successfully!")
                         setSaveFavourite(false)
-
-                    }).catch((err) => {
-                        setFavourite(false)
-                        console.error(err)
                     })
 
 
@@ -89,7 +84,6 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
 
 
 
-
     useEffect(() => {
 
         if (isAuth && status === "succeeded"){
@@ -97,6 +91,7 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
             const filterFavourite = favourites.some((favourite) => favourite.propertyId._id === propertyId)
 
             setFavourite(filterFavourite)
+
 
         }else{
             setFavourite(false)
@@ -109,11 +104,12 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
     useEffect(() => {
 
         if (isAuth){
+
             appDispatch(fetchFavourites())
 
         }
 
-    }, [dispatch, favourite, isAuth]);
+    }, [appDispatch, favourite, isAuth]);
 
 
 

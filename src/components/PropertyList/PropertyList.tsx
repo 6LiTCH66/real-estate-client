@@ -25,6 +25,11 @@ const PropertyList: FC<PropertyListProps> = ({properties, loading, propertiesLen
         (state: RootState) => state.pagination
     );
 
+    const { isLoading } = useSelector(
+        (state: RootState) => state.favouriteSlice
+    );
+
+
     const totalProperties = propertiesLength || 0;
 
     const totalPages = Math.ceil(totalProperties / itemsPerPage);
@@ -73,9 +78,8 @@ const PropertyList: FC<PropertyListProps> = ({properties, loading, propertiesLen
 
 
     }, [currentPage, page]);
-    useEffect(() => {
-        console.log(loading)
-    }, [loading])
+
+
 
 
 

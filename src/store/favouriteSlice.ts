@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Favourite} from "../components/UI/FavouriteIcon/FavouriteIcon";
 import {Property} from "../types/Property";
-import {getFavourites} from "../http/userAPI";
+import {addToFavourite, deleteFavourite, getFavourites} from "../http/userAPI";
 import {RootState} from "./store";
 
 const defaultState: Favourite = {
@@ -10,16 +10,27 @@ const defaultState: Favourite = {
 }
 interface FavouriteState{
     favourites: Favourite[];
-    status: 'idle' | 'loading' | 'succeeded' | 'failed'
+    status: 'idle' | 'loading' | 'succeeded' | 'failed',
+    isLoading: boolean;
 }
 
 const FavouriteStateDefault: FavouriteState = {
     favourites: [defaultState],
-    status: "idle"
+    status: "idle",
+    isLoading: true,
 }
 export const fetchFavourites = createAsyncThunk('favouriteSlice/fetchFavourites', async () => {
     return await getFavourites();
 });
+
+export const deleteReduxFavourites = createAsyncThunk('favouriteSlice/deleteReduxFavourites', async (propertyId: string) => {
+    return await deleteFavourite(propertyId);
+});
+
+export const addReduxFavourites = createAsyncThunk('favouriteSlice/addReduxFavourites', async (propertyId: string) => {
+    return await addToFavourite(propertyId);
+});
+
 
 const favouriteSlice = createSlice({
     name: "favouriteSlice",
@@ -41,7 +52,29 @@ const favouriteSlice = createSlice({
             })
             .addCase(fetchFavourites.rejected, (state, action) => {
                 state.status = 'failed';
-                // state.error = action.error.message || null;
+            })
+
+            .addCase(deleteReduxFavourites.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(deleteReduxFavourites.fulfilled, (state, action: PayloadAction<Favourite[]>) => {
+                state.status = 'succeeded';
+                state.favourites = action.payload
+            })
+            .addCase(deleteReduxFavourites.rejected, (state, action) => {
+                state.status = 'failed';
+            })
+
+            .addCase(addReduxFavourites.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(addReduxFavourites.fulfilled, (state, action: PayloadAction<Favourite[]>) => {
+                state.status = "succeeded"
+
+                state.favourites = action.payload
+            })
+            .addCase(addReduxFavourites.rejected, (state, action) => {
+                state.status = 'failed';
             });
     },
 })

@@ -27,24 +27,29 @@ export const logout = async () => {
 
 }
 
-export const addToFavourite = async (propertyId: string) => {
+export const addToFavourite = async (propertyId: string): Promise<Favourite[]> => {
     try{
-        await axios.post(`${process.env.REACT_APP_BASE_URL}/user/add-favourite/${propertyId}`, {}, {withCredentials: true})
-
+        const favourites = await axios.post(`${process.env.REACT_APP_BASE_URL}/user/add-favourite/${propertyId}`, {}, {withCredentials: true})
+        return favourites.data
     }catch (error){
         console.error(error)
+
+        throw error
     }
 }
 
-export const deleteFavourite = async (propertyId: string) => {
+export const deleteFavourite = async (propertyId: string): Promise<Favourite[]> => {
     try{
-        await axios.delete(`${process.env.REACT_APP_BASE_URL}/user/delete-favourite/${propertyId}`, {withCredentials: true})
+        const favourites =  await axios.delete(`${process.env.REACT_APP_BASE_URL}/user/delete-favourite/${propertyId}`, {withCredentials: true})
+        return favourites.data
     }catch (err){
         console.error(err)
+
+        throw err;
     }
 }
 
-export const getFavourites = async ():Promise<Favourite[]> => {
+export const getFavourites = async (): Promise<Favourite[]> => {
     try{
         const favourites = await axios.get<Favourite[]>(`${process.env.REACT_APP_BASE_URL}/user/favourites`, {withCredentials: true})
         return favourites.data
