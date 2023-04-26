@@ -8,6 +8,7 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {setPage} from "../../store/paginationSlice";
 import {RootState} from "../../store/store";
+import {Favourite} from "../UI/FavouriteIcon/FavouriteIcon";
 
 interface PropertyListProps{
     properties?: Property[];
@@ -58,12 +59,6 @@ const PropertyList: FC<PropertyListProps> = ({properties, loading, propertiesLen
         }
 
     }, [page]);
-
-
-    // useEffect(() => {
-    //     console.log(properties)
-    // }, [properties]);
-
 
 
 

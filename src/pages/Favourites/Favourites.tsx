@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import "./Favourites.scss"
 import {PropertyList} from "../../components";
 
@@ -7,17 +7,18 @@ import {getFavourites} from "../../http/userAPI";
 import {Property} from "../../types/Property";
 import {useSelector, useDispatch} from "react-redux";
 import {RootState, useAppDispatch} from "../../store/store";
-import {fetchFavourites} from "../../store/favouriteSlice";
+import {fetchFavourites, setFavouriteLoading} from "../../store/favouriteSlice";
 
 function Favourites() {
     const [favouriteProperties, setFavouriteProperties] = useState<Property[]>()
 
     const dispatch = useAppDispatch()
-    const [loading, setLoading] = useState<boolean>(true)
 
-    const { favourites, status } = useSelector(
+    const { favourites, status, isLoading } = useSelector(
         (state: RootState) => state.favouriteSlice
     );
+    const [loading, setLoading] = useState<boolean>(true)
+
 
 
     useEffect(() => {
@@ -27,17 +28,21 @@ function Favourites() {
     }, [dispatch]);
 
 
+
     useEffect(() => {
 
-        if (status === "succeeded" && favourites){
+        setLoading(status === "loading")
 
+    }, [favouriteProperties]);
+
+
+    useEffect(() => {
+
+
+        if (status === "succeeded"){
             setFavouriteProperties(favourites.map((favourite) => favourite.propertyId))
-            setLoading(false)
-        }else{
-            setLoading(true)
+
         }
-
-
 
     }, [favourites]);
 

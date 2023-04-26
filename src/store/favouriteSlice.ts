@@ -39,6 +39,10 @@ const favouriteSlice = createSlice({
     reducers: {
         setFavouriteList: (state, action: PayloadAction<Favourite[]>) => {
             state.favourites = action.payload
+        },
+
+        setFavouriteLoading : (state, action: PayloadAction<boolean>) => {
+            state.isLoading = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -81,5 +85,5 @@ const favouriteSlice = createSlice({
 
 export const favourites = (state: RootState) => state.favouriteSlice.favourites
 
-export const { setFavouriteList } = favouriteSlice.actions;
+export const { setFavouriteList, setFavouriteLoading } = favouriteSlice.actions;
 export default favouriteSlice.reducer;

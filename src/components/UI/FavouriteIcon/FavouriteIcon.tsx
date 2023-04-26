@@ -45,7 +45,7 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
         (state: RootState) => state.userSlice
     );
 
-    const { favourites, status } = useSelector(
+    const { favourites, status, isLoading } = useSelector(
         (state: RootState) => state.favouriteSlice
     );
 
@@ -86,19 +86,17 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
 
     useEffect(() => {
 
-        if (isAuth && status === "succeeded"){
+        if (status === "succeeded"){
 
             const filterFavourite = favourites.some((favourite) => favourite.propertyId._id === propertyId)
 
             setFavourite(filterFavourite)
 
-
-        }else{
-            setFavourite(false)
         }
 
+    }, [favourites, saveFavourite]);
 
-    }, [favourites]);
+
 
 
     useEffect(() => {
