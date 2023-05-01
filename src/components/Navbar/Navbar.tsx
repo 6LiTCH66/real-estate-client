@@ -14,6 +14,7 @@ import {useSelector} from "react-redux";
 import {logout} from "../../http/userAPI";
 import {signout} from "../../store/userSlice";
 import toast from "react-hot-toast";
+import { HashLink } from 'react-router-hash-link';
 
 function Navbar() {
     const [toggle, setToggle] = useState<boolean>(false);
@@ -42,6 +43,10 @@ function Navbar() {
 
     }
 
+    const handleHomePage = () => {
+        navigate("/#about-us");
+    }
+
     const handleModalWindow = () => {
 
         dispatch(toggleModal())
@@ -63,27 +68,27 @@ function Navbar() {
 
                    <RiCloseLine size={40} className="close" onClick={() => setToggle(prevState => !prevState)}/>
                    <ul>
-                       <li>
+                       <li onClick={() => setToggle(false)}>
                            <Link to="/homes/buy">Buy</Link>
                        </li>
 
-                       <li>
+                       <li onClick={() => setToggle(false)}>
                            <Link to="/homes/rent">Rent</Link>
                        </li>
 
-                       <li>
-                           <a href="#references">References</a>
+                       <li onClick={() => setToggle(false)}>
+                           <HashLink to="/#references" smooth>References</HashLink>
                        </li>
 
-                       <li>
-                           <a href="#about-us">About us</a>
+                       <li onClick={() => setToggle(false)}>
+                           <HashLink to="/#about-us" smooth>About us</HashLink>
                        </li>
-                       <li>
+                       <li onClick={() => setToggle(false)}>
 
-                           <a href="#our-team">Our team</a>
+                           <HashLink to="/#our-team" smooth>Our team</HashLink>
                        </li>
                        {isAuth ? (
-                           <li className="favourites-link">
+                           <li className="favourites-link" onClick={() => setToggle(false)}>
                                {favourites.length ? (
                                    <span>{favourites.length}</span>
                                ): (
