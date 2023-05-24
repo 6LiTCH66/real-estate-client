@@ -8,6 +8,7 @@ const defaultState: Favourite = {
     propertyId : {} as Property,
     _id: ""
 }
+
 interface FavouriteState{
     favourites: Favourite[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed',
@@ -84,6 +85,5 @@ const favouriteSlice = createSlice({
 })
 
 export const favourites = (state: RootState) => state.favouriteSlice.favourites
-
 export const { setFavouriteList, setFavouriteLoading } = favouriteSlice.actions;
 export default favouriteSlice.reducer;
