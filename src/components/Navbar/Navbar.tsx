@@ -45,9 +45,6 @@ function Navbar() {
 
     }
 
-    const handleHomePage = () => {
-        navigate("/#about-us");
-    }
 
     const handleModalWindow = () => {
 
@@ -89,6 +86,7 @@ function Navbar() {
 
                            <HashLink to="/#our-team" smooth>Our team</HashLink>
                        </li>
+
                        {isAuth ? (
                            <li className="favourites-link" onClick={() => setToggle(false)}>
                                {favourites.length ? (
@@ -100,6 +98,24 @@ function Navbar() {
                                <Link to="/favourites">Favourites</Link>
                            </li>
                        ):  (
+                           <></>
+                       )}
+
+                       {currentUser.isAgent ? (
+                           <li onClick={() => setToggle(false)}>
+
+                               <Link to="/add-home">Add Home</Link>
+                           </li>
+                       ):(
+                           <></>
+                       )}
+
+                       {isAuth ? (
+                           <li onClick={() => setToggle(false)}>
+
+                               <Link to="/messages">Messages</Link>
+                           </li>
+                       ):(
                            <></>
                        )}
 

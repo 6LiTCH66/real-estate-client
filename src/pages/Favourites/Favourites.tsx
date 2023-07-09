@@ -3,20 +3,27 @@ import "./Favourites.scss"
 import {PropertyList} from "../../components";
 
 import {useEffect} from "react";
-import {getFavourites} from "../../http/userAPI";
+import {getFavourites, getUser} from "../../http/userAPI";
 import {Property} from "../../types/Property";
 import {useSelector, useDispatch} from "react-redux";
 import {RootState, useAppDispatch} from "../../store/store";
 import {fetchFavourites, setFavouriteLoading} from "../../store/favouriteSlice";
+import {useNavigate} from "react-router-dom";
 
 function Favourites() {
     const [favouriteProperties, setFavouriteProperties] = useState<Property[]>()
 
     const dispatch = useAppDispatch()
+    const navigate = useNavigate();
 
     const { favourites, status, isLoading } = useSelector(
         (state: RootState) => state.favouriteSlice
     );
+
+    const { isAuth } = useSelector(
+        (state: RootState) => state.userSlice
+    );
+
     const [loading, setLoading] = useState<boolean>(true)
 
 

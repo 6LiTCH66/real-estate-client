@@ -23,6 +23,8 @@ import {PropertySearch} from "../../types/PropertySearch";
 import {getProperty} from "../../http/propertyAPI";
 import {getSearch} from "../../utils/getSearch";
 import {setPage} from "../../store/paginationSlice";
+export const propertyTypes: string[] = ["Condo", "Multi Family Home", "Farm", "Single Family Home", "Townhouse", "Apartment", "Land", "Duplex"]
+export const propertyStatus = ["Any", "For Sale", "For Rent"]
 
 function FilterBar() {
 
@@ -65,10 +67,8 @@ function FilterBar() {
 
     const [selectedProperties, setSelectedProperties] = useState<string[]>([]);
 
-    const propertyTypes: string[] = ["Condo", "Multi Family Home", "Farm", "Single Family Home", "Townhouse", "Apartment", "Land", "Duplex"]
     const sortArray: string[] = ["Price (High to Low)", "Price (Low to High)", "Newest"]
 
-    const propertyStatus = ["Any", "For Sale", "For Rent"]
 
     const [search, setSearch] = useState<string>("");
     const searchParams = new URLSearchParams(location.search);
@@ -125,7 +125,7 @@ function FilterBar() {
 
     useEffect(() => {
 
-        getProperty({property_status: status === "buy" ? "sell" : status === "any" ? "" : status }).then((properties) => {
+        getProperty({property_params: {property_status: status === "buy" ? "sell" : status === "any" ? "" : status }}).then((properties) => {
             const headers: PropertyHeader[] = properties.map((properties) => {
                 const { city, state_province } = properties;
 

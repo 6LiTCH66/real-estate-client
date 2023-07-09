@@ -15,7 +15,7 @@ const PropertySlider:FC<PropertySliderProps> = ({scrollRef, styles}) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        getProperty().then((properties) => {
+        getProperty({}).then((properties) => {
             setProperties(properties)
             setLoading(false)
         }).catch((error) => {

@@ -1,0 +1,48 @@
+@import "../../../styles/variables";
+
+
+.custom-input-container{
+  flex: 1;
+
+  #file-upload-button{
+    background-color: red!important;
+  }
+
+  .custom-input{
+    height: 100%;
+    width: 100%;
+    padding: .8rem 1rem;
+    border-radius: 4px;
+    border: 1px solid #DDDDDD;
+    background-color: $light-blue;
+
+    font-family: $body-font;
+    color: $text-color;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 27px;
+
+    max-height: 49.59px;
+
+
+    &:focus{
+      outline: none;
+    }
+
+  }
+
+  @media screen and (max-width: 480px) {
+    flex-basis: auto;
+  }
+}
+
+
+
+label{
+  font-family: $body-font;
+  color: $text-color;
+  font-weight: 500;
+  line-height: 30px;
+  font-size: 14px;
+}

@@ -4,11 +4,11 @@ import {BsChevronDown} from "react-icons/bs";
 import {SelectButtonProps} from "../../../types/SelectButtonProps";
 
 
-const SelectButton:FC<SelectButtonProps> = ({title, onClick, disable}) => {
+const SelectButton:FC<SelectButtonProps> = ({title, onClick, disable, className}) => {
 
 
     return (
-        <button className="filter-input" type="button" onClick={onClick} disabled={disable}>
+        <button className={`filter-input ${className ? className : ''}`} type="button" onClick={onClick} disabled={disable}>
 
             <span className="filter-title">{title}</span>
 

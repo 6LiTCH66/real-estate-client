@@ -12,6 +12,7 @@ import {Property} from "../../types/Property";
 import {setFilterSearch} from "../../store/searchSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 function HomesSearch() {
 
     const dispatch = useDispatch()
@@ -50,8 +51,20 @@ function HomesSearch() {
     const min = searchParams.get('min');
 
     const page = searchParams.get('page');
-    // const limit = searchParams.get('limit');
+
+
     const [propertiesLength, setPropertiesLength] = useState<Property[]>([])
+    const queryClient = useQueryClient();
+
+    const propertyMutation = useMutation({
+        mutationFn: getProperty,
+        onSuccess: (data) => {
+            setProperties(data)
+            setLoading(false)
+            // setPropertiesLength(data)
+            queryClient.invalidateQueries({ queryKey: ['properties'] })
+        },
+    })
 
 
 
@@ -90,7 +103,8 @@ function HomesSearch() {
 
                 setPropertyParams(propertyRef.current)
 
-                getProperty(propertyRef.current, paginationRef.current).then((properties) => {
+
+                getProperty({property_params: propertyRef.current, pagination: paginationRef.current}).then((properties) => {
                     setProperties(properties)
                     setLoading(false)
 
@@ -100,7 +114,11 @@ function HomesSearch() {
 
                 })
 
-                getProperty(propertyRef.current).then((properties) => {
+
+                // propertyMutation.mutate({property_params: propertyRef.current, pagination: paginationRef.current})
+
+
+                getProperty({property_params: propertyRef.current}).then((properties) => {
                     setPropertiesLength(properties)
 
                 }).catch((error) => {
@@ -142,7 +160,6 @@ function HomesSearch() {
 
                 <FilterBar/>
 
-                {/*<Outlet/>*/}
                 <PropertyList properties={properties} loading={loading} propertiesLength={propertiesLength.length}/>
             </div>
 

@@ -1,0 +1,153 @@
+@import "../../styles/variables";
+
+.add-home{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+
+  .add-property-container{
+    max-width: 750px;
+    width: 100%;
+
+    .submit-btn-container{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+
+      .add-property{
+        padding: 1rem;
+        font-family: $body-font;
+        border: 1px solid #DDDDDD;
+        background-color: $blue;
+        color: $white-color;
+        font-size: 16px;
+        border-radius: 6px;
+        width: fit-content;
+        cursor: pointer;
+
+      }
+    }
+
+
+
+    .property-info-wrapper{
+      background-color: $light-blue;
+      padding: 1rem;
+      border-radius: .5rem;
+      border: 1px solid #DDDDDD;
+      margin-bottom: 2rem;
+
+      .input-container{
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
+
+        textarea{
+          padding: .9rem 1rem;
+          border-radius: 4px;
+          border: 1px solid #DDDDDD;
+          background-color: $white-color;
+
+          font-family: $body-font;
+          color: $text-color;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 17px;
+          line-height: 27px;
+
+          &:focus{
+            outline: none;
+          }
+        }
+
+        #property-description {
+          resize: none;
+          height: 300px;
+        }
+
+
+        label{
+          font-family: $body-font;
+          color: $text-color;
+          font-weight: 500;
+          line-height: 30px;
+          font-size: 14px;
+        }
+
+      }
+
+      .block-title{
+        font-family: $headings-font;
+        font-size: 25px;
+        margin-bottom: 1rem;
+      }
+
+      .property-add-input {
+        background-color: $white-color;
+        margin-bottom: .5rem;
+      }
+
+      .property-container-info{
+
+        display: flex;
+        gap: 1rem;
+
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+        .input-wrapper{
+          position: relative;
+          flex: 1;
+
+          .set-selected-color{
+
+            .filter-title{
+              color: $text-color;
+            }
+
+          }
+          .property-add-btn{
+            border: 1px solid #DDDDDD;
+
+            span{
+              color: #757575;
+              font-style: normal;
+              font-weight: 400;
+              font-size: 16px;
+              line-height: 27px;
+            }
+          }
+          .property-add-dropdown{
+            li{
+              padding: 0 1rem;
+              padding-top: 1rem;
+
+              &:last-child{
+                padding-bottom: 1rem;
+              }
+            }
+            label{
+              font-style: normal;
+              font-weight: 400;
+              font-size: 16px;
+              line-height: 27px;
+              padding: 0;
+            }
+          }
+
+
+          @media screen and (max-width: 480px){
+            flex-basis: auto;
+          }
+
+        }
+      }
+    }
+
+  }
+  @media screen and (max-width: 480px){
+    padding: 0 1rem;
+  }
+}

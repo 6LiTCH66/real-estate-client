@@ -7,11 +7,13 @@ import {useDispatch} from "react-redux";
 import {toggleModal} from "../../../store/modalSlice";
 import store from "../../../store/store";
 import {setUser} from "../../../store/userSlice";
+import InputField from "../../UI/InputField/InputField";
 
 function Login() {
     const [userCredentials, setUserCredentials] = useState<UserAuthentication>({email: "", password: ""})
     const dispatch = useDispatch()
     const [logging, setLogging] = useState<boolean>(false);
+
     const handleUserForm = async (event: FormEvent) => {
         event.preventDefault()
         setLogging(true)
@@ -20,7 +22,7 @@ function Login() {
         toast.promise(
             login(userCredentials).then((user) => {
 
-                localStorage.setItem("user", JSON.stringify(user))
+                // localStorage.setItem("user", JSON.stringify(user))
 
                 dispatch(setUser(user))
                 dispatch(toggleModal())
@@ -47,11 +49,37 @@ function Login() {
     return (
         <div className="tab-container">
             <form onSubmit={handleUserForm}>
-                <label htmlFor="login-email">Email</label>
-                <input type="email" value={userCredentials.email} id='login-email' required={true} onChange={(event) => setUserCredentials({...userCredentials, email: event.target.value})} placeholder="Enter email"/>
 
-                <label htmlFor="login-password">Password</label>
-                <input type="password" value={userCredentials.password} required={true} id="login-password" onChange={(event) => setUserCredentials({...userCredentials, password: event.target.value})} placeholder="Enter password"/>
+                {/*<label htmlFor="login-email">Email</label>*/}
+                {/*<input type="email" value={userCredentials.email} id='login-email' required={true} onChange={(event) => setUserCredentials({...userCredentials, email: event.target.value})} placeholder="Enter email"/>*/}
+
+                <InputField
+                    id={"login-email"}
+                    type={"email"}
+                    value={userCredentials.email}
+                    required={true}
+                    onChange={(event) => setUserCredentials({...userCredentials, email: event.target.value})}
+                    placeholder={"Enter email"}
+                    label={
+
+                    <label htmlFor="login-email">Email</label>
+                }/>
+
+                {/*<label htmlFor="login-password">Password</label>*/}
+                {/*<input type="password" value={userCredentials.password} required={true} id="login-password" onChange={(event) => setUserCredentials({...userCredentials, password: event.target.value})} placeholder="Enter password"/>*/}
+
+                <InputField
+                    id={"login-password"}
+                    type={"password"}
+                    value={userCredentials.password}
+                    required={true}
+                    onChange={(event) => setUserCredentials({...userCredentials, password: event.target.value})}
+                    placeholder={"Enter password"}
+                    label={
+
+                        <label htmlFor="login-password">Password</label>
+                    }/>
+
                 <button type="submit" disabled={logging} className="submit-form">Submit</button>
             </form>
 

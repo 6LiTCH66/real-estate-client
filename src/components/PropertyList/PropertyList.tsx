@@ -62,7 +62,6 @@ const PropertyList: FC<PropertyListProps> = ({properties, loading, propertiesLen
 
 
 
-
     useEffect(() => {
 
         window.scrollTo({
@@ -78,14 +77,12 @@ const PropertyList: FC<PropertyListProps> = ({properties, loading, propertiesLen
 
 
 
-
-
     return (
         <div className="property-list">
             <div className="list-container">
                 {!loading ? (
                     properties?.map((property, index) => (
-                        <PropertyCard key={index} property={property}/>
+                        <PropertyCard key={property._id} property={property}/>
                     ))
                 ): (
                     Array(12).fill(0).map((_, index) => (

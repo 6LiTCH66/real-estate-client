@@ -5,5 +5,6 @@ export interface SelectDropdownProps{
     children: React.ReactNode,
 
     currentButton?: string,
+    className?: string,
 
 }

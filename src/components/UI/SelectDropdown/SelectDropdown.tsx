@@ -6,7 +6,7 @@ import {reset} from "../../../store/dropdownSlice";
 
 // add field shouldHandleOutsideClick to the interface
 
-const SelectDropdown:FC<SelectDropdownProps> = ({currentButton, styles, children}) => {
+const SelectDropdown:FC<SelectDropdownProps> = ({currentButton, styles, children, className}) => {
     const dispatch = useDispatch();
     const ref = useRef<HTMLUListElement>(null);
 
@@ -60,7 +60,7 @@ const SelectDropdown:FC<SelectDropdownProps> = ({currentButton, styles, children
 
 
     return (
-        <ul className={`select-dropdown`} id={currentButton} style={styles} ref={ref}>
+        <ul className={`select-dropdown ${className ? className : ''}`} id={currentButton} style={styles} ref={ref}>
             {children}
         </ul>
     );

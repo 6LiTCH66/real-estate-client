@@ -19,6 +19,7 @@ import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading"
 import {stat} from "fs";
 import app from "../../../App";
+import useAuthenticatedUser from "../../../hooks/useAuthenticatedUser";
 
 
 interface FavouriteProps{
@@ -44,6 +45,7 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
     const { currentUser, isAuth } = useSelector(
         (state: RootState) => state.userSlice
     );
+
 
     const { favourites, status, isLoading } = useSelector(
         (state: RootState) => state.favouriteSlice

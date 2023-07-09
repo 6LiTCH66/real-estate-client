@@ -1,21 +1,23 @@
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import './App.scss';
 import { Navbar, Footer, Authentication } from "./components";
 import { BrowserRouter } from "react-router-dom";
 import Routes from "./Routes/routes"
 import {useEffect} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "./store/userSlice";
 import {UserAuthentication} from "./types/UserAuthentication";
 import {Toaster} from "react-hot-toast";
+import useAuthenticatedUser from "./hooks/useAuthenticatedUser";
+import {RootState} from "./store/store";
 
 function App() {
     const dispatch = useDispatch()
+    const { isAuthenticated, isLoading, user } = useAuthenticatedUser();
+
 
     useEffect(() => {
-        const userJSON = localStorage.getItem("user");
-        const user: UserAuthentication | null = userJSON ? JSON.parse(userJSON) as UserAuthentication : null;
-
+        console.log(user)
 
         if (user){
 
@@ -23,7 +25,7 @@ function App() {
 
         }
 
-    }, []);
+    }, [isAuthenticated, user]);
 
   return (
     <div className="App">

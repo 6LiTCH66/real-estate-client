@@ -23,3 +23,22 @@ export interface Property{
     createdAt: Date;
 
 }
+
+export interface PropertyJSON {
+    address: string;
+    state_province: string;
+    city: string;
+    country: string;
+    description: string;
+    build_year: number,
+    bedrooms: number;
+    bathrooms: number;
+    square_footage: number;
+    zipcode: number;
+    property_type: PropertyType;
+    price: number;
+    property_status: PropertyStatus,
+    garage: number;
+    pricePerSqft: number;
+    images: string[]
+}

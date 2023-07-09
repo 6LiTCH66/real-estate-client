@@ -52,7 +52,7 @@ function Header() {
 
     useEffect(() => {
 
-        getProperty().then((properties) => {
+        getProperty({}).then((properties) => {
 
             const headers: PropertyHeader[] = properties.map((properties) => {
                 const { city, state_province } = properties;
@@ -69,26 +69,6 @@ function Header() {
 
     }, []);
 
-
-
-    // type Location = {
-    //     city?: string;
-    //     state?: string;
-    // }
-    //
-    // function getSearch(): Location | null {
-    //     const matchingHeader = properties.find(({city, state}) => city.toLowerCase() === search.toLowerCase() || state.toLowerCase() === search.toLowerCase());
-    //
-    //     if (matchingHeader) {
-    //         if (matchingHeader.city.toLowerCase() === search.toLowerCase()) {
-    //             return { city: matchingHeader.city };
-    //         } else {
-    //             return { state: matchingHeader.state };
-    //         }
-    //     }
-    //
-    //     return null;
-    // }
 
 
     const searchByFilter = () => {
