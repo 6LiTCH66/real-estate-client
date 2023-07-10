@@ -8,11 +8,26 @@ import {toggleModal} from "../../../store/modalSlice";
 import store from "../../../store/store";
 import {setUser} from "../../../store/userSlice";
 import InputField from "../../UI/InputField/InputField";
+import {useMutation} from "react-query";
+import {useQueryClient} from "react-query";
 
 function Login() {
     const [userCredentials, setUserCredentials] = useState<UserAuthentication>({email: "", password: ""})
     const dispatch = useDispatch()
     const [logging, setLogging] = useState<boolean>(false);
+
+    const queryClient = useQueryClient()
+
+    const loginMutation = useMutation({
+        mutationFn: login,
+        onSuccess: (user) => {
+            queryClient.invalidateQueries({ queryKey: ['user'] })
+            dispatch(setUser(user))
+            dispatch(toggleModal())
+            setUserCredentials({email: "", password: ""})
+            setLogging(false)
+        },
+    })
 
     const handleUserForm = async (event: FormEvent) => {
         event.preventDefault()
@@ -20,16 +35,8 @@ function Login() {
 
 
         toast.promise(
-            login(userCredentials).then((user) => {
+            loginMutation.mutateAsync(userCredentials),
 
-                // localStorage.setItem("user", JSON.stringify(user))
-
-                dispatch(setUser(user))
-                dispatch(toggleModal())
-                setUserCredentials({email: "", password: ""})
-                setLogging(false)
-
-            }),
             {
                 loading: 'Signing in...',
                 success: "Congratulations! You have successfully signed in to your account.",

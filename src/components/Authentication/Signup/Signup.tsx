@@ -3,6 +3,7 @@ import "../authentication.scss"
 import {UserAuthentication} from "../../../types/UserAuthentication";
 import {signup} from "../../../http/userAPI";
 import toast from 'react-hot-toast';
+import InputField from "../../UI/InputField/InputField";
 
 function Signup() {
     const [showAgentInfo, setShowAgentInfo] = useState<boolean>(false)
@@ -41,21 +42,32 @@ function Signup() {
     return (
         <div className="tab-container">
             <form onSubmit={handleSingupForm}>
-                <label htmlFor="login-email">Email</label>
-                <input type="email"
-                       required={true}
-                       id='login-email'
-                       value={userCredentials.email}
-                       onChange={(event) => setUserCredentials({...userCredentials, email: event.target.value})}
-                       placeholder="Enter email"/>
 
-                <label htmlFor="login-password">Password</label>
-                <input type="password"
-                       required={true}
-                       id="login-password"
-                       value={userCredentials.password}
-                       onChange={(event) => setUserCredentials({...userCredentials, password: event.target.value})}
-                       placeholder="Create password"/>
+
+                <InputField
+                    id={"login-email"}
+                    type={"email"}
+                    value={userCredentials.email}
+                    required={true}
+                    onChange={(event) => setUserCredentials({...userCredentials, email: event.target.value})}
+                    placeholder={"Enter email"}
+                    label={
+
+                        <label htmlFor="login-email">Email</label>
+                    }/>
+
+
+                <InputField
+                    id={"login-password"}
+                    type={"password"}
+                    value={userCredentials.password}
+                    required={true}
+                    onChange={(event) => setUserCredentials({...userCredentials, password: event.target.value})}
+                    placeholder={"Enter password"}
+                    label={
+
+                        <label htmlFor="login-password">Password</label>
+                    }/>
 
 
                 <div className="checkbox-container">
@@ -70,37 +82,49 @@ function Signup() {
                     <h3 className="landlord-title">Professional Information</h3>
                     <div className="landlord-container">
                         <div className="name">
-                            <label htmlFor="first-name">First name</label>
 
-                            <input type="text"
-                                   onChange={(event) => setUserCredentials({...userCredentials, first_name: event.target.value}) }
-                                   required={showAgentInfo}
-                                   id="first-name"
-                                   value={userCredentials.first_name || ""}
-                                   placeholder="First name"/>
+                            <InputField
+                                id={"first-name"}
+                                type={"text"}
+                                value={userCredentials.first_name || ""}
+                                required={showAgentInfo}
+                                onChange={(event) => setUserCredentials({...userCredentials, first_name: event.target.value}) }
+                                placeholder={"First name"}
+                                label={
+
+                                    <label htmlFor="first-name">First name</label>
+                                }/>
                         </div>
 
                         <div className="last-name">
-                            <label htmlFor="last-name">Last name</label>
-                            <input type="text"
 
-                                   onChange={(event) => setUserCredentials({...userCredentials, last_name: event.target.value})}
-                                   required={showAgentInfo}
-                                   id="last-name"
-                                   value={userCredentials.last_name || ""}
-                                   placeholder="Last name"/>
+                            <InputField
+                                id={"last-name"}
+                                type={"text"}
+                                value={userCredentials.last_name || ""}
+                                required={showAgentInfo}
+                                onChange={(event) => setUserCredentials({...userCredentials, last_name: event.target.value}) }
+                                placeholder={"Last name"}
+                                label={
+
+                                    <label htmlFor="last-name">Last name</label>
+                                }/>
                         </div>
 
                     </div>
 
 
-                    <label htmlFor="tel">Phone number</label>
-                    <input type="tel"
-                           onChange={(event) => setUserCredentials({...userCredentials, phone_number: event.target.value})}
-                           required={showAgentInfo}
-                           id="tel"
-                           value={userCredentials.phone_number || ""}
-                           placeholder="Phone number"/>
+                    <InputField
+                        id={"tel"}
+                        type={"tel"}
+                        value={userCredentials.phone_number || ""}
+                        required={showAgentInfo}
+                        onChange={(event) => setUserCredentials({...userCredentials, phone_number: event.target.value}) }
+                        placeholder={"Phone number"}
+                        label={
+
+                            <label htmlFor="tel">Phone number</label>
+                        }/>
 
 
                 </div>

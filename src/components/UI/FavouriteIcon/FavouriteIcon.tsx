@@ -20,6 +20,7 @@ import loading from "react-useanimations/lib/loading"
 import {stat} from "fs";
 import app from "../../../App";
 import useAuthenticatedUser from "../../../hooks/useAuthenticatedUser";
+import {useMutation, useQuery, useQueryClient} from "react-query";
 
 
 interface FavouriteProps{
@@ -47,9 +48,11 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
     );
 
 
+
     const { favourites, status, isLoading } = useSelector(
         (state: RootState) => state.favouriteSlice
     );
+
 
     const favouriteHandler = () => {
 
@@ -93,6 +96,7 @@ const FavouriteIcon:FC<FavouriteProps> = ({size, styles, propertyId}) => {
             const filterFavourite = favourites.some((favourite) => favourite.propertyId._id === propertyId)
 
             setFavourite(filterFavourite)
+
 
         }
 

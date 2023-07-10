@@ -12,7 +12,7 @@ import {Property} from "../../types/Property";
 import {setFilterSearch} from "../../store/searchSlice";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
-import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "react-query";
 function HomesSearch() {
 
     const dispatch = useDispatch()

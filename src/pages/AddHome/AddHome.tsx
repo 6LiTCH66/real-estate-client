@@ -8,6 +8,7 @@ import {handleCheck} from "../../utils/getSelectedProperties";
 import {PropertyJSON} from "../../types/Property";
 import {PropertyType} from "../../types/PropertyType";
 import {PropertyStatus} from "../../types/PropertyStatus";
+import {addProperty} from "../../http/propertyAPI";
 function toBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -22,10 +23,32 @@ function AddHome() {
     const [selectedPropertyType, setSelectedPropertyType] = useState<string>("")
     const [selectedPropertyStatus, setSelectedPropertyStatus] = useState<string>("")
     const [property, setProperty] = useState<PropertyJSON>({} as PropertyJSON)
+    const [images, setImages] = useState<FileList | null>(null);
 
-    const handleAddPropertyForm = (event: FormEvent) => {
+
+    const handleAddPropertyForm = async (event: FormEvent) => {
         event.preventDefault()
-        console.log(property)
+
+        const formData = new FormData();
+
+        for (const key in property) {
+            formData.append(key, property[key as keyof PropertyJSON].toString());
+        }
+
+        if (images) {
+            for (let i = 0; i < images.length; i++) {
+                formData.append('images', images[i]);
+            }
+        }
+        const res = await addProperty(formData)
+
+        console.log(res)
+
+        // formData.forEach((value, key) => {
+        //     console.log(key + ':' + value);
+        // });
+
+        // console.log(property)
     }
 
     return (
@@ -226,7 +249,9 @@ function AddHome() {
                                                checked={selectedPropertyStatus === type}
                                                onChange={(event) => {
                                                    setSelectedPropertyStatus(event.target.value)
-                                                   setProperty({...property, property_status: event.target.value as PropertyStatus})
+
+                                                   setProperty({...property,
+                                                       property_status: event.target.value === "For Sale" ? "sell" : "rent"})
                                                }}
                                                onClick={(event) => {
                                                    setShowPropertyStatus(false)
@@ -280,6 +305,9 @@ function AddHome() {
                         id={"garage-amount"}
                         className={"property-add-input"}
                         placeholder={"Enter garage amount"}
+                        onChange={(event) => {
+                            setProperty({...property, garage: parseInt(event.target.value)})
+                        }}
                         label={
                         <label htmlFor="garage-amount">Garage amount</label>
                     }/>
@@ -310,16 +338,10 @@ function AddHome() {
                             multiple={true}
                             required={true}
                             id={"property-images"}
-                            placeholder={"Enter garage amount"}
+                            placeholder={"Select property images"}
                             onChange={(event) => {
                                 if (event.target.files){
-
-                                    const base64Images = Promise.all(Array.from(event.target.files).map(toBase64));
-                                    base64Images.then((images) =>
-                                        // console.log(images)
-                                        setProperty({...property, images: images})
-
-                                    )
+                                    setImages(event.target.files)
 
                                 }
                             }}

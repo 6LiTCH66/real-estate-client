@@ -1,8 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
-import {useQueryClient} from "react-query";
 import useAuthenticatedUser from "../hooks/useAuthenticatedUser";
-import toast from "react-hot-toast";
 import {RootState, useAppDispatch} from "../store/store";
 import {setUser} from "../store/userSlice";
 import {useSelector} from "react-redux";
@@ -15,10 +13,6 @@ const PrivateRoute:FC<AuthenticatedProps> = ({children}) =>  {
     const location = useLocation();
     const { isAuthenticated, isLoading, user } = useAuthenticatedUser();
     const appDispatch = useAppDispatch()
-
-    const { currentUser, isAuth } = useSelector(
-        (state: RootState) => state.userSlice
-    );
 
 
     useEffect(() => {
@@ -33,13 +27,18 @@ const PrivateRoute:FC<AuthenticatedProps> = ({children}) =>  {
             appDispatch(setUser(user))
         }
 
+        if (!user?.isAgent && location.pathname === "/add-home"){
+            navigate("/", { state: { from: location } });
+        }
+
+
 
     }, [navigate, isAuthenticated, isLoading, location]);
 
 
-    // if (isLoading){
-    //     return null;
-    // }
+    if (isLoading){
+        return null;
+    }
 
 
     return isAuthenticated ? <>{children}</> : null;

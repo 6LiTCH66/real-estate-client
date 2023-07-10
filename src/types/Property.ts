@@ -37,7 +37,7 @@ export interface PropertyJSON {
     zipcode: number;
     property_type: PropertyType;
     price: number;
-    property_status: PropertyStatus,
+    property_status: "sell" | "rent",
     garage: number;
     pricePerSqft: number;
     images: string[]

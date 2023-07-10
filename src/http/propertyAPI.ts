@@ -41,3 +41,19 @@ export const oneProperty = async (id: string): Promise<Property> =>{
     }
 }
 
+export const addProperty = async (formData: FormData) => {
+    try{
+        const property = await axios.post<Property>(`${process.env.REACT_APP_BASE_URL}/property/add-property`, formData, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+        return property.data
+
+    }catch (err){
+        console.log(err)
+        throw err;
+    }
+}
+

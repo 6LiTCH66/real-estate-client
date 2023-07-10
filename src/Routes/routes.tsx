@@ -19,6 +19,10 @@ export default () => (
                         <Favourites/>
                 </PrivateRoute>
         }/>
-            <Route path="/add-home" element={<AddHome/>}/>
+            <Route path="/add-home" element={
+                    <PrivateRoute>
+                            <AddHome/>
+                    </PrivateRoute>
+            }/>
     </Routes>
 )

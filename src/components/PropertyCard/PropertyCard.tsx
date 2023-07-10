@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import "./propertyCard.scss"
 import {Favourite} from "../index";
 import {Property} from "../../types/Property";
@@ -21,6 +21,9 @@ const PropertyCard:FC<PropertyCardProps> = ({property}) => {
         newSearch.set("propertyId", property._id)
         navigate(`/property-detail/${property._id}`)
     }
+
+
+
 
 
     return (

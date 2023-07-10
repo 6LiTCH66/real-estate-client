@@ -9,7 +9,6 @@ import {setUser} from "./store/userSlice";
 import {UserAuthentication} from "./types/UserAuthentication";
 import {Toaster} from "react-hot-toast";
 import useAuthenticatedUser from "./hooks/useAuthenticatedUser";
-import {RootState} from "./store/store";
 
 function App() {
     const dispatch = useDispatch()
@@ -17,7 +16,6 @@ function App() {
 
 
     useEffect(() => {
-        console.log(user)
 
         if (user){
 
