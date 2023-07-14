@@ -94,7 +94,7 @@
         }
       }
       
-      @media screen and (max-width: $mobile-screen){
+      @media screen and (max-width: 1135px){
 
         background-color: $white-color;
         position: fixed;
@@ -144,7 +144,7 @@
       }
     }
 
-    @media screen and (max-width: $mobile-screen){
+    @media screen and (max-width: 1135px){
       align-items: center;
       justify-content: space-between;
 
@@ -156,7 +156,7 @@
 
   }
 
-  @media screen and (max-width: $mobile-screen){
+  @media screen and (max-width: 1135px){
     padding: 1rem;
   }
 }

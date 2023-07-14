@@ -9,6 +9,7 @@ import {PropertyJSON} from "../../types/Property";
 import {PropertyType} from "../../types/PropertyType";
 import {PropertyStatus} from "../../types/PropertyStatus";
 import {addProperty} from "../../http/propertyAPI";
+import TextAreaInput from "../../components/UI/TextAreaInput/TextAreaInput";
 function toBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -44,11 +45,6 @@ function AddHome() {
 
         console.log(res)
 
-        // formData.forEach((value, key) => {
-        //     console.log(key + ':' + value);
-        // });
-
-        // console.log(property)
     }
 
     return (
@@ -319,17 +315,29 @@ function AddHome() {
 
 
                         <div className="input-container">
-                            <label htmlFor="property-description">Property description</label>
-                            <textarea
-                                name="property-description"
-                                id="property-description"
-                                placeholder="Property description"
+                            {/*<textarea*/}
+                            {/*    name="property-description"*/}
+                            {/*    id="property-description"*/}
+                            {/*    placeholder="Property description"*/}
+                            {/*    onChange={(event) => {*/}
+                            {/*        setProperty({...property, description: event.target.value})*/}
+                            {/*    }}*/}
+                            {/*>*/}
+
+                            <TextAreaInput
+                                placeholder={"Property description"}
+                                name={"property-description"}
+                                id={"property-description"}
                                 onChange={(event) => {
                                     setProperty({...property, description: event.target.value})
                                 }}
-                            >
+                                required={true}
+                                label={
+                                <label htmlFor="property-description">Property description</label>
+                            }/>
 
-                            </textarea>
+
+                            {/*</textarea>*/}
 
                         </div>
 

@@ -9,11 +9,12 @@ import {setUser} from "./store/userSlice";
 import {UserAuthentication} from "./types/UserAuthentication";
 import {Toaster} from "react-hot-toast";
 import useAuthenticatedUser from "./hooks/useAuthenticatedUser";
+import {useLocation} from "react-router-dom";
 
 function App() {
     const dispatch = useDispatch()
     const { isAuthenticated, isLoading, user } = useAuthenticatedUser();
-
+    // const location = useLocation();
 
     useEffect(() => {
 

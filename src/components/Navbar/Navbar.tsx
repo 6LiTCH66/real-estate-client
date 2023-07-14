@@ -1,27 +1,32 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './navbar.scss'
 import logo from "../../assets/logo.svg";
 import {FiMenu} from "react-icons/fi"
 import {useState} from "react";
 import {RiCloseLine} from "react-icons/ri"
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 
 
 
 import {toggleModal} from "../../store/modalSlice";
 import { useDispatch } from 'react-redux';
-import {RootState} from "../../store/store";
+import {RootState, useAppDispatch} from "../../store/store";
 import {useSelector} from "react-redux";
-import {logout} from "../../http/userAPI";
+import {getFavourites, logout} from "../../http/userAPI";
 import {signout} from "../../store/userSlice";
 import toast from "react-hot-toast";
 import { HashLink } from 'react-router-hash-link';
+import {useQuery} from "react-query";
+import {fetchFavourites} from "../../store/favouriteSlice";
 
 function Navbar() {
     const [toggle, setToggle] = useState<boolean>(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const appDispatch = useAppDispatch();
+
+    const location = useLocation();
 
     const { currentUser, isAuth } = useSelector(
         (state: RootState) => state.userSlice
@@ -30,6 +35,14 @@ function Navbar() {
     const { favourites } = useSelector(
         (state: RootState) => state.favouriteSlice
     );
+
+    useEffect(() => {
+        if (currentUser){
+            appDispatch(fetchFavourites())
+        }
+
+    }, [location]);
+
 
     const handleLogout = () => {
         toast.promise(

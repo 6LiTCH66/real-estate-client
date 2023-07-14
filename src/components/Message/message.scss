@@ -1,0 +1,53 @@
+@import "../../styles/variables";
+
+
+.message{
+  display: flex;
+  margin: .5rem 0;
+
+  p{
+    width: fit-content;
+    padding: .5rem;
+    border-radius: 1rem;
+    color: $white-color;
+    font-family: $body-font;
+    font-size: 15px;
+    max-width: 400px;
+
+
+  }
+
+  .message-meta{
+    display: flex;
+    font-family: $body-font;
+    font-size: 15px;
+    color: $text-color;
+
+    #time{
+      &:after{
+        content: "\00a0";
+      }
+    }
+
+    #author{
+      font-weight: bold;
+    }
+  }
+}
+
+.you{
+  justify-content: flex-end;
+
+  p{
+    background-color: $blue;
+  }
+}
+
+.other{
+
+  justify-content: flex-start;
+
+  p{
+    background-color: $blue;
+  }
+}

@@ -4,7 +4,7 @@ export interface UserAuthentication {
     password: string,
     first_name?: string,
     last_name?: string,
-    phone_number?: string,
+    phone?: string,
     isAgent?: boolean,
 
     // login: (user: UserAuthentication) => void;

@@ -1,11 +1,26 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import "./footer.scss"
 import footer_logo from "../../assets/footer_logo.svg"
 import newsletter from "../../assets/newsletter.svg"
+import {useLocation} from "react-router-dom";
 
 function Footer() {
+
+    const [showFooter, setShowFooter] = useState<boolean>(true)
+
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.pathname === "/messages"){
+            setShowFooter(false)
+        }else{
+            setShowFooter(true)
+        }
+
+    }, [location]);
+
     return (
-        <div className="footer">
+        <div className="footer" style={{display: !showFooter ? "none": ""}}>
             <div className="container">
 
                 <div className="newsletter">

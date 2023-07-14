@@ -1,31 +1,45 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './ContactForm.scss'
+import {useSelector} from "react-redux";
+import {RootState} from "../../store/store";
 
 function ContactForm() {
+
+    const { isAuth,currentUser } = useSelector(
+        (state: RootState) => state.userSlice
+    );
+
+
+
     return (
         <div className="contact-form">
             <div className="contact-form-container">
                 <h5>Contact us</h5>
 
-                <div className="contact-form_inputs">
+                <form className="contact-form_inputs">
                     <div className="input-container">
                         <label htmlFor="fullName">Full name</label>
-                        <input type="text" id="fullName" placeholder="Your full name"/>
+                        <input
+                            required={true}
+                            type="text"
+                            id="fullName"
+                            defaultValue={currentUser.first_name && (currentUser.first_name + " " + currentUser.last_name )}
+                            placeholder="Your full name"/>
                     </div>
 
                     <div className="input-container">
                         <label htmlFor="phoneNumber">Phone number</label>
-                        <input type="tel" id="phoneNumber" placeholder="Phone number"/>
+                        <input required={true} type="tel" id="phoneNumber" defaultValue={currentUser && currentUser.phone} placeholder="Phone number"/>
                     </div>
 
                     <div className="input-container">
                         <label htmlFor="email">E-mail</label>
-                        <input type="email" id="email" placeholder="E-mail"/>
+                        <input required={true} type="email" id="email" defaultValue={currentUser && currentUser.email} placeholder="E-mail"/>
                     </div>
 
                     <div className="input-container">
                         <label htmlFor="yourMessage">Your Message</label>
-                        <textarea name="yourMessage" id="yourMessage" placeholder="Your Message">
+                        <textarea required={true} name="yourMessage" id="yourMessage" placeholder="Your Message">
 
                         </textarea>
                     </div>
@@ -36,10 +50,10 @@ function ContactForm() {
                     </div>
 
 
-                    <button className="form-send_button" type="button">
+                    <button className="form-send_button" type="submit">
                         Send Message
                     </button>
-                </div>
+                </form>
             </div>
         </div>
     );

@@ -16,7 +16,7 @@ function Signup() {
         toast.promise(
             signup(userCredentials).then(() => {
 
-                setUserCredentials({email: "", password: "", first_name: "", last_name: "", phone_number: ""})
+                setUserCredentials({email: "", password: "", first_name: "", last_name: "", phone: ""})
                 setSigning(false)
 
 
@@ -117,9 +117,9 @@ function Signup() {
                     <InputField
                         id={"tel"}
                         type={"tel"}
-                        value={userCredentials.phone_number || ""}
+                        value={userCredentials.phone || ""}
                         required={showAgentInfo}
-                        onChange={(event) => setUserCredentials({...userCredentials, phone_number: event.target.value}) }
+                        onChange={(event) => setUserCredentials({...userCredentials, phone: event.target.value}) }
                         placeholder={"Phone number"}
                         label={
 
