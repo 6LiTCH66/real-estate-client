@@ -1,14 +1,46 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import './ContactForm.scss'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
+import {toggleModal} from "../../store/modalSlice";
+import {createRoom} from "../../http/chatAPI";
 
-function ContactForm() {
+export interface ContactFormProps{
+    agentId?: string;
+}
+
+export interface Chat{
+    agentId: string,
+    message: string
+}
+
+const ContactForm:FC<ContactFormProps> = ({agentId}) => {
+    const [message, setMessage] = useState<string>("");
+    const dispatch = useDispatch();
+
 
     const { isAuth,currentUser } = useSelector(
         (state: RootState) => state.userSlice
+
     );
 
+    const sendMessage = async () => {
+        if (!isAuth){
+            dispatch(toggleModal())
+            return;
+        }
+
+        if (agentId){
+            const newChatData: Chat = {
+                agentId: agentId,
+                message: message
+            }
+
+            const messageRes = await createRoom(newChatData)
+            console.log(messageRes)
+        }
+
+    }
 
 
     return (
@@ -16,15 +48,25 @@ function ContactForm() {
             <div className="contact-form-container">
                 <h5>Contact us</h5>
 
-                <form className="contact-form_inputs">
+                <form className="contact-form_inputs" onSubmit={(event) => event.preventDefault()}>
                     <div className="input-container">
-                        <label htmlFor="fullName">Full name</label>
+                        <label htmlFor="firstName">Full name</label>
                         <input
                             required={true}
                             type="text"
-                            id="fullName"
-                            defaultValue={currentUser.first_name && (currentUser.first_name + " " + currentUser.last_name )}
-                            placeholder="Your full name"/>
+                            id="firstName"
+                            defaultValue={currentUser.first_name && currentUser.first_name}
+                            placeholder="Your first name"/>
+                    </div>
+
+                    <div className="input-container">
+                        <label htmlFor="lastName">Last name</label>
+                        <input
+                            required={true}
+                            type="text"
+                            id="lastName"
+                            defaultValue={currentUser.last_name &&  currentUser.last_name }
+                            placeholder="Your last name"/>
                     </div>
 
                     <div className="input-container">
@@ -39,7 +81,13 @@ function ContactForm() {
 
                     <div className="input-container">
                         <label htmlFor="yourMessage">Your Message</label>
-                        <textarea required={true} name="yourMessage" id="yourMessage" placeholder="Your Message">
+                        <textarea
+                            required={true}
+                            name="yourMessage"
+                            id="yourMessage"
+                            placeholder="Your Message"
+                            onChange={(event) => setMessage(event.target.value)}
+                        >
 
                         </textarea>
                     </div>
@@ -50,7 +98,7 @@ function ContactForm() {
                     </div>
 
 
-                    <button className="form-send_button" type="submit">
+                    <button className="form-send_button" type={isAuth ? "submit": "button"} onClick={sendMessage}>
                         Send Message
                     </button>
                 </form>

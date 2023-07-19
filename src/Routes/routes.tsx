@@ -4,6 +4,7 @@ import {PropertyList} from "../components";
 import PrivateRoute from "./PrivateRoute";
 import AddHome from "../pages/AddHome/AddHome";
 import Messages from "../pages/Messages/Messages";
+import ChatRoom from "../components/Message/ChatRoom/ChatRoom";
 
 
 export default () => (
@@ -20,17 +21,24 @@ export default () => (
                         <Favourites/>
                 </PrivateRoute>
         }/>
-            <Route path="/add-home" element={
-                    <PrivateRoute>
-                            <AddHome/>
-                    </PrivateRoute>
-            }/>
+
+        <Route path="/add-home" element={
+                <PrivateRoute>
+                        <AddHome/>
+                </PrivateRoute>
+        }/>
+
         <Route path="/messages" element={
             // <PrivateRoute>
             //     <Messages/>
             // </PrivateRoute>
             <Messages/>
+        }>
+            <Route path=":room_id" element={
 
-        }/>
+                    <ChatRoom/>
+            }/>
+
+            </Route>
     </Routes>
 )

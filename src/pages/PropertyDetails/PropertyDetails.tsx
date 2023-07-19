@@ -317,7 +317,6 @@ function PropertyDetails() {
                     <div className="overview-info ">
                         <h6 className="overview-title">Overview</h6>
                         <p className={`overview-description ${loading ? "skeleton-box" : ""}`}>
-                            {/*Welcome to your dream home in the heart of South Denver! This newly remodeled home located at 2059 South Logan Street, Denver, CO is sure to exceed all your expectations.    From the moment you step inside, you'll notice the attention to detail that has been put into every aspect of this home. The open and spacious floor plan is perfect for entertaining and offers plenty of natural light throughout. The living room features large windows, providing the perfect space to unwind after a long day.    The kitchen features stainless steel appliances, gorgeous countertops, and ample cabinet space. The adjacent dining area is the perfect spot for family meals or hosting dinner parties with friends. This home boasts two spacious bedrooms and an updated bathroom, providing plenty of space for everyone to relax and recharge. The large yard is a true oasis, providing plenty of space for outdoor entertaining or simply relaxing in the sun. Located in the highly desirable South Denver neighborhood, this home is just minutes away from restaurants, shopping, and all the best Denver offers. Don't miss out on this incredible opportunity to own a beautifully remodeled home in one of the city's most sought-after areas. Schedule your showing today before its sold!*/}
                             {property?.description}
                         </p>
                     </div>
@@ -362,7 +361,7 @@ function PropertyDetails() {
                 </div>
 
                 <aside style={{ width: "100%", flex: "1" }}>
-                    <ContactFrom />
+                    <ContactFrom agentId={property?.agentId}/>
                 </aside>
 
 

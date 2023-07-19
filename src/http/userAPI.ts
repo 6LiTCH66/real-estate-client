@@ -73,7 +73,6 @@ export const getUser = async (): Promise<UserAuthentication> => {
 export const signup = async (userCredentials: UserAuthentication):Promise<UserAuthentication> => {
     try{
         const user = await axios.post<UserAuthentication>(`${process.env.REACT_APP_BASE_URL}/auth/sign-up`, userCredentials)
-        console.log(user.data)
         return user.data
 
     }catch (error){

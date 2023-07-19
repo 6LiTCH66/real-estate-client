@@ -19,6 +19,7 @@ import toast from "react-hot-toast";
 import { HashLink } from 'react-router-hash-link';
 import {useQuery} from "react-query";
 import {fetchFavourites} from "../../store/favouriteSlice";
+import {UserAuthentication} from "../../types/UserAuthentication";
 
 function Navbar() {
     const [toggle, setToggle] = useState<boolean>(false);
@@ -37,7 +38,7 @@ function Navbar() {
     );
 
     useEffect(() => {
-        if (currentUser){
+        if (Object.keys(currentUser).length){
             appDispatch(fetchFavourites())
         }
 

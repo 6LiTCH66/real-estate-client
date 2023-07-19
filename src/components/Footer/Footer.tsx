@@ -11,7 +11,7 @@ function Footer() {
     const location = useLocation();
 
     useEffect(() => {
-        if (location.pathname === "/messages"){
+        if (location.pathname.includes("/messages")){
             setShowFooter(false)
         }else{
             setShowFooter(true)

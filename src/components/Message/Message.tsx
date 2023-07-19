@@ -4,7 +4,7 @@ import {UserAuthentication} from "../../types/UserAuthentication";
 
 interface MessageProps{
     className: string,
-    time: string,
+    time: Date,
     author: UserAuthentication,
     message: string
 }
@@ -14,7 +14,7 @@ const Message:FC<MessageProps> = ({className, time, author, message}) => {
             <div>
                 <p>{message}</p>
                 <div className="message-meta">
-                    <span id="time">{time}</span>
+                    <span id="time">{new Date(time).getHours() + ":" + new Date(time).getMinutes()}</span>
                     <span id="author">{author.email}</span>
                 </div>
             </div>

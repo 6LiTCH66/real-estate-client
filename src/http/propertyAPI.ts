@@ -1,7 +1,7 @@
 import {Property} from "../types/Property";
 import axios, {AxiosRequestConfig} from "axios"
 import {PropertySearch} from "../types/PropertySearch";
-import qs from "qs";
+
 
 
 export interface PropertyList{
