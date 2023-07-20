@@ -12,13 +12,7 @@ import {getRooms} from "../../http/chatAPI";
 import {useQuery} from "react-query";
 import UsersRoom from '../../components/Message/Room/UsersRoom';
 import {Outlet} from "react-router-dom";
-
-// interface MessageData{
-//     room: string,
-//     author: UserAuthentication,
-//     message: string,
-//     time: string
-// }
+import {useSocket} from "../../contexts/SocketContext";
 
 export interface MessageProps{
     _id?: string,
@@ -27,7 +21,8 @@ export interface MessageProps{
     updatedAt?: Date,
     user: UserAuthentication,
     room: string,
-    className?: string
+    className?: string,
+    readBy?: string[]
 
 }
 
@@ -44,13 +39,13 @@ export interface RoomData{
 }
 
 
-// const socket = io("http://localhost:3000")
 interface MessagesComponentProps{
     children?: React.ReactNode
 }
 
 const Messages:FC<MessagesComponentProps> = ({children}) => {
-
+    const {socket} = useSocket();
+    const [lastMessage, setLastMessage] = useState<string>("")
     const {data: roomsList, isLoading, isError} = useQuery<RoomData>("rooms", getRooms)
 
     const { isAuth,currentUser } = useSelector(
@@ -59,7 +54,9 @@ const Messages:FC<MessagesComponentProps> = ({children}) => {
 
 
 
+
     return (
+
         <div className="messenger">
 
             <div className="chat-rooms">
@@ -69,9 +66,10 @@ const Messages:FC<MessagesComponentProps> = ({children}) => {
                         {roomsList.rooms.map((room, index) => (
                             <UsersRoom
                                 _id={room._id}
-                                email={room.users[0]?.email}
+                                email={room.users[0]?.first_name + " " + room.users[0]?.last_name}
                                 key={room._id}
-                                lastMessage={room.messages[room.messages.length - 1]?.content}/>
+                                lastMessage={room.messages[room.messages.length - 1]}
+                            />
 
                         ))}
                     </>
@@ -82,10 +80,12 @@ const Messages:FC<MessagesComponentProps> = ({children}) => {
 
             </div>
 
-            <Outlet/>
+            <Outlet />
 
 
         </div>
+
+
     );
 }
 

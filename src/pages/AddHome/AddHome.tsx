@@ -315,14 +315,7 @@ function AddHome() {
 
 
                         <div className="input-container">
-                            {/*<textarea*/}
-                            {/*    name="property-description"*/}
-                            {/*    id="property-description"*/}
-                            {/*    placeholder="Property description"*/}
-                            {/*    onChange={(event) => {*/}
-                            {/*        setProperty({...property, description: event.target.value})*/}
-                            {/*    }}*/}
-                            {/*>*/}
+
 
                             <TextAreaInput
                                 placeholder={"Property description"}
@@ -337,7 +330,6 @@ function AddHome() {
                             }/>
 
 
-                            {/*</textarea>*/}
 
                         </div>
 

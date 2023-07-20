@@ -4,19 +4,26 @@ import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {toggleModal} from "../../store/modalSlice";
 import {createRoom} from "../../http/chatAPI";
+import {first} from "lodash";
 
 export interface ContactFormProps{
     agentId?: string;
 }
-
-export interface Chat{
+interface ContactFromUserInfo{
+    first_name?: string,
+    last_name?: string,
+    phone?: string
+}
+export interface Chat extends ContactFromUserInfo{
     agentId: string,
-    message: string
+    message: string,
+
 }
 
 const ContactForm:FC<ContactFormProps> = ({agentId}) => {
     const [message, setMessage] = useState<string>("");
     const dispatch = useDispatch();
+    const [userInfo, setUserInfo] = useState<ContactFromUserInfo>({})
 
 
     const { isAuth,currentUser } = useSelector(
@@ -33,10 +40,12 @@ const ContactForm:FC<ContactFormProps> = ({agentId}) => {
         if (agentId){
             const newChatData: Chat = {
                 agentId: agentId,
-                message: message
+                message: message,
+                ...(Object.keys(userInfo).length && userInfo)
             }
 
             const messageRes = await createRoom(newChatData)
+
             console.log(messageRes)
         }
 
@@ -56,6 +65,9 @@ const ContactForm:FC<ContactFormProps> = ({agentId}) => {
                             type="text"
                             id="firstName"
                             defaultValue={currentUser.first_name && currentUser.first_name}
+                            onChange={(event) => {
+                                setUserInfo({...userInfo, first_name: event.target.value})
+                            }}
                             placeholder="Your first name"/>
                     </div>
 
@@ -66,17 +78,34 @@ const ContactForm:FC<ContactFormProps> = ({agentId}) => {
                             type="text"
                             id="lastName"
                             defaultValue={currentUser.last_name &&  currentUser.last_name }
+                            onChange={(event) => {
+                                setUserInfo({...userInfo, last_name: event.target.value})
+                            }}
                             placeholder="Your last name"/>
                     </div>
 
                     <div className="input-container">
                         <label htmlFor="phoneNumber">Phone number</label>
-                        <input required={true} type="tel" id="phoneNumber" defaultValue={currentUser && currentUser.phone} placeholder="Phone number"/>
+                        <input
+                            required={true}
+                            type="tel"
+                            id="phoneNumber"
+                            defaultValue={currentUser && currentUser.phone}
+                            onChange={(event) => {
+                                setUserInfo({...userInfo, phone: event.target.value})
+                            }}
+                            placeholder="Phone number"/>
                     </div>
 
                     <div className="input-container">
                         <label htmlFor="email">E-mail</label>
-                        <input required={true} type="email" id="email" defaultValue={currentUser && currentUser.email} placeholder="E-mail"/>
+                        <input
+                            required={true}
+                            type="email"
+                            id="email"
+                            defaultValue={currentUser && currentUser.email}
+
+                            placeholder="E-mail"/>
                     </div>
 
                     <div className="input-container">

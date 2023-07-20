@@ -15,7 +15,7 @@ const Message:FC<MessageProps> = ({className, time, author, message}) => {
                 <p>{message}</p>
                 <div className="message-meta">
                     <span id="time">{new Date(time).getHours() + ":" + new Date(time).getMinutes()}</span>
-                    <span id="author">{author.email}</span>
+                    <span id="author">{author.first_name + " " + author.last_name}</span>
                 </div>
             </div>
 

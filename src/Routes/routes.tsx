@@ -29,14 +29,15 @@ export default () => (
         }/>
 
         <Route path="/messages" element={
-            // <PrivateRoute>
-            //     <Messages/>
-            // </PrivateRoute>
-            <Messages/>
+            <PrivateRoute>
+                <Messages/>
+            </PrivateRoute>
         }>
             <Route path=":room_id" element={
-
+                <PrivateRoute>
                     <ChatRoom/>
+
+                </PrivateRoute>
             }/>
 
             </Route>

@@ -6,6 +6,7 @@ export interface UserAuthentication {
     last_name?: string,
     phone?: string,
     isAgent?: boolean,
+    rooms?: string[]
 
     // login: (user: UserAuthentication) => void;
     // signup: (user: UserAuthentication) => void

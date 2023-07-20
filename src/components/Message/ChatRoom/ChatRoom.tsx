@@ -9,20 +9,20 @@ import {useParams} from "react-router-dom";
 import {getMessages, getRooms} from "../../../http/chatAPI";
 import {useQuery} from "react-query";
 import {MessageProps, Room, RoomData} from "../../../pages/Messages/Messages";
-interface MessageData{
-    room: string,
-    author: UserAuthentication,
-    message: string,
-    time: string
-}
+import {useSocket} from "../../../contexts/SocketContext";
+import {useDispatch} from "react-redux";
+import {setLastMessage} from "../../../store/chatSlice";
 
-const socket = io("http://localhost:3000")
+// const socket = io("http://localhost:3000")
 function ChatRoom() {
+    const {socket} = useSocket();
+    const messageEndRef = useRef<HTMLDivElement | null>(null);
     const [text, setText] = useState('');
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const messagesRef = useRef<HTMLDivElement>(null);
     const inputMessagesRef = useRef<HTMLDivElement>(null);
     const [messageList, setMessageList] = useState<MessageProps[]>([]);
+    const dispatch = useDispatch()
 
     const {room_id} = useParams<{room_id: string}>();
 
@@ -32,6 +32,15 @@ function ChatRoom() {
     const { isAuth,currentUser } = useSelector(
         (state: RootState) => state.userSlice
     );
+
+    const scrollToBottom = () => {
+        messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+
+
+    useEffect(scrollToBottom, [messageList]);
+
 
     useEffect(() => {
         if (usersRoomData){
@@ -43,16 +52,14 @@ function ChatRoom() {
 
 
 
-
-
     useEffect(() => {
-        if (room_id){
-            socket.emit("join_room", room_id)
+        if (socket){
+            if (room_id){
+                socket.emit("join_room", room_id)
+            }
         }
 
-        return () => {
-            socket.disconnect()
-        }
+
     }, []);
 
     useEffect(() => {
@@ -82,22 +89,29 @@ function ChatRoom() {
                 content: text,
 
             }
+            if (socket){
 
-            await socket.emit("send_message", messageData)
+                socket.emit("send_message", messageData)
+
+            }
             setMessageList((list) => [...list, messageData])
         }
         setText("")
     }
 
 
+
     useEffect(() => {
-        socket.on("receive_message", (data: MessageProps) => {
-            // console.log(data)
-            setMessageList((list) => [...list, data])
-        })
+
+        if (socket){
+            socket.on("receive_message", (data: MessageProps) => {
+                setMessageList((list) => [...list, data])
+            })
+        }
 
 
     }, [socket]);
+
     const id = useId();
 
 
@@ -115,6 +129,7 @@ function ChatRoom() {
                     />
 
                 ))}
+                <div ref={messageEndRef}/>
 
             </div>
 

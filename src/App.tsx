@@ -10,6 +10,7 @@ import {UserAuthentication} from "./types/UserAuthentication";
 import {Toaster} from "react-hot-toast";
 import useAuthenticatedUser from "./hooks/useAuthenticatedUser";
 import {useLocation} from "react-router-dom";
+import {SocketProvider} from "./contexts/SocketContext";
 
 function App() {
     const dispatch = useDispatch()
@@ -27,21 +28,24 @@ function App() {
     }, [isAuthenticated, user]);
 
   return (
-    <div className="App">
-        <Authentication/>
-      <BrowserRouter>
-        <Navbar />
-        <Routes />
-        <Footer />
-      </BrowserRouter>
+      <SocketProvider>
+          <div className="App">
+              <Authentication/>
+              <BrowserRouter>
+                  <Navbar />
+                  <Routes />
+                  <Footer />
+              </BrowserRouter>
 
-        <Toaster position="top-right" toastOptions={{
+              <Toaster position="top-right" toastOptions={{
 
-            className: 'notification',
+                  className: 'notification',
 
-        }}/>
+              }}/>
 
-    </div>
+          </div>
+      </SocketProvider>
+
   );
 }
 

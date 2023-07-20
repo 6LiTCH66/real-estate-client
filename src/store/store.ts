@@ -6,6 +6,7 @@ import userReducer from "./userSlice";
 import searchReducer from "./searchSlice";
 import filterDropDownReducer from "./fliterDropdown";
 import favouriteReducer from "./favouriteSlice";
+import chatReducer from "./chatSlice"
 import { useDispatch } from 'react-redux';
 
 const store = configureStore({
@@ -16,7 +17,8 @@ const store = configureStore({
         userSlice: userReducer,
         search: searchReducer,
         filterDropdown: filterDropDownReducer,
-        favouriteSlice: favouriteReducer
+        favouriteSlice: favouriteReducer,
+        chatSlice: chatReducer
     },
 });
 

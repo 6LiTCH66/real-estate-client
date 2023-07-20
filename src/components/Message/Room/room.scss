@@ -6,6 +6,11 @@
   border-right: 3px solid #3f9f00;
 
 }
+
+.not-read{
+  background-color: $light-blue;
+}
+
 .active-message{
   cursor: pointer;
   display: flex;
@@ -19,22 +24,39 @@
 
   .active-message-info{
     display: flex;
+
+    //justify-content: space-between; // here
+
     flex-direction: column;
     height: 100%;
     padding: 0.15rem;
+
+    width: 100%; // here
+    flex: 1; // here
 
     span{
       font-family: $body-font;
 
     }
+
     .user-email{
       font-weight: bold;
       font-size: 15px;
     }
     .user-message{
-      height: 100%;
+
+      height: fit-content; // here
       max-width: 215.45px;
+      display: flex; // here
+      align-items: flex-end; // here
+      padding-left: .25rem;
     }
+
+    .not-read-other{
+      background-color: $light-blue;
+    }
+
+
 
   }
 
@@ -56,5 +78,9 @@
   }
   &:hover{
     background-color: $light-blue;
+
+    .not-read{
+      background-color: $white-color;
+    }
   }
 }
