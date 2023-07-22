@@ -52,6 +52,15 @@ const Messages:FC<MessagesComponentProps> = ({children}) => {
         (state: RootState) => state.userSlice
     );
 
+    // useEffect(() => {
+    //     roomsList?.rooms.forEach((room) => {
+    //         room.messages.forEach((message) => {
+    //             console.log(message)
+    //         })
+    //     })
+    // }, [roomsList]);
+
+
 
 
 
@@ -69,6 +78,7 @@ const Messages:FC<MessagesComponentProps> = ({children}) => {
                                 email={room.users[0]?.first_name + " " + room.users[0]?.last_name}
                                 key={room._id}
                                 lastMessage={room.messages[room.messages.length - 1]}
+                                usersRooms={roomsList}
                             />
 
                         ))}

@@ -44,12 +44,28 @@
       font-size: 15px;
     }
     .user-message{
+      position: relative;
 
       height: fit-content; // here
       max-width: 215.45px;
       display: flex; // here
       align-items: flex-end; // here
       padding-left: .25rem;
+      .count-unread{
+        position: absolute;
+        display: flex;
+        align-self: center;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+
+        right: 0;
+        color: $white-color;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: $blue;
+      }
     }
 
     .not-read-other{

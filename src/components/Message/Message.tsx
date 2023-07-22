@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect, useRef} from 'react';
 import "./message.scss";
 import {UserAuthentication} from "../../types/UserAuthentication";
 
@@ -9,8 +9,12 @@ interface MessageProps{
     message: string
 }
 const Message:FC<MessageProps> = ({className, time, author, message}) => {
+    const messageRef = useRef<HTMLDivElement | null>(null);
+
+
+
     return (
-        <div className={`message ${className}`}>
+        <div className={`message ${className}`} >
             <div>
                 <p>{message}</p>
                 <div className="message-meta">

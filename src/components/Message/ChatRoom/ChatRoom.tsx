@@ -6,14 +6,19 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../store/store";
 import {io} from "socket.io-client";
 import {useParams} from "react-router-dom";
-import {getMessages, getRooms} from "../../../http/chatAPI";
+import {getMessages, getRooms, readMessage} from "../../../http/chatAPI";
 import {useQuery} from "react-query";
 import {MessageProps, Room, RoomData} from "../../../pages/Messages/Messages";
 import {useSocket} from "../../../contexts/SocketContext";
 import {useDispatch} from "react-redux";
 import {setLastMessage} from "../../../store/chatSlice";
 
-// const socket = io("http://localhost:3000")
+interface JoinRoom{
+    room_id: string,
+    user_id: string
+}
+
+
 function ChatRoom() {
     const {socket} = useSocket();
     const messageEndRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +48,7 @@ function ChatRoom() {
 
 
     useEffect(() => {
-        if (usersRoomData){
+        if (usersRoomData && !isLoading){
             setMessageList(usersRoomData.messages)
 
         }
@@ -54,13 +59,20 @@ function ChatRoom() {
 
     useEffect(() => {
         if (socket){
-            if (room_id){
-                socket.emit("join_room", room_id)
+            if (room_id && currentUser._id){
+
+                const join_room_data: JoinRoom = {
+                    room_id: room_id,
+                    user_id: currentUser._id || ""
+                }
+                socket.emit("join_room", join_room_data)
+
+
             }
         }
 
 
-    }, []);
+    }, [room_id]);
 
     useEffect(() => {
 
@@ -100,19 +112,29 @@ function ChatRoom() {
     }
 
 
-
     useEffect(() => {
-
         if (socket){
-            socket.on("receive_message", (data: MessageProps) => {
+            socket.on(`receive_message_${room_id}`, (data: MessageProps) => {
                 setMessageList((list) => [...list, data])
+
+
             })
         }
+        return () => {
+            if (socket) {
+                // Leave room
+                socket.emit('leaveRoom', room_id);
+
+                // Remove the listener
+                socket.off(`receive_message_${room_id}`);
+            }
+        };
 
 
-    }, [socket]);
+    }, [socket, room_id]);
 
-    const id = useId();
+
+
 
 
     return (

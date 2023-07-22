@@ -1,6 +1,7 @@
 import {Chat} from "../components/ContactFrom/ContactForm";
 import axios, {AxiosRequestConfig} from "axios";
 import {MessageProps, Room, RoomData} from "../pages/Messages/Messages";
+import {UnreadMessagesCount} from "../components/Message/Room/UsersRoom";
 
 
 export const createRoom = async (chatData: Chat) => {
@@ -36,6 +37,44 @@ export const getMessages = async (room_id: string | undefined):Promise<Room> => 
     }
     try{
         const rooms = await axios.get<Room>(`${process.env.REACT_APP_BASE_URL}/chat/get-messages`, {withCredentials: true, params: config});
+        return rooms.data
+
+    }catch (err){
+        console.log(err)
+        throw err
+
+    }
+}
+
+export const readMessage = async (room_id: string) => {
+
+    const config: AxiosRequestConfig = {
+        params:{
+            room_id: room_id
+        }
+    }
+
+    try{
+        const rooms = await axios.post(`${process.env.REACT_APP_BASE_URL}/chat/read-message`, {},{withCredentials: true, params: config});
+        return rooms.data
+
+    }catch (err){
+        console.log(err)
+        throw err
+
+    }
+}
+
+export const getUnreadMessage = async (room_id: string) => {
+
+    const config: AxiosRequestConfig = {
+        params:{
+            room_id: room_id
+        }
+    }
+
+    try{
+        const rooms = await axios.get<UnreadMessagesCount>(`${process.env.REACT_APP_BASE_URL}/chat/count-unread`,{withCredentials: true, params: config});
         return rooms.data
 
     }catch (err){
