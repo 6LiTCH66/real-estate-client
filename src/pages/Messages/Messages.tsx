@@ -22,7 +22,7 @@ export interface MessageProps{
     user: UserAuthentication,
     room: string,
     className?: string,
-    readBy?: string[]
+    readBy: string[]
 
 }
 

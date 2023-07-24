@@ -65,6 +65,7 @@ function ChatRoom() {
                     room_id: room_id,
                     user_id: currentUser._id || ""
                 }
+
                 socket.emit("join_room", join_room_data)
 
 
@@ -93,12 +94,13 @@ function ChatRoom() {
     };
 
     const sendMessage = async () => {
-        if (text !== "" && room_id){
+        if (text !== "" && room_id && currentUser._id){
 
             const messageData: MessageProps = {
+                readBy: [currentUser._id],
                 room: room_id,
                 user: currentUser,
-                content: text,
+                content: text
 
             }
             if (socket){
@@ -117,6 +119,9 @@ function ChatRoom() {
             socket.on(`receive_message_${room_id}`, (data: MessageProps) => {
                 setMessageList((list) => [...list, data])
 
+                readMessage(data.room).then((data: MessageProps) => {
+                    console.log(data)
+                })
 
             })
         }

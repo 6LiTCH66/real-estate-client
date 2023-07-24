@@ -83,3 +83,21 @@ export const getUnreadMessage = async (room_id: string) => {
 
     }
 }
+
+export const getLastMessage = async (room_id: string):Promise<MessageProps> => {
+    const config: AxiosRequestConfig = {
+        params:{
+            room_id: room_id
+        }
+    }
+
+    try{
+        const rooms = await axios.get<MessageProps>(`${process.env.REACT_APP_BASE_URL}/chat/get-last`,{withCredentials: true, params: config});
+        return rooms.data
+
+    }catch (err){
+        console.log(err)
+        throw err
+
+    }
+}
