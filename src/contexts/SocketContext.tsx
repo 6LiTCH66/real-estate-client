@@ -13,7 +13,7 @@ interface SocketContextProps {
 
 }
 
-let socket: Socket = io("http://localhost:3000");
+let socket: Socket = io(`${process.env.REACT_APP_BASE_URL}`);
 export const SocketProvider:FC<SocketContextProps> = ({ children}) => {
 
     useEffect(() => {

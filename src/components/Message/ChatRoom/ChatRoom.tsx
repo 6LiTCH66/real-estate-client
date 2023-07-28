@@ -7,7 +7,7 @@ import {RootState} from "../../../store/store";
 import {io} from "socket.io-client";
 import {useParams} from "react-router-dom";
 import {getMessages, getRooms, readMessage} from "../../../http/chatAPI";
-import {useQuery} from "react-query";
+import {useMutation, useQuery, useQueryClient} from "react-query";
 import {MessageProps, Room, RoomData} from "../../../pages/Messages/Messages";
 import {useSocket} from "../../../contexts/SocketContext";
 import {useDispatch} from "react-redux";
@@ -28,6 +28,7 @@ function ChatRoom() {
     const inputMessagesRef = useRef<HTMLDivElement>(null);
     const [messageList, setMessageList] = useState<MessageProps[]>([]);
     const dispatch = useDispatch()
+    const queryClient = useQueryClient()
 
     const {room_id} = useParams<{room_id: string}>();
 
@@ -41,6 +42,13 @@ function ChatRoom() {
     const scrollToBottom = () => {
         messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
+
+    const readMessageMutation = useMutation({
+        mutationFn: readMessage,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['last_message'] })
+        },
+    })
 
 
 
@@ -119,9 +127,20 @@ function ChatRoom() {
             socket.on(`receive_message_${room_id}`, (data: MessageProps) => {
                 setMessageList((list) => [...list, data])
 
-                readMessage(data.room).then((data: MessageProps) => {
-                    console.log(data)
-                })
+
+                // if (currentUser._id){
+                //     data.readBy.push(currentUser._id)
+                //
+                // }
+
+                readMessageMutation.mutate(data.room)
+
+                // socket.emit(`readMessage_${data.room}`, data)
+
+                // readMessage(data.room).then((data: MessageProps) => {
+                //     // add something here
+                // })
+
 
             })
         }

@@ -46,22 +46,12 @@ interface MessagesComponentProps{
 const Messages:FC<MessagesComponentProps> = ({children}) => {
     const {socket} = useSocket();
     const [lastMessage, setLastMessage] = useState<string>("")
+
     const {data: roomsList, isLoading, isError} = useQuery<RoomData>("rooms", getRooms)
 
     const { isAuth,currentUser } = useSelector(
         (state: RootState) => state.userSlice
     );
-
-    // useEffect(() => {
-    //     roomsList?.rooms.forEach((room) => {
-    //         room.messages.forEach((message) => {
-    //             console.log(message)
-    //         })
-    //     })
-    // }, [roomsList]);
-
-
-
 
 
     return (

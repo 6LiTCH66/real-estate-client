@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState, useMemo} from 'react';
+import React, {FC, useEffect, useState, useMemo, useRef} from 'react';
 import "./room.scss"
 import {truncate} from "lodash";
 import {useParams, useNavigate} from "react-router-dom";
@@ -29,6 +29,7 @@ const UsersRoom:FC<RoomComponentProps> = ({email,lastMessage: lastMessageDB,user
     const [unreadMessageCount, setUnreadMessageCount] = useState<number>(1)
     const params = useParams();
     const navigate = useNavigate();
+    const receivedMessageRef = useRef(false);
 
     const {data: lastMessageRoom, isLoading, isError} =
         useQuery<MessageProps>(
@@ -42,6 +43,7 @@ const UsersRoom:FC<RoomComponentProps> = ({email,lastMessage: lastMessageDB,user
         (state: RootState) => state.userSlice
     );
 
+
     useEffect(() => {
         if (lastMessageRoom){
             setLastMessage(lastMessageRoom)
@@ -54,36 +56,35 @@ const UsersRoom:FC<RoomComponentProps> = ({email,lastMessage: lastMessageDB,user
         }
     }, [lastMessageRoom]);
 
-
-    // useEffect(() => {
-    //     setLastMessage(lastMessageDB)
-    //
-    //     getUnreadMessage(lastMessageDB.room).then((messages) => {
-    //         setUnreadMessageCount(messages.unreadCount)
-    //     })
-    // }, [lastMessageDB]);
-
-
     useEffect(() => {
 
         if (socket){
+            socket.on(`receive_message_${_id}`, (data: MessageProps) => {
+                receivedMessageRef.current = true;
+                setLastMessage(data)
+            })
+
             socket.on(_id, (data: MessageProps) => {
+
                 setLastMessage(data)
 
-                getUnreadMessage(data.room).then((messages) => {
-                    setUnreadMessageCount(messages.unreadCount)
-                })
+                if (!receivedMessageRef.current){
+                    getUnreadMessage(data.room).then((messages) => {
+                        setUnreadMessageCount(messages.unreadCount)
+                    })
 
+                    receivedMessageRef.current = false
+
+                }
 
             })
 
-            socket.on("readMessage", (lastMessageSocket: MessageProps) => {
+
+            socket.on(`readMessage_${_id}`, (lastMessageSocket: MessageProps) => {
+                setUnreadMessageCount(0)
+
                 setLastMessage(lastMessageSocket)
 
-                getUnreadMessage(lastMessageDB.room).then((messages) => {
-
-                    setUnreadMessageCount(messages.unreadCount)
-                })
 
             })
 
