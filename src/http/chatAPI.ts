@@ -84,6 +84,20 @@ export const getUnreadMessage = async (room_id: string) => {
     }
 }
 
+export const countUnreadMessage = async () => {
+
+
+    try{
+        const rooms = await axios.get<UnreadMessagesCount>(`${process.env.REACT_APP_BASE_URL}/chat/count-all-unread`,{withCredentials: true});
+        return rooms.data
+
+    }catch (err){
+        console.log(err)
+        throw err
+
+    }
+}
+
 export const getLastMessage = async (room_id: string):Promise<MessageProps> => {
     const config: AxiosRequestConfig = {
         params:{

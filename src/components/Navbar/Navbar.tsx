@@ -20,6 +20,9 @@ import { HashLink } from 'react-router-hash-link';
 import {useQuery} from "react-query";
 import {fetchFavourites} from "../../store/favouriteSlice";
 import {UserAuthentication} from "../../types/UserAuthentication";
+import {countUnreadMessage, getRooms} from "../../http/chatAPI";
+import {RoomData} from "../../pages/Messages/Messages";
+import {UnreadMessagesCount} from "../Message/Room/UsersRoom";
 
 function Navbar() {
     const [toggle, setToggle] = useState<boolean>(false);
@@ -36,6 +39,11 @@ function Navbar() {
     const { favourites } = useSelector(
         (state: RootState) => state.favouriteSlice
     );
+
+    const {data: unreadMessagesNumber, isLoading, isError} =
+        useQuery<UnreadMessagesCount>("unreadMessagesCount", countUnreadMessage, {
+            refetchOnWindowFocus: true
+        })
 
     useEffect(() => {
         if (Object.keys(currentUser).length){
@@ -104,7 +112,7 @@ function Navbar() {
                        {isAuth ? (
                            <li className="favourites-link" onClick={() => setToggle(false)}>
                                {favourites.length ? (
-                                   <span>{favourites.length}</span>
+                                   <span className="count-number">{favourites.length}</span>
                                ): (
                                    <></>
                                )}
@@ -125,7 +133,19 @@ function Navbar() {
                        )}
 
                        {isAuth ? (
-                           <li onClick={() => setToggle(false)}>
+                           <li onClick={() => setToggle(false)} className="messages-link">
+                               {!isLoading && unreadMessagesNumber ? (
+                                   <>
+                                       {unreadMessagesNumber.unreadCount > 0 ? (
+                                           <span className="count-number">{unreadMessagesNumber.unreadCount}</span>
+                                       ):(
+                                           <></>
+                                       )}
+                                   </>
+
+                               ):(
+                                   <></>
+                               )}
 
                                <Link to="/messages">Messages</Link>
                            </li>

@@ -6,6 +6,11 @@
   height: calc(100vh - 124px);
   border-top: 1px solid #d5e1d5;
 
+  .no-rooms{
+    display: flex;
+    justify-content: center;
+  }
+
   .chat-rooms{
 
     max-width: 300px;
@@ -21,66 +26,17 @@
       height: fit-content;
       font-family: $body-font;
       font-size: 14px;
+
       color: $text-color;
+
     }
 
-    //.active{
-    //  background-color: $light-blue;
-    //  border-right: 3px solid #3f9f00;
-    //
-    //}
-    //.active-message{
-    //  cursor: pointer;
-    //  display: flex;
-    //  align-items: center;
-    //  height: 70px;
-    //  width: 100%;
-    //  padding: 0.25rem;
-    //  gap: 1rem;
-    //  border-bottom: 1px solid #d5e1d5;
-    //  border-left: 1px solid #d5e1d5;
-    //
-    //  .active-message-info{
-    //    display: flex;
-    //    flex-direction: column;
-    //    height: 100%;
-    //    padding: 0.15rem;
-    //
-    //    span{
-    //      font-family: $body-font;
-    //
-    //    }
-    //    .user-email{
-    //      font-weight: bold;
-    //      font-size: 15px;
-    //    }
-    //    .user-message{
-    //      height: 100%;
-    //      max-width: 215.45px;
-    //    }
-    //
-    //  }
-    //
-    //  .picture{
-    //    display: flex;
-    //    justify-content: center;
-    //    align-items: center;
-    //    width: 50px;
-    //    height: 50px;
-    //    border-radius: 50%;
-    //    background-color: $dark-blue;
-    //
-    //    span{
-    //      font-family: $body-font;
-    //      font-size: 22px;
-    //      text-transform: uppercase;
-    //      color: $white-color;
-    //    }
-    //  }
-    //  &:hover{
-    //    background-color: $light-blue;
-    //  }
-    //}
+    .no-message{
+      font-size: 15px;
+      font-weight: 600;
+      align-self: center;
+    }
+
   }
   .messages{
     height: 100%;
@@ -92,55 +48,6 @@
       display: block;
       padding: 1rem;
       overflow: auto;
-
-      //.message{
-      //  display: flex;
-      //
-      //  p{
-      //    padding: .5rem;
-      //    border-radius: 4px;
-      //    color: $white-color;
-      //    font-family: $body-font;
-      //    font-size: 15px;
-      //    max-width: 400px;
-      //
-      //
-      //  }
-      //
-      //  .message-meta{
-      //    display: flex;
-      //    font-family: $body-font;
-      //    font-size: 15px;
-      //    color: $text-color;
-      //
-      //    #time{
-      //      &:after{
-      //        content: "\00a0";
-      //      }
-      //    }
-      //
-      //    #author{
-      //      font-weight: bold;
-      //    }
-      //  }
-      //}
-      //
-      //.you{
-      //  justify-content: flex-end;
-      //
-      //  p{
-      //    background-color: $blue;
-      //  }
-      //}
-      //
-      //.other{
-      //
-      //  justify-content: flex-start;
-      //
-      //  p{
-      //    background-color: $blue;
-      //  }
-      //}
 
     }
 

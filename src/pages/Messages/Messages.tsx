@@ -53,14 +53,19 @@ const Messages:FC<MessagesComponentProps> = ({children}) => {
         (state: RootState) => state.userSlice
     );
 
+    useEffect(() => {
+        console.log(roomsList?.rooms.length)
+    }, [roomsList]);
+
+
 
     return (
 
         <div className="messenger">
 
-            <div className="chat-rooms">
+            <div className={`chat-rooms ${!roomsList?.rooms.length ? "no-rooms": "" }`}>
 
-                {roomsList ? (
+                {roomsList?.rooms.length ? (
                     <>
                         {roomsList.rooms.map((room, index) => (
                             <UsersRoom
@@ -74,9 +79,8 @@ const Messages:FC<MessagesComponentProps> = ({children}) => {
                         ))}
                     </>
                 ):(
-                    <span>Your chat rooms will appear here</span>
+                    <span className="no-message">Your chat rooms will appear here</span>
                 )}
-
 
             </div>
 

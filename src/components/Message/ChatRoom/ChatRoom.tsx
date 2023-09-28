@@ -6,12 +6,13 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../../store/store";
 import {io} from "socket.io-client";
 import {useParams} from "react-router-dom";
-import {getMessages, getRooms, readMessage} from "../../../http/chatAPI";
+import {countUnreadMessage, getMessages, getRooms, readMessage} from "../../../http/chatAPI";
 import {useMutation, useQuery, useQueryClient} from "react-query";
 import {MessageProps, Room, RoomData} from "../../../pages/Messages/Messages";
 import {useSocket} from "../../../contexts/SocketContext";
 import {useDispatch} from "react-redux";
 import {setLastMessage} from "../../../store/chatSlice";
+import {UnreadMessagesCount} from "../Room/UsersRoom";
 
 interface JoinRoom{
     room_id: string,
@@ -34,6 +35,10 @@ function ChatRoom() {
 
     const {data: usersRoomData, isLoading, isError} = useQuery<Room>(["room", room_id], () => getMessages(room_id))
 
+    // const {data: unreadMessagesNumber, isLoading: loadingCount, isError:errorCount} =
+    //     useQuery<UnreadMessagesCount>("unreadMessagesCount", countUnreadMessage, {
+    //         refetchOnWindowFocus: true
+    //     })
 
     const { isAuth,currentUser } = useSelector(
         (state: RootState) => state.userSlice
@@ -128,18 +133,8 @@ function ChatRoom() {
                 setMessageList((list) => [...list, data])
 
 
-                // if (currentUser._id){
-                //     data.readBy.push(currentUser._id)
-                //
-                // }
-
                 readMessageMutation.mutate(data.room)
 
-                // socket.emit(`readMessage_${data.room}`, data)
-
-                // readMessage(data.room).then((data: MessageProps) => {
-                //     // add something here
-                // })
 
 
             })

@@ -39,9 +39,11 @@ const UsersRoom:FC<RoomComponentProps> = ({email,lastMessage: lastMessageDB,user
         })
 
 
+
     const { isAuth,currentUser } = useSelector(
         (state: RootState) => state.userSlice
     );
+
 
 
     useEffect(() => {
@@ -67,6 +69,8 @@ const UsersRoom:FC<RoomComponentProps> = ({email,lastMessage: lastMessageDB,user
             socket.on(_id, (data: MessageProps) => {
 
                 setLastMessage(data)
+
+
 
                 if (!receivedMessageRef.current){
                     getUnreadMessage(data.room).then((messages) => {
